@@ -1,0 +1,44 @@
+.center{
+  text-align: center;
+}
+
+.edu{
+  background-color: aquamarine;
+  display: inline-block;
+  margin: 2%;
+}
+.car{
+  background-color: pink;
+  display: inline-block;
+  margin: 2%;
+}
+
+.right{
+  float: right;
+}
+.left{
+  float: left;
+}
+
+table{
+  width: 100%
+}
+/* table, th, td {
+  border: 1px solid black;
+} */
+
+td{
+  width: 50%;
+  height: 6%;
+}
+
+ul{
+  width: 25%;
+  list-style: none;
+  padding: 2px;
+  font-size: 12px;
+}
+.inline{
+  display: inline-block;
+  position: relative;
+}
