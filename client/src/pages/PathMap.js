@@ -2,6 +2,7 @@ import React, { Component } from "react";
 import Header from "../components/Header";
 import { Link } from "react-router-dom";
 import Map from "../components/Map";
+import Arrows from "../components/Arrows"
 export default class PathMap extends Component {
   render() {
     return (
@@ -17,7 +18,7 @@ export default class PathMap extends Component {
             </h5>
           </div>
         </section>
-        <Map/>
+        <Arrows/>
         </div>
     );
   }

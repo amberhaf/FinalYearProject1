@@ -30,43 +30,42 @@ export default class Map extends Component {
       })
     }).then(() => {
       var p = this.state.posts
-      for (var h=0; h<1; h++){
+      var gp = this.state.groupedPost
+      for (var h=0; h<4; h++){
+        gp.push([])
         for (var i=0; i<p.length; i++){
           console.log("This ran ",i)
           if(p[i].eduList.length>h)
           {
             var obj= p[i].eduList[h];
             var result;
-            var result = this.state.groupedPost.find(groupObj => {
+            var result = gp[h].find(groupObj => {
               return groupObj.instituteName === obj.instituteName;
             })
             if(result==undefined){
-              //console.log("this object has never been seen before")
               var nextEdu=[]
               if(p[i].eduList.length>h+1){
                 nextEdu.push(p[i].eduList[h+1])
               }
               var insert = {instituteName: obj.instituteName, qualification: obj.qualification, courseTitle: obj.courseTitle, nextEducation: nextEdu};
-              console.log("new object", insert)
-              this.setState({ groupedPost: this.state.groupedPost.concat(insert)});
+              gp[h] = gp[h].concat(insert)
             }
             else{
-              //console.log("this object is at: ", result)
-              var gp = this.state.groupedPost
-              var index = gp.indexOf(result)
+              var index = gp[h].indexOf(result)
               var nextEd=result.nextEducation
               if(p[i].eduList.length>h+1){
                 nextEd.push(p[i].eduList[h+1])
               }
-              gp[index].nextEducation=nextEd
-              this.setState({ groupedPost: gp});
-              console.log("found index at ", index, " for item i", i)
-              console.log("this object is at: ", result)
-              console.log(nextEd)
+              gp[h][index].nextEducation=nextEd
             }
           }
         }
       }
+      for(const course of gp[0])
+      {
+        console.log(course)
+      }
+      this.setState({ groupedPost: gp});
     })
   }
   onChangeIndustryFilter(event) {
@@ -88,12 +87,9 @@ export default class Map extends Component {
           <FilterCareer industryName={this.state.industryName} onChange={this.onChangeIndustryFilter}/>
         </th>
         </tr>
-        {this.state.posts && this.state.posts.map((n,index) => (
-         <tr key={index}>
-          <td>
-          {n.eduList && n.eduList.map((o,i) => (
-          <span>
-          <span>&rarr;</span>
+        {this.state.groupedPost && this.state.groupedPost.map((n,index) => (
+         <tr key={index}>  
+          {n && n.map((o,i) => (
           <ul className="edu" key={i}>
             <li><b>Institute Name:</b></li>
             <li>{o.instituteName}</li>
@@ -101,33 +97,12 @@ export default class Map extends Component {
             <li>{o.qualification}</li>
             <li><b>Course Title:</b></li>
             <li>{o.courseTitle}</li>
-            <li><b>Course Description:</b></li>
-            <li>{o.courseDescription}</li>
-            <button>Add to my paths</button>
+            <li><b>Next Education:</b></li>
+            <li>{o.nextEducation[0] && o.nextEducation[0].courseTitle}</li>
             </ul>
-            </span>
           ))}
-          </td>
-          <td>
-          {n.carList && n.carList.map((o,i) => (
-          <span >
-          <span>&rarr;</span>
-          <ul className="car" key={i}>
-            <li><b>Company Name</b></li>
-            <li>{o.companyName}</li>
-            <li><b>Industry</b></li>
-            <li>{o.industry}</li>
-            <li><b>Job Title:</b></li>
-            <li>{o.jobTitle}</li>
-            <li><b>Description:</b></li>
-            <li>{o.jobDescription}</li>
-            {/* <JobSearch search={o.jobTitle}/> */}
-          </ul>
-          </span>
+          </tr>
           ))}
-        </td>
-        </tr>
-        ))}
         </table>
       </div>
     );
