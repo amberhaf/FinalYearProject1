@@ -2,15 +2,16 @@
   text-align: center;
 }
 
-.edu{
-  background-color: aquamarine;
+.map{
   display: inline-block;
   margin: 2%;
+  width: 100%;
 }
 .car{
   background-color: pink;
-  display: inline-block;
-  margin: 2%;
+}
+.edu{
+  background-color: aquamarine;
 }
 
 .right{
@@ -23,9 +24,6 @@
 table{
   width: 100%
 }
-/* table, th, td {
-  border: 1px solid black;
-} */
 
 td{
   width: 50%;
@@ -41,4 +39,15 @@ ul{
 .inline{
   display: inline-block;
   position: relative;
+}
+
+.boxStyle{
+  border: 1px #999 solid;
+  border-radius: 10px;
+  text-align: center;
+  color: black;
+}
+
+.right{
+  float: right;
 }

@@ -1,27 +1,51 @@
-import React, { Component } from "react";
+import React, { useRef, Component } from 'react';
+import Xarrow from 'react-xarrows';
 import { auth, datab} from "../services/firebase";
-import FilterCareer from "./FilterCareer";
-import FilterCourse from "./FilterCourse";
-import JobSearch from "./JobSearch";
-import ReactDOM from 'react-dom';
+import JobSearch from './JobSearch';
 
+const EduBox = (props) => {
+  return (
+    <div id={props.box.id} className="boxStyle edu">
+      <ul>
+        <li><b>Company Name:</b></li>
+        <li>{props.box.companyName}</li>
+        <li><b>Qualification:</b></li>
+        <li>{props.box.qualification}</li>
+        <li><b>Course Title:</b></li>
+        <li>{props.box.courseTitle}</li>
+      </ul>
+    </div>
+  );
+};
+const CarBox = (props) => {
+    return (
+      <div id={props.box.id} className="boxStyle car">
+        <ul>
+          <li><b>Institute Name:</b></li>
+          <li>{props.box.instituteName}</li>
+          <li><b>Industry:</b></li>
+          <li>{props.box.industry}</li>
+          <li><b>Job Title:</b></li>
+          <li>{props.box.jobTitle}</li>
+          <JobSearch search={props.box.jobTitle} />
+        </ul>
+      </div>
+    );
+  };
 export default class Map extends Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      user: auth().currentUser,
-      posts: [""],
-      industryName: "all",
-      qualification: "all",
-      pos: 0,
-      groupedPost: []
-    };
-    this.onChangeIndustryFilter = this.onChangeIndustryFilter.bind(this);  
-    this.onChangeQualificationFilter = this.onChangeQualificationFilter.bind(this); 
+constructor(props) {
+  super(props);
+  this.state = {
+    user: auth().currentUser,
+    posts: [""],
+    industryName: "all",
+    qualification: "all",
+    pos: 0,
+    groupedPost: [],
+    groupedCareer: []
   }
-
+}
   componentDidMount() {
-    //   datab.collection('path').where('user','==', this.state.user.uid).get().then(querySnapshot => {
     datab.collection('path').get().then(querySnapshot => {
       let allPosts = [];
       querySnapshot.forEach(doc => {
@@ -34,77 +58,121 @@ export default class Map extends Component {
       for (var h=0; h<4; h++){
         gp.push([])
         for (var i=0; i<p.length; i++){
-          console.log("This ran ",i)
           if(p[i].eduList.length>h)
           {
             var obj= p[i].eduList[h];
-            var result;
             var result = gp[h].find(groupObj => {
-              return groupObj.instituteName === obj.instituteName;
+              return groupObj.instituteName === obj.instituteName && groupObj.qualification === obj.qualification && groupObj.courseTitle === obj.courseTitle;
             })
             if(result==undefined){
               var nextEdu=[]
               if(p[i].eduList.length>h+1){
-                nextEdu.push(p[i].eduList[h+1])
+                var nex=p[i].eduList[h+1]
+                nextEdu.push({id: nex.instituteName+"_"+nex.qualification+"_"+nex.courseTitle})
               }
-              var insert = {instituteName: obj.instituteName, qualification: obj.qualification, courseTitle: obj.courseTitle, nextEducation: nextEdu};
+              else if(p[i].carList.length>0){
+                var nex=p[i].carList[0]
+                nextEdu.push({id: nex.companyName+"_"+nex.industry+"_"+nex.jobTitle})
+              }
+              var insert = {id: obj.instituteName+"_"+obj.qualification+"_"+obj.courseTitle, instituteName: obj.instituteName, qualification: obj.qualification, courseTitle: obj.courseTitle, nextEducation: nextEdu};
               gp[h] = gp[h].concat(insert)
             }
             else{
               var index = gp[h].indexOf(result)
               var nextEd=result.nextEducation
               if(p[i].eduList.length>h+1){
-                nextEd.push(p[i].eduList[h+1])
+                var nex=p[i].eduList[h+1]
+                nextEd.push({id: nex.instituteName+"_"+nex.qualification+"_"+nex.courseTitle})
+              }
+              else if(p[i].carList.length>0){
+                var nex=p[i].carList[0]
+                nextEd.push({id: nex.companyName+"_"+nex.industry+"_"+nex.jobTitle})
               }
               gp[h][index].nextEducation=nextEd
             }
           }
         }
       }
-      for(const course of gp[0])
-      {
-        console.log(course)
+      //
+      var gc = this.state.groupedCareer
+      for (var h=0; h<4; h++){
+        gc.push([])
+        for (var i=0; i<p.length; i++){
+          if(p[i].carList.length>h)
+          {
+            var obj= p[i].carList[h];
+            var result = gc[h].find(groupObj => {
+              return groupObj.companyName === obj.companyName && groupObj.industry === obj.industry && groupObj.jobTitle === obj.jobTitle;
+            })
+            if(result==undefined){
+              var nextEdu=[]
+              if(p[i].carList.length>h+1){
+                var nex=p[i].carList[h+1]
+                nextEd.push({id: nex.companyName+"_"+nex.industry+"_"+nex.jobTitle})
+              }
+              var insert = {id: obj.companyName+"_"+obj.industry+"_"+obj.jobTitle, companyName: obj.companyName, industry: obj.industry, jobTitle: obj.jobTitle, nextEducation: nextEdu};
+              gc[h] = gc[h].concat(insert)
+            }
+            else{
+              var index = gc[h].indexOf(result)
+              var nextEd=result.nextEducation
+              if(p[i].carList.length>h+1){
+                var nex=p[i].carList[h+1]
+                nextEd.push({id: nex.companyName+"_"+nex.industry+"_"+nex.jobTitle})
+              }
+              gc[h][index].nextEducation=nextEd
+            }
+          }
+        }
       }
-      this.setState({ groupedPost: gp});
+      this.setState({ groupedCareer: gc});
+      console.log(this.state.groupedCareer[0][1])
     })
   }
-  onChangeIndustryFilter(event) {
-    this.setState({industryName: event.target.value})
-  }
-  onChangeQualificationFilter(event){
-    this.setState({qualification: event.target.value})
-  }
-
   render() {
-    return (
-      <div className="container">
-        <table>
+  return (
+    <div>
+      <table>
         <tr>
-        <th>
-          <FilterCourse qualification={this.state.qualification} onChange={this.onChangeQualificationFilter}/>
-        </th>
-        <th>
-          <FilterCareer industryName={this.state.industryName} onChange={this.onChangeIndustryFilter}/>
-        </th>
-        </tr>
+            <td>
         {this.state.groupedPost && this.state.groupedPost.map((n,index) => (
-         <tr key={index}>  
+         <td key={index}>  
           {n && n.map((o,i) => (
-          <ul className="edu" key={i}>
-            <li><b>Institute Name:</b></li>
-            <li>{o.instituteName}</li>
-            <li><b>Qualification:</b></li>
-            <li>{o.qualification}</li>
-            <li><b>Course Title:</b></li>
-            <li>{o.courseTitle}</li>
-            <li><b>Next Education:</b></li>
-            <li>{o.nextEducation[0] && o.nextEducation[0].courseTitle}</li>
-            </ul>
+          <div key={i} className="map">
+              <tr>
+            <EduBox box={o} />
+            {o.nextEducation && o.nextEducation.map((nextEd,j)=> (
+            <div key={j}>
+            <Xarrow start={o.id} end={nextEd.id} />
+            </div>
+            ))}
+            </tr>
+          </div>
           ))}
-          </tr>
+         </td>
+        ))}
+        </td>
+        <td>
+        {this.state.groupedCareer && this.state.groupedCareer.map((n,index) => (
+         <td key={index}>  
+          {n && n.map((o,i) => (
+          <div key={i} className="map">
+              <tr>
+            <CarBox box={o} />
+            {o.nextEducation && o.nextEducation.map((nextEd,j)=> (
+            <div key={j}>
+            <Xarrow start={o.id} end={nextEd.id} />
+            </div>
+            ))}
+            </tr>
+          </div>
           ))}
-        </table>
-      </div>
-    );
-  }
+         </td>
+        ))}
+        </td>
+        </tr>
+      </table>
+    </div>
+  );
+}
 }
