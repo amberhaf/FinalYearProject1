@@ -8,8 +8,8 @@ export default class FilterCourse extends Component {
     return (
          <div>
           <label for="qualification">Qualification</label>
-          <select id ="qualification" value={qualification} onChange={onChangeQualification}>
-          <option value="All">All</option>
+          <select id ="qualification" name={this.props.name} value={qualification} onChange={onChangeQualification}>
+          <option value="">{this.props.nothingSelected}</option>
           <option value="Level 5: PLC">Level 5: PLC</option>
           <option value="Level 6: Advanced Certificate">Level 6: Advanced Certificate</option>
           <option value="Level 7: Ordinary Bachelor Degree">Level 7: Ordinary Bachelor Degree</option>
@@ -19,6 +19,7 @@ export default class FilterCourse extends Component {
           <option value="Level 9: Post-Graduate Diploma">Level 9: Post-Graduate Diploma</option>
           <option value="Level 10: Doctoral Degree">Level 10: Doctoral Degree</option>
           <option value="Level 10: Higher Doctorate">Level 10: Higher Doctorate</option>
+          <option value="Other: Certificate">Other: Certificate</option>
         </select>
       </div>
     );

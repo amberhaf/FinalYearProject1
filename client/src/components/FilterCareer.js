@@ -4,12 +4,12 @@ import { storage, datab, auth} from "../services/firebase";
 export default class FilterCareer extends Component {
   render() {
     const onChangeIndustry = this.props.onChange;
-    const industryName = this.props.industryName;
+    const industry = this.props.industry;
     return (
          <div>
           <label for="industry">Industry</label>
-          <select id ="industry" value={industryName} onChange={onChangeIndustry}>
-          <option value="All">All</option>
+          <select id ="industry" name={this.props.name} value={industry} onChange={onChangeIndustry}>
+          <option value="">{this.props.nothingSelected}</option>
           <option value="IT Jobs">IT Jobs</option>
           <option value="Logistics and Warehouse Jobs">Logistics and Warehouse Jobs</option>
           <option value="Hospitality and Catering Jobs">Hospitality and Catering Jobs</option>
@@ -20,6 +20,7 @@ export default class FilterCareer extends Component {
           <option value="Teaching Jobs">Teaching Jobs</option>
           <option value="Trade and Construction Jobs">Trade and Construction Jobs</option>
           <option value="Social work Jobs">Social work Jobs</option>
+          <option value="Other">Other</option>
         </select>
       </div>
     );

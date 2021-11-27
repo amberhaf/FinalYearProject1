@@ -1,49 +1,153 @@
 import React, { useRef, Component } from 'react';
 import Xarrow from 'react-xarrows';
 import { auth, datab} from "../services/firebase";
-import JobSearch from './JobSearch';
+import FilterCareer from './FilterCareer';
+import FilterCourse from './FilterCourse';
+import {EduBox, CarBox} from './Box';
 
-const EduBox = (props) => {
-  return (
-    <div id={props.box.id} className="boxStyle edu">
-      <ul>
-        <li><b>Company Name:</b></li>
-        <li>{props.box.companyName}</li>
-        <li><b>Qualification:</b></li>
-        <li>{props.box.qualification}</li>
-        <li><b>Course Title:</b></li>
-        <li>{props.box.courseTitle}</li>
-      </ul>
-    </div>
-  );
-};
-const CarBox = (props) => {
-    return (
-      <div id={props.box.id} className="boxStyle car">
-        <ul>
-          <li><b>Institute Name:</b></li>
-          <li>{props.box.instituteName}</li>
-          <li><b>Industry:</b></li>
-          <li>{props.box.industry}</li>
-          <li><b>Job Title:</b></li>
-          <li>{props.box.jobTitle}</li>
-          <JobSearch search={props.box.jobTitle} />
-        </ul>
-      </div>
-    );
-  };
 export default class Map extends Component {
 constructor(props) {
   super(props);
   this.state = {
     user: auth().currentUser,
     posts: [""],
-    industryName: "all",
-    qualification: "all",
+    industry: "",
+    qualification: "",
     pos: 0,
-    groupedPost: [],
+    myEdus: [{details:[]}, {details:[]}, {details:[]}, {details:[]}],
+    myCars: [{details:[]}, {details:[]}, {details:[]}, {details:[]}],
+    groupedEducation: [],
     groupedCareer: []
   }
+  this.onChangeIndustryFilter = this.onChangeIndustryFilter.bind(this);  
+  this.onChangeQualificationFilter = this.onChangeQualificationFilter.bind(this); 
+  this.sortByIndustry = this.sortByIndustry.bind(this); 
+  this.sortByQualification = this.sortByQualification.bind(this); 
+  this.onChangeEducationCheckBox = this.onChangeEducationCheckBox.bind(this);
+  this.onChangeCareerCheckBox = this.onChangeCareerCheckBox.bind(this);
+  this.handleUpdate = this.handleUpdate.bind(this);
+}
+handleUpdate(e) {
+  console.log(this.state.myEdus)
+  if (this.state.user) {
+  var uid = this.state.user.uid
+  var myEdus = this.state.myEdus
+  var myCars = this.state.myCars
+  datab.collection('pathPlans').where("user", "==", uid)
+  .get()
+  .then(function(querySnapshot) {
+    if(querySnapshot.docs.length>0)
+    {
+      querySnapshot.forEach(function(doc) {
+        doc.ref.update({
+          user: uid,
+          eduList: myEdus,
+          carList: myCars})
+      });       
+    }
+    else{
+      datab.collection("pathPlans").add({
+      user: uid,
+      eduList: myEdus,
+      carList: myCars
+    });
+    }
+ })
+}
+}
+sortByIndustry(industryA, industryB) {
+  let comparison = 0;
+  if(this.state.industry!=""){
+    if (industryA.industry == this.state.industry) comparison = -1;
+    else if (industryB.industry == this.state.industry) comparison = +1;
+    else comparison = 0;
+  }
+  return comparison;
+}
+sortByQualification(qualificationA, qualificationB) {
+  let comparison = 0;
+  if(this.state.qualification!=""){
+    if (qualificationA.qualification == this.state.qualification) comparison = -1;
+    else if (qualificationB.qualification == this.state.qualification) comparison = +1;
+    else comparison = 0;
+  }
+  return comparison;
+}
+onChangeIndustryFilter(event) {
+  this.setState({industry: event.target.value})
+}
+onChangeQualificationFilter(event){
+  this.setState({qualification: event.target.value})
+}
+onChangeEducationCheckBox(event){
+  var myEdus=this.state.myEdus;
+  var id=event.target.value
+  var enter = []
+  var index = 0
+  var gp=this.state.groupedEducation
+  for(var i=0; i<gp.length; i++ )
+  {
+    for(var j=0; j<gp[i].length; j++ )
+    {
+      if(id==gp[i][j].id)
+      {
+        enter=gp[i][j]
+        index=i
+        break
+      }
+    }
+  }
+  var pos=-1
+  for(var j=0; j<myEdus[index].details.length; j++ )
+  {
+    if(id==myEdus[index].details[j].id)
+    {
+      pos=j
+      break
+    }
+  }
+  if (pos==-1) {
+    myEdus[index].details.push(enter)
+  }
+  else{
+    myEdus[index].details.splice(pos, 1);
+  }
+  this.setState({myEdus: myEdus})
+}
+onChangeCareerCheckBox(event){
+  var myCars=this.state.myCars;
+  var id=event.target.value
+  var enter = []
+  var index = 0
+  var gc=this.state.groupedCareer
+  for(var i=0; i<gc.length; i++ )
+  {
+    for(var j=0; j<gc[i].length; j++ )
+    {
+      if(id==gc[i][j].id)
+      {
+        enter=gc[i][j]
+        index=i
+        break
+      }
+    }
+  }
+  var pos=-1
+  for(var j=0; j<myCars[index].details.length; j++ )
+  {
+    if(id==myCars[index].details[j].id)
+    {
+      pos=j
+      break
+    }
+  }
+  if (pos==-1) {
+    myCars[index].details.push(enter)
+  }
+  else{
+    myCars[index].details.splice(pos, 1);
+  }
+  this.setState({myCars: myCars})
 }
   componentDidMount() {
     datab.collection('path').get().then(querySnapshot => {
@@ -51,10 +155,10 @@ constructor(props) {
       querySnapshot.forEach(doc => {
         allPosts.push(doc.data())
         this.setState({posts: allPosts})
-      })
-    }).then(() => {
+        })
+      }).then(() => {
       var p = this.state.posts
-      var gp = this.state.groupedPost
+      var gp = this.state.groupedEducation
       for (var h=0; h<4; h++){
         gp.push([])
         for (var i=0; i<p.length; i++){
@@ -65,16 +169,16 @@ constructor(props) {
               return groupObj.instituteName === obj.instituteName && groupObj.qualification === obj.qualification && groupObj.courseTitle === obj.courseTitle;
             })
             if(result==undefined){
-              var nextEdu=[]
+              var nextEd=[]
               if(p[i].eduList.length>h+1){
                 var nex=p[i].eduList[h+1]
-                nextEdu.push({id: nex.instituteName+"_"+nex.qualification+"_"+nex.courseTitle})
+                nextEd.push({id: nex.instituteName+"_"+nex.qualification+"_"+nex.courseTitle})
               }
               else if(p[i].carList.length>0){
                 var nex=p[i].carList[0]
-                nextEdu.push({id: nex.companyName+"_"+nex.industry+"_"+nex.jobTitle})
+                nextEd.push({id: nex.companyName+"_"+nex.industry+"_"+nex.jobTitle})
               }
-              var insert = {id: obj.instituteName+"_"+obj.qualification+"_"+obj.courseTitle, instituteName: obj.instituteName, qualification: obj.qualification, courseTitle: obj.courseTitle, nextEducation: nextEdu};
+              var insert = {id: obj.instituteName+"_"+obj.qualification+"_"+obj.courseTitle, instituteName: obj.instituteName, qualification: obj.qualification, courseTitle: obj.courseTitle, nextEducation: nextEd, notes: ""};
               gp[h] = gp[h].concat(insert)
             }
             else{
@@ -92,6 +196,7 @@ constructor(props) {
             }
           }
         }
+        this.setState({ groupedEducation: gp});
       }
       //
       var gc = this.state.groupedCareer
@@ -105,12 +210,12 @@ constructor(props) {
               return groupObj.companyName === obj.companyName && groupObj.industry === obj.industry && groupObj.jobTitle === obj.jobTitle;
             })
             if(result==undefined){
-              var nextEdu=[]
+              var nextEd=[]
               if(p[i].carList.length>h+1){
                 var nex=p[i].carList[h+1]
                 nextEd.push({id: nex.companyName+"_"+nex.industry+"_"+nex.jobTitle})
               }
-              var insert = {id: obj.companyName+"_"+obj.industry+"_"+obj.jobTitle, companyName: obj.companyName, industry: obj.industry, jobTitle: obj.jobTitle, nextEducation: nextEdu};
+              var insert = {id: obj.companyName+"_"+obj.industry+"_"+obj.jobTitle, companyName: obj.companyName, industry: obj.industry, jobTitle: obj.jobTitle, nextEducation: nextEd};
               gc[h] = gc[h].concat(insert)
             }
             else{
@@ -126,50 +231,107 @@ constructor(props) {
         }
       }
       this.setState({ groupedCareer: gc});
-      console.log(this.state.groupedCareer[0][1])
-    })
+    });
+    if (this.state.user) {
+    datab.collection('pathPlans').where('user','==', this.state.user.uid).get().then(querySnapshot => {
+      querySnapshot.forEach(doc => {
+        this.setState({myEdus: doc.data().eduList})
+        this.setState({myCars: doc.data().carList})
+      })
+    });
   }
+  }
+  filterEduById(id, index) {
+    var myPaths = this.state.myEdus
+    if(myPaths.length-1>index){
+    var result = myPaths[index].details.find(groupObj => {
+        return groupObj.id === id;
+    })
+    }
+    return result!=undefined
+  }
+  filterCarById(id, index) {
+    var myPaths = this.state.myCars
+    if(myPaths.length-1>index){
+    var result = myPaths[index].details.find(groupObj => {
+        return groupObj.id === id;
+    })
+    }
+    return result!=undefined
+  }
+  filterNextEduById(id, index) {
+    var myPaths = this.state.groupedEducation
+    if(myPaths.length-1>index){
+    var result = myPaths[index+1].find(groupObj => {
+        return groupObj.id === id;
+    })
+    }
+    return result!=undefined
+  }
+  filterNextCarById(id, index) {
+    var myPaths = this.state.groupedCareer
+    if(myPaths.length-1>index){
+    var result = myPaths[index+1].find(groupObj => {
+        return groupObj.id === id;
+    })
+    }
+    return result!=undefined
+  }
+
   render() {
   return (
     <div>
       <table>
         <tr>
-            <td>
-        {this.state.groupedPost && this.state.groupedPost.map((n,index) => (
-         <td key={index}>  
-          {n && n.map((o,i) => (
-          <div key={i} className="map">
+          <th>
+            <FilterCourse qualification={this.state.qualification} nothingSelected={"All"} onChange={this.onChangeQualificationFilter}/>
+          </th>
+          <th>
+            <FilterCareer industry={this.state.industry} nothingSelected={"All"} onChange={this.onChangeIndustryFilter}/>
+          </th>
+        </tr>
+        <tr>
+          <button onClick={this.handleUpdate}>Update Path Planner</button>
+        </tr>
+        <tr>
+          <td>
+          {this.state.groupedEducation && this.state.groupedEducation.map((n,index) => (
+          <td key={index}>  
+            {n && n.sort(this.sortByQualification).map((o,i) => (
+            <div key={i} className="map">
               <tr>
-            <EduBox box={o} />
-            {o.nextEducation && o.nextEducation.map((nextEd,j)=> (
-            <div key={j}>
-            <Xarrow start={o.id} end={nextEd.id} />
+              <EduBox box={o} />
+              <input label="include planner" type="checkbox" value={o.id} checked={this.filterEduById(o.id, index)} onChange={this.onChangeEducationCheckBox}/>
+              {o.nextEducation && o.nextEducation.map((nextEd,j)=> (
+              <div key={j}>
+              {this.filterNextEduById(nextEd.id, index) && <Xarrow start={o.id} end={nextEd.id} />}
+              </div>
+              ))}
+              </tr>
             </div>
             ))}
-            </tr>
-          </div>
+          </td>
           ))}
-         </td>
-        ))}
-        </td>
-        <td>
-        {this.state.groupedCareer && this.state.groupedCareer.map((n,index) => (
-         <td key={index}>  
-          {n && n.map((o,i) => (
-          <div key={i} className="map">
+          </td>
+          <td>
+          {this.state.groupedCareer && this.state.groupedCareer.map((n,index) => (
+          <td key={index}>  
+            {n && n.sort(this.sortByIndustry).map((o,i) => (
+            <div key={i} className="map">
               <tr>
-            <CarBox box={o} />
-            {o.nextEducation && o.nextEducation.map((nextEd,j)=> (
-            <div key={j}>
-            <Xarrow start={o.id} end={nextEd.id} />
+              <CarBox box={o}/>
+              <input label="include planner" type="checkbox" value={o.id} checked={this.filterCarById(o.id, index)} onChange={this.onChangeCareerCheckBox}/>
+              {o.nextEducation && o.nextEducation.map((nextEd,j)=> (
+              <div key={j}>
+              {this.filterNextCarById(nextEd.id, index) && <Xarrow start={o.id} end={nextEd.id} />}
+              </div>
+              ))}
+              </tr>
             </div>
             ))}
-            </tr>
-          </div>
+          </td>
           ))}
-         </td>
-        ))}
-        </td>
+          </td>
         </tr>
       </table>
     </div>
