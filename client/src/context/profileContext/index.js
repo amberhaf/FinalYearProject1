@@ -1,8 +1,8 @@
-import { createContext } from 'react'
+// import { createContext } from 'react'
 
-const ProfileContext = createContext({})
+// const ProfileContext = createContext({})
 
-export const ProfileProvider = ProfileContext.Provider
+// export const ProfileProvider = ProfileContext.Provider
 
-export const ProfilerConsumer = ProfileContext.Consumer
+// export const ProfilerConsumer = ProfileContext.Consumer
 

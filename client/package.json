@@ -1,5 +1,5 @@
 {
-  "name": "team01",
+  "name": "pathMapper",
   "version": "1.0.0",
   "description": "Student Schedular",
   "keywords": [
@@ -47,6 +47,5 @@
     "build": "react-scripts build",
     "test": "react-scripts test --env=jsdom",
     "eject": "react-scripts eject"
-  },
-  "proxy": "https://www.linkedin.com/"
+  }
 }

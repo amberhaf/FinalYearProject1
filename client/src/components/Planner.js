@@ -1,7 +1,9 @@
 import React, { useRef, Component } from 'react';
 import Xarrow from 'react-xarrows';
 import { auth, datab} from "../services/firebase";
+import {FilterCareer, FilterCourse} from './FilterDropDown';
 import {EduBox, CarBox} from './Box';
+import {Container, Row, Col} from 'react-bootstrap'
 
 export default class Planner extends Component {
 constructor(props) {
@@ -10,6 +12,8 @@ constructor(props) {
     user: auth().currentUser,
     myEdus: [{details:[]}, {details:[]}, {details:[]}, {details:[]}],
     myCars: [{details:[]}, {details:[]}, {details:[]}, {details:[]}],
+    industry: "",
+    qualification: "",
   }
 }
   componentDidMount() {
@@ -20,9 +24,37 @@ constructor(props) {
         this.setState({myCars: myPaths.carList})
       })
     });
+    this.onChangeIndustryFilter = this.onChangeIndustryFilter.bind(this);  
+    this.onChangeQualificationFilter = this.onChangeQualificationFilter.bind(this);   
     this.handleUpdatePaths=this.handleUpdatePaths.bind(this)
     this.onChangeEducationInputBox=this.onChangeEducationInputBox.bind(this)
     this.onChangeCareerInputBox=this.onChangeCareerInputBox.bind(this)
+    this.sortByIndustry = this.sortByIndustry.bind(this); 
+    this.sortByQualification = this.sortByQualification.bind(this);   
+  }
+  sortByIndustry(industryA, industryB) {
+    let comparison = 0;
+    if(this.state.industry!=""){
+      if (industryA.industry == this.state.industry) comparison = -1;
+      else if (industryB.industry == this.state.industry) comparison = +1;
+      else comparison = 0;
+    }
+    return comparison;
+  }
+  sortByQualification(qualificationA, qualificationB) {
+    let comparison = 0;
+    if(this.state.qualification!=""){
+      if (qualificationA.qualification == this.state.qualification) comparison = -1;
+      else if (qualificationB.qualification == this.state.qualification) comparison = +1;
+      else comparison = 0;
+    }
+    return comparison;
+  }
+  onChangeIndustryFilter(event) {
+    this.setState({industry: event.target.value})
+  }
+  onChangeQualificationFilter(event){
+    this.setState({qualification: event.target.value})
   }
   handleUpdatePaths(event){
     console.log("Adding notes click")
@@ -72,7 +104,7 @@ constructor(props) {
     console.log(myPaths)
     this.setState({myCars: myPaths})  
   }
-  filterEduById(id, index) {
+  filterNextEduById(id, index) {
     var myPaths = this.state.myEdus
     if(myPaths.length-1>index){
     var result = myPaths[index+1].details.find(groupObj => {
@@ -81,7 +113,7 @@ constructor(props) {
     }
     return result!=undefined
   }
-  filterCarById(id, index) {
+  filterNextCarById(id, index) {
     var myPaths = this.state.myCars
     if(myPaths.length-1>index){
     var result = myPaths[index+1].details.find(groupObj => {
@@ -94,53 +126,67 @@ constructor(props) {
   render() {
   return (
     <div>
-      <button onChange={this.handleUpdatePaths}>Update Paths</button>
-      <table>
-        <tr>
-          <td>
+      <Container>
+        <Row>
+          <Col>
+            <FilterCourse qualification={this.state.qualification} nothingSelected={"All"} onChange={this.onChangeQualificationFilter}/>
+          </Col>
+          <Col>
+            <FilterCareer industry={this.state.industry} nothingSelected={"All"} onChange={this.onChangeIndustryFilter}/>
+          </Col>
+      </Row>
+      <Row>
+          <button onClick={this.handleUpdatePaths}>Update Path Planner</button>
+      </Row>
+      <Row>
+        <Col>
+        <Container className="table">
+      <Row>
           {this.state.myEdus && this.state.myEdus.map((n,index) => (
-          <td key={index}>  
-            {n.details && n.details.map((o,i) => (
+            <Col className="col" key={index}>  
+            {n.details && n.details.sort(this.sortByQualification).map((o,i) => (
             <div key={i} className="map">
-              <tr>
               <EduBox box={o}/>
-              <input type="text" value={o.notes} id={index+"_"+i} onChange={this.onChangeEducationInputBox}/>
+              <input type="text" value={o.notes} id={index+"_"+i} size="10" onChange={this.onChangeEducationInputBox}/>
               {o.nextEducation && o.nextEducation.map((nextEd,j)=> (
               <div key={j}>
-              {this.filterEduById(nextEd.id, index) && 
+              {this.filterNextEduById(nextEd.id, index) && 
               <Xarrow start={o.id} end={nextEd.id}/>
               }
               </div>
               ))}
-              </tr>
             </div>
             ))}
-          </td>
+          </Col>
           ))}
-          </td>
-          <td>
+          </Row>
+        </Container>
+          </Col>
+          <Col>
+          <Container className="table">
+      <Row>
           {this.state.myCars && this.state.myCars.map((n,index) => (
-          <td key={index}>  
-            {n.details && n.details.map((o,i) => (
+            <Col className="col" key={index}>  
+            {n.details && n.details.sort(this.sortByIndustry).map((o,i) => (
             <div key={i} className="map">
-              <tr>
               <CarBox box={o}/>
-              <input type="text" value={o.notes} id={index+"_"+i} onChange={this.onChangeCareerInputBox}/>
+              <input type="text" value={o.notes} id={index+"_"+i} size="10" onChange={this.onChangeCareerInputBox}/>
               {o.nextEducation && o.nextEducation.map((nextEd,j)=> (
               <div key={j}>
-              {this.filterCarById(nextEd.id, index) && 
+              {this.filterNextCarById(nextEd.id, index) && 
               <Xarrow start={o.id} end={nextEd.id}/>
               }
               </div>
               ))}
-              </tr>
             </div>
             ))}
-          </td>
+          </Col>
           ))}
-          </td>
-        </tr>
-      </table>
+          </Row>
+        </Container>
+          </Col>
+          </Row>
+        </Container>
     </div>
   );
 }

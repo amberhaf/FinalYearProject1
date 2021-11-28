@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import { storage, datab, auth} from "../services/firebase"; 
-import FilterCareer from './FilterCareer';
-import FilterCourse from './FilterCourse';
+import {FilterCareer, FilterCourse} from './FilterDropDown';
+import {Container, Row, Col} from 'react-bootstrap'
 
 export default class Uploader extends Component {
   constructor(props) {
@@ -28,43 +28,63 @@ export default class Uploader extends Component {
     this.onChangeIndustry = this.onChangeIndustry.bind(this);
     this.onChangeJobTitle = this.onChangeJobTitle.bind(this);
   }
+  handleAddEducation(e) {
+    e.preventDefault();
+    if(this.state.eduList.length<4)
+    {
+      var obj = {instituteName: "", qualification:"", courseTitle:""};
+      this.setState({ eduList: this.state.eduList.concat(obj)});
+    }
+  }
+  handleAddCareer(e) {
+    e.preventDefault();
+    if(this.state.carList.length<4)
+    {
+    var obj = {companyName: "", industry:"", jobTitle:""};
+    this.setState({ carList: this.state.carList.concat(obj)});
+    }
+  }
+  handleRemoveEducation(e) {
+    e.preventDefault();
+    var edu=this.state.eduList
+    if(edu.length>1){
+      edu.pop();
+      this.setState({ eduList: edu});
+    }
+  }
+  handleRemoveCareer(e) {
+    e.preventDefault();
+    var car=this.state.carList
+    if(car.length>1){
+      car.pop();
+      this.setState({ carList: car});
+    }
+  }
   handleUpload(e) {
     console.log("validation called")
-    var errorEdu=false;
-    var errorCar=false;
-    var edu =this.state.eduList
+    var edu =  []
     for (var i = 0; i < this.state.eduList.length; i++){
-      if(edu[i].instituteName === "" || edu[i].qualification === ""  || edu[i].courseTitle === "")
+      if(! (this.state.eduList[i].instituteName === "" || this.state.eduList[i].qualification === ""  || this.state.eduList[i].courseTitle === ""))
       {
-        errorEdu = true;
-        break;
+        edu.push(this.state.eduList[i])
       }
     }
-    var car =this.state.carList    
+    var car = []    
     for (var i = 0; i < this.state.carList.length; i++){
-      if(car[i].companyName === "" || car[i].industry === ""  || car[i].jobTitle === "")
+      if(! (this.state.carList[i].companyName === "" || this.state.carList[i].industry === ""  || this.state.carList[i].jobTitle === ""))
       {
-        errorCar =true;
-        break;
+        car.push(this.state.carList[i])
       }
     }
-    if(this.state.eduList[0]===[{instituteName: "", qualification:"", courseTitle:""}])
-    {
-      this.state.eduList[0]==[]
-    }
-    if(this.state.carList[0]===[{companyName: "", industry:"", jobTitle:""}])
-    {
-      this.state.carList[0]==[]
-    }
-    if(errorEdu === false || errorCar === false){
+    if(edu.length>0 || car.length>0){
       datab.collection("path").add({
         user: this.state.user.uid,
-        eduList: this.state.eduList,
-        carList: this.state.carList
+        eduList: edu,
+        carList: car
       });
       this.setState({eduList: [{instituteName: "", qualification:"", courseTitle:""}]});
       this.setState({carList: [{companyName: "", industry:"", jobTitle:""}]});
-      this.setState({ error: null });
+      this.setState({error: null });
     }
     else{
       this.setState({ error: "please complete some history" });
@@ -107,41 +127,13 @@ export default class Uploader extends Component {
     this.setState({carList: l})
   }
 
-  handleAddEducation(e) {
-    e.preventDefault();
-    var obj = {instituteName: "", qualification:"", courseTitle:""};
-    this.setState({ eduList: this.state.eduList.concat(obj)});
-  }
-  handleAddCareer(e) {
-    e.preventDefault();
-    var obj = {companyName: "", industry:"", jobTitle:""};
-    this.setState({ carList: this.state.carList.concat(obj)});
-  }
-  handleRemoveEducation(e) {
-    e.preventDefault();
-    var edu=this.state.eduList
-    if(edu.length>1){
-      edu.pop();
-      this.setState({ eduList: edu});
-    }
-  }
-  handleRemoveCareer(e) {
-    e.preventDefault();
-    var car=this.state.carList
-    if(car.length>1){
-      car.pop();
-      this.setState({ carList: car});
-    }
-  }
-
   render() {
     return (
     <div className="center">
+      <Container>
+      <Row>
+      <Col>
       <h4>Education</h4>
-      <form>
-        <button onClick={this.handleAddEducation}>Add new Education</button>
-        <button onClick={this.handleRemoveEducation}>Remove last Education</button>
-      </form>
       {this.state.eduList.map((n,index) => (
       <div key={index}>
       <form>
@@ -155,14 +147,16 @@ export default class Uploader extends Component {
       </form>
       </div>
       ))}
-      <h4>Career</h4>
       <form>
-        <button onClick={this.handleAddCareer}>Add new Career</button>
-        <button onClick={this.handleRemoveCareer}>Remove last Career</button>
+        <button onClick={this.handleAddEducation}>Add new Education</button>
+        <button onClick={this.handleRemoveEducation}>Remove last Education</button>
       </form>
+      </Col>
+      <Col>
+      <h4>Career</h4>
       {this.state.carList.map((n,index) => (
       <div key={index}>
-        <form onSubmit={this.handleUpload}>
+        <form>
           <span>Company Name</span>
           <input type="text" name={index} value={n.companyName}
           onChange = {this.onChangeCompanyName}/>
@@ -173,6 +167,13 @@ export default class Uploader extends Component {
         </form>
       </div>
       ))}
+      <form>
+        <button onClick={this.handleAddCareer}>Add new Career</button>
+        <button onClick={this.handleRemoveCareer}>Remove last Career</button>
+      </form>
+      </Col>
+      </Row>
+      </Container>
       <button onClick= {this.handleUpload}>Upload</button>
       {this.state.error ? <p className="text-danger">{this.state.error}</p> : null}
       </div>

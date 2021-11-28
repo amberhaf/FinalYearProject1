@@ -4,9 +4,10 @@ import {
 } from "react-router-dom";
 import PathMap from './pages/PathMap';
 import Account from './pages/Account';
+import BulkPath from './pages/BulkPath';
 import Signup from './pages/Signup';
 import Login from './pages/Login';
-import Profile from './pages/Profile';
+import Plan from './pages/Plan';
 import InputPath from './pages/InputPath';
 import { auth } from './services/firebase';
 import { Forgot } from './pages/Forgot';
@@ -67,11 +68,11 @@ class App extends Component {
         <Switch>
           <Route exact path="/" component={PathMap}></Route>
           <PrivateRoute path="/Account" authenticated={this.state.authenticated} component={Account}></PrivateRoute>
-          <PrivateRoute path="/profile" authenticated={this.state.authenticated} component={Profile}></PrivateRoute>
+          <PrivateRoute path="/plan" authenticated={this.state.authenticated} component={Plan}></PrivateRoute>
           <PrivateRoute path="/inputPath" authenticated={this.state.authenticated} component={InputPath}></PrivateRoute>
+          <PrivateRoute path="/bulkPath" authenticated={this.state.authenticated} component={BulkPath}></PrivateRoute>
           <Route exact path = "/forgot" component={Forgot}></Route>
           <Route exact path = "/deleteAccount" component={Delete}></Route>
-
           <PublicRoute path="/signup" authenticated={this.state.authenticated} component={Signup}></PublicRoute>
           <PublicRoute path="/login" authenticated={this.state.authenticated} component={Login}></PublicRoute>
         </Switch>

@@ -39,7 +39,7 @@ export class Delete extends Component {
           <div class="container h-100">
             <form className="mt-5 py-5 px-5" autoComplete="off" onSubmit={this.handleSubmit}>
           <h1>
-            Capsule Selector Online
+            Path Mapper Online
           </h1>
           {/* Delete Account Section */}
           <p className="lead">Delete Your Account</p>

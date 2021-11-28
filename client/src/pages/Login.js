@@ -39,7 +39,7 @@ export default class Login extends Component {
             <div className="container h-100">
         <form className="mt-5 py-5 px-5" autoComplete="off" onSubmit={this.handleSubmit}>
           <h1>
-            Capsule Selector Online
+            Path Mapper Online
           </h1>
           {/* Login to your account */}
           <p className="lead">Sign in</p>
