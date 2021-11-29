@@ -108,6 +108,8 @@ componentDidMount() {
         }
       }
     }
+
+    console.log(gc)
     this.setState({ groupedCareer: gc});
   });
   if (this.state.user) {
