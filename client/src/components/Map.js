@@ -16,8 +16,8 @@ constructor(props) {
     pos: 0,
     myEdus: [{details:[]}, {details:[]}, {details:[]}, {details:[]}],
     myCars: [{details:[]}, {details:[]}, {details:[]}, {details:[]}],
-    groupedEducation: [],
-    groupedCareer: []
+    groupedEducation: this.props.groupedEducation,
+    groupedCareer: this.props.groupedCareer
   }
   this.onChangeIndustryFilter = this.onChangeIndustryFilter.bind(this);  
   this.onChangeQualificationFilter = this.onChangeQualificationFilter.bind(this); 
@@ -26,100 +26,6 @@ constructor(props) {
   this.onChangeEducationCheckBox = this.onChangeEducationCheckBox.bind(this);
   this.onChangeCareerCheckBox = this.onChangeCareerCheckBox.bind(this);
   this.handleUpdate = this.handleUpdate.bind(this);
-}
-componentDidMount() {
-  datab.collection('path').get().then(querySnapshot => {
-    let allPosts = [];
-    querySnapshot.forEach(doc => {
-      allPosts.push(doc.data())
-      })
-      this.setState({posts: allPosts})
-    }).then(() => {
-    var p = this.state.posts
-    var gp = this.state.groupedEducation
-    for (var h=0; h<4; h++){
-      gp.push([])
-      for (var i=0; i<p.length; i++){
-        if(p[i].eduList.length>h)
-        {
-          var obj= p[i].eduList[h];
-          var result = gp[h].find(groupObj => {
-            return groupObj.instituteName === obj.instituteName && groupObj.qualification === obj.qualification && groupObj.courseTitle === obj.courseTitle;
-          })
-          if(result==undefined){
-            var nextEd=[]
-            if(p[i].eduList.length>h+1){
-              var nex=p[i].eduList[h+1]
-              nextEd.push({id: nex.instituteName+"_"+nex.qualification+"_"+nex.courseTitle})
-            }
-            else if(p[i].carList.length>0){
-              var nex=p[i].carList[0]
-              nextEd.push({id: nex.companyName+"_"+nex.industry+"_"+nex.jobTitle})
-            }
-            var insert = {id: obj.instituteName+"_"+obj.qualification+"_"+obj.courseTitle, instituteName: obj.instituteName, qualification: obj.qualification, courseTitle: obj.courseTitle, nextEducation: nextEd, notes: ""};
-            gp[h] = gp[h].concat(insert)
-          }
-          else{
-            var index = gp[h].indexOf(result)
-            var nextEd=result.nextEducation
-            if(p[i].eduList.length>h+1){
-              var nex=p[i].eduList[h+1]
-              nextEd.push({id: nex.instituteName+"_"+nex.qualification+"_"+nex.courseTitle})
-            }
-            else if(p[i].carList.length>0){
-              var nex=p[i].carList[0]
-              nextEd.push({id: nex.companyName+"_"+nex.industry+"_"+nex.jobTitle})
-            }
-            gp[h][index].nextEducation=nextEd
-          }
-        }
-      }
-      this.setState({ groupedEducation: gp});
-    }
-    //
-    var gc = this.state.groupedCareer
-    for (var h=0; h<4; h++){
-      gc.push([])
-      for (var i=0; i<p.length; i++){
-        if(p[i].carList.length>h)
-        {
-          var obj= p[i].carList[h];
-          var result = gc[h].find(groupObj => {
-            return groupObj.companyName === obj.companyName && groupObj.industry === obj.industry && groupObj.jobTitle === obj.jobTitle;
-          })
-          if(result==undefined){
-            var nextEd=[]
-            if(p[i].carList.length>h+1){
-              var nex=p[i].carList[h+1]
-              nextEd.push({id: nex.companyName+"_"+nex.industry+"_"+nex.jobTitle})
-            }
-            var insert = {id: obj.companyName+"_"+obj.industry+"_"+obj.jobTitle, companyName: obj.companyName, industry: obj.industry, jobTitle: obj.jobTitle, nextEducation: nextEd};
-            gc[h] = gc[h].concat(insert)
-          }
-          else{
-            var index = gc[h].indexOf(result)
-            var nextEd=result.nextEducation
-            if(p[i].carList.length>h+1){
-              var nex=p[i].carList[h+1]
-              nextEd.push({id: nex.companyName+"_"+nex.industry+"_"+nex.jobTitle})
-            }
-            gc[h][index].nextEducation=nextEd
-          }
-        }
-      }
-    }
-
-    console.log(gc)
-    this.setState({ groupedCareer: gc});
-  });
-  if (this.state.user) {
-  datab.collection('pathPlans').where('user','==', this.state.user.uid).get().then(querySnapshot => {
-    querySnapshot.forEach(doc => {
-      this.setState({myEdus: doc.data().eduList})
-      this.setState({myCars: doc.data().carList})
-    })
-  });
-}
 }
 
 handleUpdate(e) {
@@ -179,9 +85,15 @@ onChangeEducationCheckBox(event){
   var id=event.target.value
   var index = event.target.name
   var gp=this.state.groupedEducation
-  var enter = gp[index].find(groupObj => {
-    return groupObj.id === index;
-  })
+  var enter = []
+  for(var j=0; j<gp[index].length; j++ )
+  {
+    if(id==gp[index][j].id)
+    {
+      enter=gp[index][j]
+      break
+    }
+  }
   var pos=-1
   for(var j=0; j<myEdus[index].details.length; j++ )
   {
@@ -205,9 +117,15 @@ onChangeCareerCheckBox(event){
   var id=event.target.value
   var index = event.target.name
   var gp=this.state.groupedCareer
-  var enter = gp[index].find(groupObj => {
-    return groupObj.id === index;
-  })
+  var enter = []
+  for(var j=0; j<gp[index].length; j++ )
+  {
+    if(id==gp[index][j].id)
+    {
+      enter=gp[index][j]
+      break
+    }
+  }
   var pos=-1
   for(var j=0; j<myCars[index].details.length; j++ )
   {

@@ -1,5 +1,5 @@
 import axios from 'axios';
-import { auth, datab} from "../services/firebase";
+import { auth } from "../services/firebase";
 import React, { Component } from 'react';
 
 class BulkMap extends Component {
@@ -7,9 +7,11 @@ class BulkMap extends Component {
         super(props);
         this.state = {
           user: auth().currentUser,
+          selectedFile: null,
         }
     }
     onFileChange = event => {
+        console.log(event.target.files)
         this.setState({ selectedFile: event.target.files[0] });
     };
 
@@ -20,11 +22,24 @@ class BulkMap extends Component {
             this.state.selectedFile,
             this.state.selectedFile.name
         );
-        console.log(this.state.selectedFile);
-        axios.post("api/uploadfile", formData);
+        fetch('/upload',
+            {
+              method: "POST",
+              body: formData
+            }
+          ).then(response => response.json())
+          .then(function(data){
+            //when response returned update playlist prop with data 
+            console.log(data);
+            this.props.onChange(data)
+        })
+        .catch((error) => {
+          console.error('Error:', error);
+        });
     };
     fileData = () => {
         if (this.state.selectedFile) {
+            console.log(this.state.selectedFile)
             return (
                 <div>
                     <h2>File Details:</h2>
@@ -47,6 +62,7 @@ class BulkMap extends Component {
     };
 
     render() {
+
         return (
             <div>
                 <h3>

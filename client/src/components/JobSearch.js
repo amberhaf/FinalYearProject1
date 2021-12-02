@@ -18,9 +18,17 @@ class JobSearch extends Component {
   }
   
   calcSalary() {
-    this.state.results = '';
-    fetch(`http://localhost:3000/?search=${this.state.search}&location=${this.state.location}&country=gb`)
-      .then(response => response.json())
+    var url = {search: this.state.search, location: this.state.location, country: 'gb'};
+    fetch('/server/choosePlaylist/' , {
+      method: "POST",
+      headers: {
+      'Content-type': 'application/json',
+      'Access-Control-Allow-Origin': '*',
+      'Access-Control-Allow-Headers': '*'
+        },
+        body: JSON.stringify(url)
+    })
+    .then(response => response.json())
       .then(({ results }) => {
         console.log( results)
         this.setState({results : results})

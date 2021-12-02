@@ -147,10 +147,10 @@ constructor(props) {
             {n.details && n.details.sort(this.sortByQualification).map((o,i) => (
             <div key={i} className="map">
               <EduBox box={o}/>
-              <input type="text" value={o.notes} id={index+"_"+i} size="10" onChange={this.onChangeEducationInputBox}/>
+              <input type="text" value={o.notes} id={index+"_"+i} size="10"  style = {{ flex: 1 }} onChange={this.onChangeEducationInputBox}/>
               {o.nextEducation && o.nextEducation.map((nextEd,j)=> (
               <div key={j}>
-              {this.filterNextEduById(nextEd.id, index) && 
+              {this.filterNextEduById(nextEd.id, index) || this.filterNextCarById(nextEd.id, -1) && 
               <Xarrow start={o.id} end={nextEd.id}/>
               }
               </div>
