@@ -1,5 +1,6 @@
 import React, { useRef, Component } from 'react';
 import JobSearch from './JobSearch';
+import InstitionWebsite from './InstitutionWebsite';
 
 export const EduBox = (props) => {
     return (
@@ -11,6 +12,7 @@ export const EduBox = (props) => {
           <li>{props.box.qualification}</li>
           <li><b>Course Title:</b></li>
           <li>{props.box.courseTitle}</li>
+          <InstitionWebsite search={props.box.instituteName} />
         </ul>
       </div>
     );

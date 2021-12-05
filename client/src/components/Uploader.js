@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import { storage, datab, auth} from "../services/firebase"; 
 import {FilterCareer, FilterCourse} from './FilterDropDown';
+import Institution from "./Institution";
 import {Container, Row, Col} from 'react-bootstrap'
 
 export default class Uploader extends Component {
@@ -137,9 +138,7 @@ export default class Uploader extends Component {
       {this.state.eduList.map((n,index) => (
       <div key={index}>
       <form>
-        <span>Institute Name</span>
-        <input type="text" name={index} value={n.instituteName}
-        onChange = {this.onChangeInstituteName}/>
+        <Institution name={index} institution={n.instituteName} nothingSelected={"None"} onChange = {this.onChangeInstituteName}/>
         <FilterCourse name={index} qualification={n.qualification} nothingSelected={"None"} onChange = {this.onChangeQualification}/>
         <span>Course Name:</span>
         <input type="text" name={index} value={n.courseTitle}

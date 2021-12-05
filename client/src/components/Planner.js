@@ -3,7 +3,9 @@ import Xarrow from 'react-xarrows';
 import { auth, datab} from "../services/firebase";
 import {FilterCareer, FilterCourse} from './FilterDropDown';
 import {EduBox, CarBox} from './Box';
-import {Container, Row, Col} from 'react-bootstrap'
+import {Container, Row, Col} from 'react-bootstrap';
+import TextareaAutosize from 'react-textarea-autosize';
+
 
 export default class Planner extends Component {
 constructor(props) {
@@ -147,7 +149,7 @@ constructor(props) {
             {n.details && n.details.sort(this.sortByQualification).map((o,i) => (
             <div key={i} className="map">
               <EduBox box={o}/>
-              <input type="text" value={o.notes} id={index+"_"+i} size="10"  style = {{ flex: 1 }} onChange={this.onChangeEducationInputBox}/>
+              <TextareaAutosize value={o.notes} id={index+"_"+i} size="10" onChange={this.onChangeEducationInputBox}/>
               {o.nextEducation && o.nextEducation.map((nextEd,j)=> (
               <div key={j}>
               {this.filterNextEduById(nextEd.id, index) || this.filterNextCarById(nextEd.id, -1) && 
@@ -170,7 +172,7 @@ constructor(props) {
             {n.details && n.details.sort(this.sortByIndustry).map((o,i) => (
             <div key={i} className="map">
               <CarBox box={o}/>
-              <input type="text" value={o.notes} id={index+"_"+i} size="10" onChange={this.onChangeCareerInputBox}/>
+              <TextareaAutosize value={o.notes} id={index+"_"+i} size="10" onChange={this.onChangeCareerInputBox}/>
               {o.nextEducation && o.nextEducation.map((nextEd,j)=> (
               <div key={j}>
               {this.filterNextCarById(nextEd.id, index) && 
