@@ -30,9 +30,13 @@ class JobSearch extends Component {
     })
     .then(response => response.json())
       .then(({ results }) => {
-        console.log( results)
+        //console.log( results)
+        for(var i=0; i<results.length; i++)
+        {
+          console.log(results[i].title)
+        }
         this.setState({results : results})
-        var avg = (Math.round(results.reduce(this.getTotalSalary, 0.0)/ this.state.results.length * 2)*0.86);
+        var avg = (Math.round(results.reduce(this.getTotalSalary, 0.0)/ this.state.results.length)*0.86);
         this.setState({avg : avg})
       })
       .catch(() => console.log("Error"));

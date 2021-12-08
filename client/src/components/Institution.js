@@ -1,6 +1,5 @@
 import React, { Component } from "react";
 
-
 class Institution extends Component {
     constructor(props) {
         super(props);
@@ -29,10 +28,11 @@ class Institution extends Component {
                 <label htmlFor="institution">Institution</label>
                 <select id ="institution" name={this.props.name} value={this.props.institution} onChange={this.props.onChange}>
                 <option value="">{this.props.nothingSelected}</option>{
-                 this.state.results && this.state.results.map((obj) => {
-                     return <option value={obj.name}>{obj.name}</option>
+                 this.state.results && this.state.results.map((obj, index) => {
+                     return <option key={index} value={obj.name}>{obj.name}</option>
                  })
-              }<option value="other">Other: Institution</option>
+              }<option value="Other: College of Further Education">Other: College of Further Education</option>
+              <option value="Other: Institution">Other: Institution</option>
               </select>
             </div>
         )

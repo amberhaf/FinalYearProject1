@@ -28,6 +28,17 @@ constructor(props) {
   this.handleUpdate = this.handleUpdate.bind(this);
 }
 
+componentDidMount() {
+  if (this.state.user) {
+    datab.collection('pathPlans').where('user','==', this.state.user.uid).get().then(querySnapshot => {
+      querySnapshot.forEach(doc => {
+        this.setState({myEdus: doc.data().eduList})
+        this.setState({myCars: doc.data().carList})
+      })
+    });
+  }
+}
+
 handleUpdate(e) {
   console.log(this.state.myEdus)
   if (this.state.user) {
@@ -198,31 +209,34 @@ onChangeCareerCheckBox(event){
       </Row>
       <Row>
         <Col>
-        <Container className="table">
-      <Row>
+        <table>
+            <tbody>
+      <tr>
           {this.state.groupedEducation && this.state.groupedEducation.map((n,index) => (
-          <Col key={index}>  
+          <td key={index}>  
             {n && n.sort(this.sortByQualification).map((o,i) => (
             <div key={i} className="map">
               <input label="include planner" type="checkbox" name={index} value={o.id} checked={this.filterEduById(o.id, index)} onChange={this.onChangeEducationCheckBox}/>
               <EduBox box={o} />
               {o.nextEducation && o.nextEducation.map((nextEd,j)=> (
               <div key={j}>
-              {this.filterNextEduById(nextEd.id, index) || this.filterNextCarById(nextEd.id, -1) && <Xarrow start={o.id} end={nextEd.id} />}
+              {(this.filterNextEduById(nextEd.id, index) || this.filterNextCarById(nextEd.id, -1)) && <Xarrow start={o.id} end={nextEd.id} />}
               </div>
               ))}
             </div>
             ))}
-          </Col>
+          </td>
           ))}
-          </Row>
-          </Container>
+          </tr>
+            </tbody>
+            </table>
           </Col>
           <Col>
-          <Container className="table">
-      <Row>
+          <table>
+            <tbody>
+      <tr>
           {this.state.groupedCareer && this.state.groupedCareer.map((n,index) => (
-          <Col className="col" key={index}>  
+          <td className="col" key={index}>  
             {n && n.sort(this.sortByIndustry).map((o,i) => (
             <div key={i} className="map">
               <input label="include planner" type="checkbox" name={index} value={o.id} checked={this.filterCarById(o.id, index)} onChange={this.onChangeCareerCheckBox}/>
@@ -234,10 +248,11 @@ onChangeCareerCheckBox(event){
               ))}
             </div>
             ))}
-          </Col>
+          </td>
           ))}
-          </Row>
-        </Container>
+          </tr>
+            </tbody>
+            </table>
           </Col>
         </Row>
       </Container>

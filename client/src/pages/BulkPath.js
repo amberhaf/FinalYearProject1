@@ -1,23 +1,41 @@
 import axios from 'axios';
 import Map from "../components/Map";
-import { auth } from "../services/firebase";
 import React, { Component } from 'react';
 import Header from "../components/Header";
+import { storage, datab, auth} from "../services/firebase"; 
 
 class BulkPath extends Component {
     constructor(props) {
         super(props);
         this.state = {
           user: auth().currentUser,
+          uploadedPosts: [],
           groupedEducation: [],
           groupedCareer: []
         }
+        this.handleUpload = this.handleUpload.bind(this);
     }
+
+    handleUpload(e) {
+      //todo add validation here
+      for (var i = 0; i < this.state.uploadedPosts.length; i++){
+        if(true){
+          datab.collection("path").add({
+            user: this.state.user.uid,
+            eduList: this.state.uploadedPosts[i].eduList,
+            carList: this.state.uploadedPosts[i].carList,
+          });
+          console.log("Uploaded Successfully");
+          this.setState({groupedEducation: []})
+          this.setState({groupedCareer: []})
+        }
+      }
+    }
+
     onFileChange = event => {
         console.log(event.target.files)
         this.setState({ selectedFile: event.target.files[0] });
     };
-
     onFileUpload = () => {
       var _this = this;
         const formData = new FormData();
@@ -35,6 +53,7 @@ class BulkPath extends Component {
           .then(function(p){
             //when response returned update playlist prop with data 
             console.log(p);
+            _this.setState({uploadedPosts: p})
             var gp = _this.state.groupedEducation
             for (var h=0; h<4; h++){
               gp.push([])
@@ -55,7 +74,7 @@ class BulkPath extends Component {
                       var nex=p[i].carList[0]
                       nextEd.push({id: nex.companyName+"_"+nex.industry+"_"+nex.jobTitle})
                     }
-                    var insert = {id: obj.instituteName+"_"+obj.qualification+"_"+obj.courseTitle, instituteName: obj.instituteName, qualification: obj.qualification, courseTitle: obj.courseTitle, nextEducation: nextEd, notes: ""};
+                    var insert = {id: obj.instituteName+"_"+obj.qualification+"_"+obj.courseTitle, instituteName: obj.instituteName, qualification: obj.qualification, courseTitle: obj.courseTitle, courseLength: [obj.courseLength], nextEducation: nextEd, numOfEntries: 1, notes: ""};
                     gp[h] = gp[h].concat(insert)
                   }
                   else{
@@ -70,6 +89,8 @@ class BulkPath extends Component {
                       nextEd.push({id: nex.companyName+"_"+nex.industry+"_"+nex.jobTitle})
                     }
                     gp[h][index].nextEducation=nextEd
+                    gp[h][index].courseLength.push(obj.courseLength)
+                    gp[h][index].numOfEntries=gp[h][index].numOfEntries+1
                   }
                 }
               }
@@ -92,7 +113,7 @@ class BulkPath extends Component {
                       var nex=p[i].carList[h+1]
                       nextEd.push({id: nex.companyName+"_"+nex.industry+"_"+nex.jobTitle})
                     }
-                    var insert = {id: obj.companyName+"_"+obj.industry+"_"+obj.jobTitle, companyName: obj.companyName, industry: obj.industry, jobTitle: obj.jobTitle, nextEducation: nextEd};
+                    var insert = {id: obj.companyName+"_"+obj.industry+"_"+obj.jobTitle, companyName: obj.companyName, industry: obj.industry, jobTitle: obj.jobTitle, jobLength: [obj.jobLength], numOfEntries: 1, nextEducation: nextEd};
                     gc[h] = gc[h].concat(insert)
                   }
                   else{
@@ -103,11 +124,12 @@ class BulkPath extends Component {
                       nextEd.push({id: nex.companyName+"_"+nex.industry+"_"+nex.jobTitle})
                     }
                     gc[h][index].nextEducation=nextEd
+                    gc[h][index].jobLength.push(obj.jobLength)
+                    gc[h][index].numOfEntries=gc[h][index].numOfEntries+1
                   }
                 }
               }
-            }
-            console.log(gc)
+            }            console.log(gc)
             _this.setState({ groupedCareer: gc});
         })
         .catch((error) => {
@@ -152,7 +174,12 @@ class BulkPath extends Component {
                         Upload!
                     </button>
                 </div>
-                {this.state.groupedEducation.length>0 && this.state.groupedCareer.length>0 && (<Map groupedEducation={this.state.groupedEducation} groupedCareer={this.state.groupedCareer}/>)}
+                {this.state.groupedEducation.length>0 && this.state.groupedCareer.length>0 && (
+                <div>
+                <button onClick={this.handleUpload}>Publish to database</button>
+                <Map groupedEducation={this.state.groupedEducation} groupedCareer={this.state.groupedCareer}/>
+                </div>
+                )}
             </div>
         );
     }

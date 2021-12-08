@@ -58,7 +58,6 @@ constructor(props) {
           </div>
           ))}
           </Row>
-          <h1>{n.docId}</h1>
           <button onClick={this.handleDeletePath} value={n.docId}>Delete</button>
         </div>
       ))}

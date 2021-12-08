@@ -16,6 +16,8 @@ export const FilterCareer = (props) => {
           <option value="Teaching Jobs">Teaching Jobs</option>
           <option value="Trade and Construction Jobs">Trade and Construction Jobs</option>
           <option value="Social work Jobs">Social work Jobs</option>
+          <option value="Arts and Media Jobs">Arts and Media</option>
+          <option value="Admin and Clerical Jobs">Arts and Media</option>
           <option value="Other">Other</option>
         </select>
       </div>

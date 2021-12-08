@@ -41,7 +41,7 @@ class PathMap extends React.Component {
                 var nex=p[i].carList[0]
                 nextEd.push({id: nex.companyName+"_"+nex.industry+"_"+nex.jobTitle})
               }
-              var insert = {id: obj.instituteName+"_"+obj.qualification+"_"+obj.courseTitle, instituteName: obj.instituteName, qualification: obj.qualification, courseTitle: obj.courseTitle, nextEducation: nextEd, notes: ""};
+              var insert = {id: obj.instituteName+"_"+obj.qualification+"_"+obj.courseTitle, instituteName: obj.instituteName, qualification: obj.qualification, courseTitle: obj.courseTitle, courseLength: [obj.courseLength], nextEducation: nextEd, numOfEntries: 1, notes: ""};
               gp[h] = gp[h].concat(insert)
             }
             else{
@@ -56,12 +56,14 @@ class PathMap extends React.Component {
                 nextEd.push({id: nex.companyName+"_"+nex.industry+"_"+nex.jobTitle})
               }
               gp[h][index].nextEducation=nextEd
+              gp[h][index].courseLength.push(obj.courseLength)
+              gp[h][index].numOfEntries=gp[h][index].numOfEntries+1
             }
           }
         }
-        this.setState({ groupedEducation: gp});
       }
       //
+      this.setState({ groupedEducation: gp});
       var gc = this.state.groupedCareer
       for (var h=0; h<4; h++){
         gc.push([])
@@ -78,7 +80,7 @@ class PathMap extends React.Component {
                 var nex=p[i].carList[h+1]
                 nextEd.push({id: nex.companyName+"_"+nex.industry+"_"+nex.jobTitle})
               }
-              var insert = {id: obj.companyName+"_"+obj.industry+"_"+obj.jobTitle, companyName: obj.companyName, industry: obj.industry, jobTitle: obj.jobTitle, nextEducation: nextEd};
+              var insert = {id: obj.companyName+"_"+obj.industry+"_"+obj.jobTitle, companyName: obj.companyName, industry: obj.industry, jobTitle: obj.jobTitle, jobLength: [obj.jobLength], numOfEntries: 1, nextEducation: nextEd};
               gc[h] = gc[h].concat(insert)
             }
             else{
@@ -89,13 +91,22 @@ class PathMap extends React.Component {
                 nextEd.push({id: nex.companyName+"_"+nex.industry+"_"+nex.jobTitle})
               }
               gc[h][index].nextEducation=nextEd
+              gc[h][index].jobLength.push(obj.jobLength)
+              gc[h][index].numOfEntries=gc[h][index].numOfEntries+1
             }
           }
         }
       }
-  
-      console.log(gc)
       this.setState({ groupedCareer: gc});
+      console.log("mapped education: ")
+      for(var i=0; i<gp.length; i++)
+      {
+        console.log("mapped education: " + gp[i][0])
+      }
+      for(var i=0; i<gc.length; i++)
+      {
+        console.log("mapped career: "+gc[i][0])
+      }
     });
     if (this.state.user) {
     datab.collection('pathPlans').where('user','==', this.state.user.uid).get().then(querySnapshot => {

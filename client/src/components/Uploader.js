@@ -3,6 +3,7 @@ import { storage, datab, auth} from "../services/firebase";
 import {FilterCareer, FilterCourse} from './FilterDropDown';
 import Institution from "./Institution";
 import {Container, Row, Col} from 'react-bootstrap'
+import JobTitle from "./JobTitle";
 
 export default class Uploader extends Component {
   constructor(props) {
@@ -14,8 +15,8 @@ export default class Uploader extends Component {
       file: null,
       ready: false,
       error: null,
-      eduList: [{instituteName: "", qualification:"", courseTitle:""}],
-      carList: [{companyName: "", industry:"", jobTitle:""}],
+      eduList: [{instituteName: "", qualification:"", courseTitle:"", courseLength:0}],
+      carList: [{companyName: "", industry:"", jobTitle:"", jobLength:0}],
     };
     this.handleAddEducation = this.handleAddEducation.bind(this);   
     this.handleRemoveEducation = this.handleRemoveEducation.bind(this);  
@@ -28,12 +29,14 @@ export default class Uploader extends Component {
     this.onChangeCompanyName = this.onChangeCompanyName.bind(this);
     this.onChangeIndustry = this.onChangeIndustry.bind(this);
     this.onChangeJobTitle = this.onChangeJobTitle.bind(this);
+    this.onChangeCourseLength = this.onChangeCourseLength.bind(this);
+    this.onChangeJobLength = this.onChangeJobLength.bind(this);
   }
   handleAddEducation(e) {
     e.preventDefault();
     if(this.state.eduList.length<4)
     {
-      var obj = {instituteName: "", qualification:"", courseTitle:""};
+      var obj = {instituteName: "", qualification:"", courseTitle:"", courseLength:0};
       this.setState({ eduList: this.state.eduList.concat(obj)});
     }
   }
@@ -41,7 +44,7 @@ export default class Uploader extends Component {
     e.preventDefault();
     if(this.state.carList.length<4)
     {
-    var obj = {companyName: "", industry:"", jobTitle:""};
+    var obj = {companyName: "", industry:"", jobTitle:"", jobLength:0};
     this.setState({ carList: this.state.carList.concat(obj)});
     }
   }
@@ -83,8 +86,8 @@ export default class Uploader extends Component {
         eduList: edu,
         carList: car
       });
-      this.setState({eduList: [{instituteName: "", qualification:"", courseTitle:""}]});
-      this.setState({carList: [{companyName: "", industry:"", jobTitle:""}]});
+      this.setState({eduList: [{instituteName: "", qualification:"", courseTitle:"", courseLength:0}]});
+      this.setState({carList: [{companyName: "", industry:"", jobTitle:"", jobLength:0}]});
       this.setState({error: null });
     }
     else{
@@ -109,6 +112,11 @@ export default class Uploader extends Component {
     l[event.target.name].courseTitle=event.target.value;
     this.setState({eduList: l})
   }
+  onChangeCourseLength(event) {
+    var l=this.state.eduList;
+    l[event.target.name].courseLength=event.target.value;
+    this.setState({eduList: l})
+  }
 
   onChangeCompanyName(event) {
     var l=this.state.carList;
@@ -127,6 +135,13 @@ export default class Uploader extends Component {
     l[event.target.name].jobTitle=event.target.value;
     this.setState({carList: l})
   }
+  onChangeJobLength(event) {
+    console.log("this thing called")
+    let { value} = event.target;
+    var l=this.state.carList;
+    l[event.target.name].jobLength=value;
+    this.setState({carList: l})
+  }
 
   render() {
     return (
@@ -143,6 +158,9 @@ export default class Uploader extends Component {
         <span>Course Name:</span>
         <input type="text" name={index} value={n.courseTitle}
         onChange = {this.onChangeCourseTitle}/>
+          <span>Number of Years:</span>
+          <input type="number" min="0" max="99" name={index} value={n.courseLength}
+          onChange = {this.onChangeCourseLength}/>
       </form>
       </div>
       ))}
@@ -160,9 +178,10 @@ export default class Uploader extends Component {
           <input type="text" name={index} value={n.companyName}
           onChange = {this.onChangeCompanyName}/>
           <FilterCareer name={index} industry={n.industry} nothingSelected={"None"} onChange={this.onChangeIndustry}/>
-          <span>Job Title:</span>
-          <input type="text" name={index} value={n.jobTitle}
-          onChange = {this.onChangeJobTitle}/>
+          <JobTitle name={index} jobTitle={n.jobTitle} nothingSelected={"None"} onChange={this.onChangeJobTitle}/>
+          <span>Number of Years:</span>
+          <input type="number" min="0" max="99" name={index} value={n.jobLength}
+          onChange = {this.onChangeJobLength}/>
         </form>
       </div>
       ))}

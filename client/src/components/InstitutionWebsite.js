@@ -1,6 +1,5 @@
 import React, { Component } from "react";
 
-
 class InstitionWebsite extends Component {
     constructor(props) {
     super(props);
@@ -14,7 +13,7 @@ class InstitionWebsite extends Component {
   
   getInstitutionWebsite(){
     var _this = this;
-    fetch('http://universities.hipolabs.com/search?name='+this.state.search)
+    fetch('http://universities.hipolabs.com/search?country=Ireland&name='+this.state.search)
     .then(response => response.json())
     .then(data => _this.setState({website: data[0].web_pages[0]}))
       .catch(() => console.log("Error"));

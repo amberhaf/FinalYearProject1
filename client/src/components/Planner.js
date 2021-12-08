@@ -142,33 +142,36 @@ constructor(props) {
       </Row>
       <Row>
         <Col>
-        <Container className="table">
-      <Row>
+        <table>
+          <tbody>
+      <tr>
           {this.state.myEdus && this.state.myEdus.map((n,index) => (
-            <Col className="col" key={index}>  
+            <td key={index}>  
             {n.details && n.details.sort(this.sortByQualification).map((o,i) => (
             <div key={i} className="map">
               <EduBox box={o}/>
               <TextareaAutosize value={o.notes} id={index+"_"+i} size="10" onChange={this.onChangeEducationInputBox}/>
               {o.nextEducation && o.nextEducation.map((nextEd,j)=> (
               <div key={j}>
-              {this.filterNextEduById(nextEd.id, index) || this.filterNextCarById(nextEd.id, -1) && 
+              {(this.filterNextEduById(nextEd.id, index) || this.filterNextCarById(nextEd.id, -1)) && 
               <Xarrow start={o.id} end={nextEd.id}/>
               }
               </div>
               ))}
             </div>
             ))}
-          </Col>
+          </td>
           ))}
-          </Row>
-        </Container>
+          </tr>
+          </tbody>
+            </table>
           </Col>
           <Col>
-          <Container className="table">
-      <Row>
+          <table>
+          <tbody>
+      <tr>
           {this.state.myCars && this.state.myCars.map((n,index) => (
-            <Col className="col" key={index}>  
+            <td key={index}>  
             {n.details && n.details.sort(this.sortByIndustry).map((o,i) => (
             <div key={i} className="map">
               <CarBox box={o}/>
@@ -182,10 +185,11 @@ constructor(props) {
               ))}
             </div>
             ))}
-          </Col>
+          </td>
           ))}
-          </Row>
-        </Container>
+          </tr>
+          </tbody>
+            </table>
           </Col>
           </Row>
         </Container>
