@@ -15,7 +15,7 @@ export const EduBox = (props) => {
           <li><b>Course Title:</b></li>
           <li>{props.box.courseTitle}</li>
           <li><b>Course Length:</b></li>
-          <li>{props.box.courseLength.reduce(reducer, 0)/ parseInt(props.box.courseLength.length)}</li>
+          <li>{props.box.courseLength && props.box.courseLength.reduce(reducer, 0)/ parseInt(props.box.courseLength.length)}</li>
           <li><b>Count:</b></li>
           <li>{props.box.numOfEntries}</li>
           <InstitionWebsite search={props.box.instituteName} />

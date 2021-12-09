@@ -74,7 +74,7 @@ class BulkPath extends Component {
                       var nex=p[i].carList[0]
                       nextEd.push({id: nex.companyName+"_"+nex.industry+"_"+nex.jobTitle})
                     }
-                    var insert = {id: obj.instituteName+"_"+obj.qualification+"_"+obj.courseTitle, instituteName: obj.instituteName, qualification: obj.qualification, courseTitle: obj.courseTitle, courseLength: [obj.courseLength], nextEducation: nextEd, numOfEntries: 1, notes: ""};
+                    var insert = {id: obj.instituteName+"_"+obj.qualification+"_"+obj.courseTitle, instituteName: obj.instituteName, qualification: obj.qualification, courseTitle: obj.courseTitle, courseLength: [obj.courseLength], nextEducation: nextEd, numOfEntries: 1, notes: "", cost:0, website:""};
                     gp[h] = gp[h].concat(insert)
                   }
                   else{
@@ -113,7 +113,7 @@ class BulkPath extends Component {
                       var nex=p[i].carList[h+1]
                       nextEd.push({id: nex.companyName+"_"+nex.industry+"_"+nex.jobTitle})
                     }
-                    var insert = {id: obj.companyName+"_"+obj.industry+"_"+obj.jobTitle, companyName: obj.companyName, industry: obj.industry, jobTitle: obj.jobTitle, jobLength: [obj.jobLength], numOfEntries: 1, nextEducation: nextEd};
+                    var insert = {id: obj.companyName+"_"+obj.industry+"_"+obj.jobTitle, companyName: obj.companyName, industry: obj.industry, jobTitle: obj.jobTitle, jobLength: [obj.jobLength], numOfEntries: 1, nextEducation: nextEd, notes: "", cost:0, website:""};
                     gc[h] = gc[h].concat(insert)
                   }
                   else{

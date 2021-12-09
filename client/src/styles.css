@@ -33,3 +33,6 @@ ul{
 .center{
   text-align: center;
 }
+#jobTitle{
+  width: 20px;
+}

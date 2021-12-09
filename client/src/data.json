@@ -5,13 +5,13 @@
                 "companyName": "Apple",
                 "industry": "IT Jobs",
                 "jobTitle": "Technology Support Analyst",
-                "jobLength": 5
+                "jobLength": [5]
             },
             {
                 "companyName": "Google",
                 "industry": "IT Jobs",
                 "jobTitle": "Front End Software Developer",
-                "jobLength": 3
+                "jobLength": [3]
             }
         ],
         "eduList": [
@@ -19,7 +19,7 @@
                 "courseTitle": "Computer Science and Software Engineering",
                 "instituteName": "National University of Ireland, Maynooth",
                 "qualification": "Level 8: Honours Bachelor Degree",
-                "courseLength": 4
+                "courseLength": [4]
             }
         ]
     },
@@ -30,13 +30,13 @@
                 "courseTitle": "Computer Science through arts",
                 "instituteName": "National University of Ireland, Maynooth",
                 "qualification": "Level 8: Honours Bachelor Degree",
-                "courseLength": 3
+                "courseLength": [3]
             },
             {
                 "courseTitle": "Business Analytics",
                 "instituteName": "University of Dublin, Trinity College",
                 "qualification": "Level 9: Masters Degree",
-                "courseLength": 2
+                "courseLength": [2]
             }
         ]
     },
@@ -45,20 +45,20 @@
             "companyName": "The Irish Times",
             "industry": "Arts and Media Jobs",
             "jobTitle": "Newspaper Journalist",
-            "jobLength": 5
+            "jobLength": [5]
         }],
         "eduList": [
             {
                 "courseTitle": "Arts: English Major",
                 "instituteName": "University College Dublin",
                 "qualification": "Level 8: Honours Bachelor Degree",
-                "courseLength": 3
+                "courseLength": [3]
             },
             {
                 "courseTitle": "Journalism & International Affairs",
                 "instituteName": "University College Dublin",
                 "qualification": "Level 9: Masters Degree",
-                "courseLength": 1
+                "courseLength": [1]
             }
         ]
     },
@@ -68,7 +68,7 @@
                 "companyName": "Accenture",
                 "industry": "IT Jobs",
                 "jobTitle": "Software Developer",
-                "jobLength": 4
+                "jobLength": [4]
             }
         ],
         "eduList": [
@@ -76,13 +76,13 @@
                 "courseTitle": "Media",
                 "instituteName": "Maynooth University",
                 "qualification": "National University of Ireland, Maynooth",
-                "courseLength": 3
+                "courseLength": [3]
             },
             {
                 "courseTitle": "SOFTWARE DEVELOPMENT",
                 "instituteName": "National University of Ireland, Maynooth",
                 "qualification": "Level 8: Higher Diploma",
-                "courseLength": 1
+                "courseLength": [1]
             }
         ]
     },
@@ -92,7 +92,7 @@
                 "companyName": "Dublin Design Studio",
                 "industry": "Trade and Construction Jobs",
                 "jobTitle": "Architect",
-                "jobLength": 10
+                "jobLength": [10]
             }
         ],
         "eduList": [
@@ -100,19 +100,19 @@
                 "courseTitle": "Architectural Design & Technology",
                 "instituteName": "Other: College of Further Education",
                 "qualification": "Level 5: PLC",
-                "courseLength": 1
+                "courseLength": [1]
             },
             {
                 "courseTitle": "Architecture",
                 "instituteName": "Dublin Institute of Technology",
                 "qualification": "Level 8: Honours Bachelor Degree",
-                "courseLength": 4
+                "courseLength": [4]
             },
             {
                 "courseTitle": "Architecture",
                 "instituteName": "Dublin Institute of Technology",
                 "qualification": "Level 9: Masters Degree",
-                "courseLength": 1
+                "courseLength": [1]
             }
         ]
     },
@@ -122,13 +122,13 @@
                 "companyName": "Maynooth Language School",
                 "industry": "Arts and Media Jobs",
                 "jobTitle": "Foreign language teacher",
-                "jobLength": 2
+                "jobLength": [2]
             },
             {
                 "companyName": "Self Employed",
                 "industry": "Arts and Media Jobs",
                 "jobTitle": "Fiction Writer",
-                "jobLength": 5
+                "jobLength": [5]
             }
         ],
         "eduList": [
@@ -136,7 +136,7 @@
                 "courseTitle": "Arts: English Major",
                 "instituteName": "University College Dublin",
                 "qualification": "Level 8: Honours Bachelor Degree",
-                "courseLength": 3
+                "courseLength": [3]
             }
         ]
     },
@@ -146,13 +146,13 @@
                 "companyName": "The Springfield Leixlip",
                 "industry": "Hospitality and Catering Jobs",
                 "jobTitle": "Bar Staff",
-                "jobLength": 3
+                "jobLength": [3]
             },
             {
                 "companyName": "The Springfield Leixlip",
                 "industry": "Hospitality and Catering Jobs",
                 "jobTitle": "Bar manager",
-                "jobLength": 8
+                "jobLength": [8]
             }
         ],
         "eduList": []

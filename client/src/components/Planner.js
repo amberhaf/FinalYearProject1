@@ -6,6 +6,7 @@ import {EduBox, CarBox} from './Box';
 import {Container, Row, Col} from 'react-bootstrap';
 import TextareaAutosize from 'react-textarea-autosize';
 
+function reducer (previousValue, currentValue) {return parseInt(previousValue) + parseInt(currentValue);}
 
 export default class Planner extends Component {
 constructor(props) {
@@ -14,6 +15,10 @@ constructor(props) {
     user: auth().currentUser,
     myEdus: [{details:[]}, {details:[]}, {details:[]}, {details:[]}],
     myCars: [{details:[]}, {details:[]}, {details:[]}, {details:[]}],
+    cost: [0,0,0,0],
+    costIds: ["","","",""],
+    earnings: [],
+    yearsWorking: 1,
     industry: "",
     qualification: "",
   }
@@ -31,8 +36,27 @@ constructor(props) {
     this.handleUpdatePaths=this.handleUpdatePaths.bind(this)
     this.onChangeEducationInputBox=this.onChangeEducationInputBox.bind(this)
     this.onChangeCareerInputBox=this.onChangeCareerInputBox.bind(this)
+    this.onChangeEducationCost=this.onChangeEducationCost.bind(this)
+    this.onChangeYearsWorking=this.onChangeYearsWorking.bind(this)
+    this.onChangeCareerCost=this.onChangeCareerCost.bind(this)
     this.sortByIndustry = this.sortByIndustry.bind(this); 
     this.sortByQualification = this.sortByQualification.bind(this);   
+    this.addToTotal = this.addToTotal.bind(this);
+  }
+  addToTotal(event){
+    var cost = this.state.cost;
+    var costIds = this.state.costIds;
+    if(costIds[event.target.id]===event.target.name)
+    {
+      cost[event.target.id]=0;
+      costIds[event.target.id]="";
+    }
+    else{
+      cost[event.target.id]=event.target.value;
+      costIds[event.target.id]=event.target.name;
+    }
+    this.setState({cost: cost});
+    this.setState({costIds: costIds});
   }
   sortByIndustry(industryA, industryB) {
     let comparison = 0;
@@ -96,6 +120,24 @@ constructor(props) {
     myPaths[i].details[j].notes=event.target.value
     this.setState({myEdus: myPaths})  
   }
+  onChangeCareerCost(event){
+    var myPaths=this.state.myCars;
+    var id=event.target.id
+    var split=id.split("_")
+    var i= split[0]
+    var j = split[1]
+    myPaths[i].details[j].cost=event.target.value
+    this.setState({myCars: myPaths})  
+  }
+  onChangeEducationCost(event){
+    var myPaths=this.state.myEdus;
+    var id=event.target.id
+    var split=id.split("_")
+    var i= split[0]
+    var j = split[1]
+    myPaths[i].details[j].cost=event.target.value
+    this.setState({myEdus: myPaths})  
+  }
   onChangeCareerInputBox(event){
     var myPaths=this.state.myCars;
     var id=event.target.id
@@ -124,6 +166,9 @@ constructor(props) {
     }
     return result!=undefined
   }
+  onChangeYearsWorking(e) {
+    this.setState({yearsWorking: e.target.value})
+  }
 
   render() {
   return (
@@ -138,7 +183,20 @@ constructor(props) {
           </Col>
       </Row>
       <Row>
+      <Col>
+          <h6>Total Cost</h6>
+          <h7>{this.state.cost.reduce(reducer, 0)}</h7>
+      </Col>
+      <Col>
+          <h6>Total Earnings in</h6> <input type="number" min="0" max="99" value={this.state.yearsWorking}
+          onChange = {this.onChangeYearsWorking}/> <h6>years working</h6>
+      </Col>
+      <Col>
+          <h6>Time to profit</h6>
+      </Col>
+      <Col>
           <button onClick={this.handleUpdatePaths}>Update Path Planner</button>
+      </Col>
       </Row>
       <Row>
         <Col>
@@ -151,6 +209,8 @@ constructor(props) {
             <div key={i} className="map">
               <EduBox box={o}/>
               <TextareaAutosize value={o.notes} id={index+"_"+i} size="10" onChange={this.onChangeEducationInputBox}/>
+              <label>Cost per year:</label><input id={index+"_"+i} value={o.cost} onChange={this.onChangeEducationCost}/>
+              <input label="total price comparison" type="checkbox" name={o.id} value={o.cost*o.courseLength.reduce(reducer, 0)/ parseInt(o.courseLength.length)} id={index} onChange={this.addToTotal} checked={this.state.costIds[index]==o.id}/>
               {o.nextEducation && o.nextEducation.map((nextEd,j)=> (
               <div key={j}>
               {(this.filterNextEduById(nextEd.id, index) || this.filterNextCarById(nextEd.id, -1)) && 
@@ -176,6 +236,7 @@ constructor(props) {
             <div key={i} className="map">
               <CarBox box={o}/>
               <TextareaAutosize value={o.notes} id={index+"_"+i} size="10" onChange={this.onChangeCareerInputBox}/>
+              <label>Salary:</label><input id={index+"_"+i} value={o.cost} onChange={this.onChangeEducationCost}/>
               {o.nextEducation && o.nextEducation.map((nextEd,j)=> (
               <div key={j}>
               {this.filterNextCarById(nextEd.id, index) && 

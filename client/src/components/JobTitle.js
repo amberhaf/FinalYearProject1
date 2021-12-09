@@ -8,12 +8,13 @@ class JobTitle extends Component {
             error: null,
             results: [],
             mapRes: [],
+            hide: "",
             wordToComplete: "", 
             search: props.search,
         };
         this.getJob = this.getJob.bind(this);
         this.onChangeAutoComplete = this.onChangeAutoComplete.bind(this);
-        this.onChangeDropDown = this.onChangeDropDown.bind(this);
+        this.selectItem = this.selectItem.bind(this);
     }
     onChangeAutoComplete(event) {
         this.setState({wordToComplete: event.target.value})
@@ -22,14 +23,6 @@ class JobTitle extends Component {
             var res = this.state.results.filter(this.filterByWord(this.state.wordToComplete));
             this.setState({mapRes: res})
         }
-      }
-      onChangeDropDown(event) {
-        this.setState({wordToComplete: event.target.value})
-        // if(this.state.wordToComplete.length>3)
-        // {
-        //     var res = this.state.results.filter(this.filterByWord(this.state.wordToComplete));
-        //     this.setState({mapRes: res})
-        // }
       }
     filterByWord(fYear) {
         return function (stockObj) {
@@ -47,13 +40,18 @@ class JobTitle extends Component {
         .then(data => _this.setState({results: data["job-titles"]}))
         .catch(() => console.log("Error"));
     }
+    selectItem(event){
+        this.setState({wordToComplete: event.target.value})
+        // var myDropDown=document.getElementById("jobTitle");
+        // myDropDown.size = 0;
+    }
 
     render() {
         return (
             <div>
                <label>Job Title</label>
-               <input value={this.state.wordToComplete} onChange={this.onChangeAutoComplete}/>
-                <select id ="jobTitle" name={this.props.name} onChange={this.onChangeDropDown}>{
+               <input value={this.state.wordToComplete} onChange={this.onChangeAutoComplete} />
+                <select id ="jobTitle" name={this.props.name} autoFocus={true} value={this.state.wordToComplete} onChange={this.selectItem}>{
                  this.state.mapRes && this.state.mapRes.map((name, index) => {
                      return <option key={index} value={name}>{name}</option>
                  })
