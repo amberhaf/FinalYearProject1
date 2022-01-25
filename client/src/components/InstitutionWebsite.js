@@ -22,7 +22,7 @@ class InstitionWebsite extends Component {
   render(){
     return (
       <div>
-        <button onClick={this.getInstitutionWebsite}>Get Website</button>
+        <button onClick={this.getInstitutionWebsite}>See Website</button>
         <a href={this.state.website}>{this.state.website}</a>
       </div>
     )

@@ -9,7 +9,8 @@ class JobSearch extends Component {
         location:'',
         results: [],
         avg: 0,
-        search: props.search,
+        search: this.props.search,
+        earnings: this.props.earnings,
     };
     this.calcSalary = this.calcSalary.bind(this);
   }
@@ -36,8 +37,9 @@ class JobSearch extends Component {
           console.log(results[i].title)
         }
         this.setState({results : results})
-        var avg = (Math.round(results.reduce(this.getTotalSalary, 0.0)/ this.state.results.length)*0.86);
-        this.setState({avg : avg})
+        var avg = Math.round(results.reduce((this.getTotalSalary, 0.0)/ this.state.results.length)*119) / 100;
+        this.setState({earnings : avg})
+        // document.getElementById("inputSalary").onchange()
       })
       .catch(() => console.log("Error"));
   }
@@ -45,8 +47,8 @@ class JobSearch extends Component {
   render(){
     return (
       <div>
-        <button onClick={this.calcSalary}> Calculate Salary </button>
-        €{this.state.avg}
+        <button onClick={this.calcSalary}> Estimate Salary </button>
+        <label>Salary:</label><input id={this.props.id} value={this.state.earnings} onChange={this.props.onChange}/>
       </div>
     )
   }

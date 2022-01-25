@@ -218,9 +218,9 @@ onChangeCareerCheckBox(event){
             <div key={i} className="map">
               <input label="include planner" type="checkbox" name={index} value={o.id} checked={this.filterEduById(o.id, index)} onChange={this.onChangeEducationCheckBox}/>
               <EduBox box={o} />
-              {o.nextEducation && o.nextEducation.map((nextEd,j)=> (
+              {o.nextItem && o.nextItem.map((nextIt,j)=> (
               <div key={j}>
-              {(this.filterNextEduById(nextEd.id, index) || this.filterNextCarById(nextEd.id, -1)) && <Xarrow start={o.id} end={nextEd.id} />}
+              {(this.filterNextEduById(nextIt.id, index) || this.filterNextCarById(nextIt.id, -1)) && <Xarrow start={o.id} end={nextIt.id} />}
               </div>
               ))}
             </div>
@@ -241,9 +241,9 @@ onChangeCareerCheckBox(event){
             <div key={i} className="map">
               <input label="include planner" type="checkbox" name={index} value={o.id} checked={this.filterCarById(o.id, index)} onChange={this.onChangeCareerCheckBox}/>
               <CarBox box={o}/>
-              {o.nextEducation && o.nextEducation.map((nextEd,j)=> (
+              {o.nextItem && o.nextItem.map((nextIt,j)=> (
               <div key={j}>
-              {this.filterNextCarById(nextEd.id, index) && <Xarrow start={o.id} end={nextEd.id} />}
+              {this.filterNextCarById(nextIt.id, index) && <Xarrow start={o.id} end={nextIt.id} />}
               </div>
               ))}
             </div>

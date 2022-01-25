@@ -29,34 +29,34 @@ class PathMap extends React.Component {
           {
             var obj= p[i].eduList[h];
             var result = gp[h].find(groupObj => {
-              return groupObj.instituteName === obj.instituteName && groupObj.qualification === obj.qualification && groupObj.courseTitle === obj.courseTitle;
+              return groupObj.instituteName === obj.instituteName && groupObj.qualification === obj.qualification && groupObj.courseTitle.toLowerCase() === obj.courseTitle.toLowerCase();
             })
             if(result==undefined){
-              var nextEd=[]
+              var nextIt=[]
               if(p[i].eduList.length>h+1){
                 var nex=p[i].eduList[h+1]
-                nextEd.push({id: nex.instituteName+"_"+nex.qualification+"_"+nex.courseTitle})
+                nextIt.push({id: nex.instituteName+"_"+nex.qualification+"_"+nex.courseTitle})
               }
               else if(p[i].carList.length>0){
                 var nex=p[i].carList[0]
-                nextEd.push({id: nex.companyName+"_"+nex.industry+"_"+nex.jobTitle})
+                nextIt.push({id: nex.companyName+"_"+nex.industry+"_"+nex.jobTitle})
               }
-              var insert = {id: obj.instituteName+"_"+obj.qualification+"_"+obj.courseTitle, instituteName: obj.instituteName, qualification: obj.qualification, courseTitle: obj.courseTitle, courseLength: obj.courseLength, nextEducation: nextEd, numOfEntries: 1, notes: "", cost:0, website:""};
+              var insert = {id: obj.instituteName+"_"+obj.qualification+"_"+obj.courseTitle, instituteName: obj.instituteName, qualification: obj.qualification, courseTitle: obj.courseTitle, courseLength: obj.courseLength, nextItem: nextIt, numOfEntries: 1, notes: "", cost:0, website:""};
               gp[h] = gp[h].concat(insert)
             }
             else{
               var index = gp[h].indexOf(result)
-              var nextEd=result.nextEducation
+              var nextIt=result.nextItem
               if(p[i].eduList.length>h+1){
                 var nex=p[i].eduList[h+1]
-                nextEd.push({id: nex.instituteName+"_"+nex.qualification+"_"+nex.courseTitle})
+                nextIt.push({id: nex.instituteName+"_"+nex.qualification+"_"+nex.courseTitle})
               }
               else if(p[i].carList.length>0){
                 var nex=p[i].carList[0]
-                nextEd.push({id: nex.companyName+"_"+nex.industry+"_"+nex.jobTitle})
+                nextIt.push({id: nex.companyName+"_"+nex.industry+"_"+nex.jobTitle})
               }
-              gp[h][index].nextEducation=nextEd
-              gp[h][index].courseLength.concat(obj.courseLength)
+              gp[h][index].nextItem=nextIt
+              gp[h][index].courseLength= gp[h][index].courseLength+parseInt(obj.courseLength)
               gp[h][index].numOfEntries=gp[h][index].numOfEntries+1
             }
           }
@@ -72,26 +72,26 @@ class PathMap extends React.Component {
           {
             var obj= p[i].carList[h];
             var result = gc[h].find(groupObj => {
-              return groupObj.companyName === obj.companyName && groupObj.industry === obj.industry && groupObj.jobTitle === obj.jobTitle;
+              return groupObj.companyName.toLowerCase() === obj.companyName.toLowerCase() && groupObj.industry === obj.industry && groupObj.jobTitle === obj.jobTitle;
             })
             if(result==undefined){
-              var nextEd=[]
+              var nextIt=[]
               if(p[i].carList.length>h+1){
                 var nex=p[i].carList[h+1]
-                nextEd.push({id: nex.companyName+"_"+nex.industry+"_"+nex.jobTitle})
+                nextIt.push({id: nex.companyName+"_"+nex.industry+"_"+nex.jobTitle})
               }
-              var insert = {id: obj.companyName+"_"+obj.industry+"_"+obj.jobTitle, companyName: obj.companyName, industry: obj.industry, jobTitle: obj.jobTitle, jobLength: obj.jobLength, numOfEntries: 1, nextEducation: nextEd,  notes: "", cost:0, website:""};
+              var insert = {id: obj.companyName+"_"+obj.industry+"_"+obj.jobTitle, companyName: obj.companyName, industry: obj.industry, jobTitle: obj.jobTitle, jobLength: obj.jobLength, numOfEntries: 1, nextItem: nextIt, notes: "", earnings:0, website:""};
               gc[h] = gc[h].concat(insert)
             }
             else{
               var index = gc[h].indexOf(result)
-              var nextEd=result.nextEducation
+              var nextIt=result.nextItem
               if(p[i].carList.length>h+1){
                 var nex=p[i].carList[h+1]
-                nextEd.push({id: nex.companyName+"_"+nex.industry+"_"+nex.jobTitle})
+                nextIt.push({id: nex.companyName+"_"+nex.industry+"_"+nex.jobTitle})
               }
-              gc[h][index].nextEducation=nextEd
-              gc[h][index].jobLength.concat(obj.jobLength)
+              gc[h][index].nextItem=nextIt
+              gc[h][index].jobLength= gc[h][index].jobLength+parseInt(obj.jobLength)
               gc[h][index].numOfEntries=gc[h][index].numOfEntries+1
             }
           }

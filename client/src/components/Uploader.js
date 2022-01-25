@@ -15,8 +15,8 @@ export default class Uploader extends Component {
       file: null,
       ready: false,
       error: null,
-      eduList: [{instituteName: "", qualification:"", courseTitle:"", courseLength:[]}],
-      carList: [{companyName: "", industry:"", jobTitle:"", jobLength:[]}],
+      eduList: [{instituteName: "", qualification:"", courseTitle:"", courseLength:0}],
+      carList: [{companyName: "", industry:"", jobTitle:"", jobLength:0}],
     };
     this.handleAddEducation = this.handleAddEducation.bind(this);   
     this.handleRemoveEducation = this.handleRemoveEducation.bind(this);  
@@ -36,7 +36,7 @@ export default class Uploader extends Component {
     e.preventDefault();
     if(this.state.eduList.length<4)
     {
-      var obj = {instituteName: "", qualification:"", courseTitle:"", courseLength:[]};
+      var obj = {instituteName: "", qualification:"", courseTitle:"", courseLength:0};
       this.setState({ eduList: this.state.eduList.concat(obj)});
     }
   }
@@ -44,7 +44,7 @@ export default class Uploader extends Component {
     e.preventDefault();
     if(this.state.carList.length<4)
     {
-    var obj = {companyName: "", industry:"", jobTitle:"", jobLength:[]};
+    var obj = {companyName: "", industry:"", jobTitle:"", jobLength:0};
     this.setState({ carList: this.state.carList.concat(obj)});
     }
   }
@@ -86,8 +86,8 @@ export default class Uploader extends Component {
         eduList: edu,
         carList: car
       });
-      this.setState({eduList: [{instituteName: "", qualification:"", courseTitle:"", courseLength:[]}]});
-      this.setState({carList: [{companyName: "", industry:"", jobTitle:"", jobLength:[]}]});
+      this.setState({eduList: [{instituteName: "", qualification:"", courseTitle:"", courseLength:0}]});
+      this.setState({carList: [{companyName: "", industry:"", jobTitle:"", jobLength:0}]});
       this.setState({error: null });
     }
     else{
@@ -114,7 +114,7 @@ export default class Uploader extends Component {
   }
   onChangeCourseLength(event) {
     var l=this.state.eduList;
-    l[event.target.name].courseLength=[event.target.value];
+    l[event.target.name].courseLength=event.target.value;
     this.setState({eduList: l})
   }
 
@@ -139,7 +139,7 @@ export default class Uploader extends Component {
     console.log("this thing called")
     let { value} = event.target;
     var l=this.state.carList;
-    l[event.target.name].jobLength=[value];
+    l[event.target.name].jobLength=value;
     this.setState({carList: l})
   }
 

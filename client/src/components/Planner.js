@@ -5,8 +5,12 @@ import {FilterCareer, FilterCourse} from './FilterDropDown';
 import {EduBox, CarBox} from './Box';
 import {Container, Row, Col} from 'react-bootstrap';
 import TextareaAutosize from 'react-textarea-autosize';
+import InstitionWebsite from './InstitutionWebsite';
+import JobSearch from './JobSearch';
 
 function reducer (previousValue, currentValue) {return parseInt(previousValue) + parseInt(currentValue);}
+
+function removeNull (array) {return array.filter(x => x !== 0 || x !==undefined)};
 
 export default class Planner extends Component {
 constructor(props) {
@@ -17,7 +21,8 @@ constructor(props) {
     myCars: [{details:[]}, {details:[]}, {details:[]}, {details:[]}],
     cost: [0,0,0,0],
     costIds: ["","","",""],
-    earnings: [],
+    earnings: [0,0,0,0],
+    earningsIds: ["", "", "", ""],
     yearsWorking: 1,
     industry: "",
     qualification: "",
@@ -29,6 +34,7 @@ constructor(props) {
         var myPaths = doc.data()
         this.setState({myEdus: myPaths.eduList})
         this.setState({myCars: myPaths.carList})
+        console.log(myPaths)
       })
     });
     this.onChangeIndustryFilter = this.onChangeIndustryFilter.bind(this);  
@@ -38,10 +44,11 @@ constructor(props) {
     this.onChangeCareerInputBox=this.onChangeCareerInputBox.bind(this)
     this.onChangeEducationCost=this.onChangeEducationCost.bind(this)
     this.onChangeYearsWorking=this.onChangeYearsWorking.bind(this)
-    this.onChangeCareerCost=this.onChangeCareerCost.bind(this)
+    this.onChangeCareerEarnings=this.onChangeCareerEarnings.bind(this)
     this.sortByIndustry = this.sortByIndustry.bind(this); 
     this.sortByQualification = this.sortByQualification.bind(this);   
     this.addToTotal = this.addToTotal.bind(this);
+    this.addToEarnings = this.addToEarnings.bind(this);
   }
   addToTotal(event){
     var cost = this.state.cost;
@@ -55,8 +62,25 @@ constructor(props) {
       cost[event.target.id]=event.target.value;
       costIds[event.target.id]=event.target.name;
     }
+    console.log(cost)
     this.setState({cost: cost});
     this.setState({costIds: costIds});
+  }
+  addToEarnings(event){
+    var earnings = this.state.earnings;
+    var earningsIds = this.state.earningsIds;
+    if(earningsIds[event.target.id]===event.target.name)
+    {
+      earnings[event.target.id]=0;
+      earningsIds[event.target.id]="";
+    }
+    else{
+      earnings[event.target.id]=event.target.value;
+      earningsIds[event.target.id]=event.target.name;
+    }
+    console.log(earnings)
+    this.setState({earnings: earnings});
+    this.setState({earningsIds: earningsIds});
   }
   sortByIndustry(industryA, industryB) {
     let comparison = 0;
@@ -120,13 +144,14 @@ constructor(props) {
     myPaths[i].details[j].notes=event.target.value
     this.setState({myEdus: myPaths})  
   }
-  onChangeCareerCost(event){
+  onChangeCareerEarnings(event){
+    console.log("This is getting called")
     var myPaths=this.state.myCars;
     var id=event.target.id
     var split=id.split("_")
     var i= split[0]
     var j = split[1]
-    myPaths[i].details[j].cost=event.target.value
+    myPaths[i].details[j].earnings=event.target.value
     this.setState({myCars: myPaths})  
   }
   onChangeEducationCost(event){
@@ -189,10 +214,10 @@ constructor(props) {
       </Col>
       <Col>
           <h6>Total Earnings in</h6> <input type="number" min="0" max="99" value={this.state.yearsWorking}
-          onChange = {this.onChangeYearsWorking}/> <h6>years working</h6>
+          onChange = {this.onChangeYearsWorking}/> <h6>years working: {(this.state.earnings.reduce(reducer, 0)/(removeNull(this.state.earnings)).length)*this.state.yearsWorking}</h6>
       </Col>
       <Col>
-          <h6>Time to profit</h6>
+          <h6>Years to pay off: {this.state.cost.reduce(reducer, 0)/(this.state.earnings.reduce(reducer, 0)/(removeNull(this.state.earnings)).length)}</h6>
       </Col>
       <Col>
           <button onClick={this.handleUpdatePaths}>Update Path Planner</button>
@@ -208,13 +233,14 @@ constructor(props) {
             {n.details && n.details.sort(this.sortByQualification).map((o,i) => (
             <div key={i} className="map">
               <EduBox box={o}/>
+              <InstitionWebsite search={o.instituteName} />
               <TextareaAutosize value={o.notes} id={index+"_"+i} size="10" onChange={this.onChangeEducationInputBox}/>
               <label>Cost per year:</label><input id={index+"_"+i} value={o.cost} onChange={this.onChangeEducationCost}/>
-              <input label="total price comparison" type="checkbox" name={o.id} value={o.cost*o.courseLength.reduce(reducer, 0)/ parseInt(o.courseLength.length)} id={index} onChange={this.addToTotal} checked={this.state.costIds[index]==o.id}/>
-              {o.nextEducation && o.nextEducation.map((nextEd,j)=> (
+              <input label="total price comparison" type="checkbox" id={index} name={o.id} value={o.cost*o.courseLength} onChange={this.addToTotal} checked={o.id==this.state.costIds[index]}/>
+              {o.nextItem && o.nextItem.map((nextIt,j)=> (
               <div key={j}>
-              {(this.filterNextEduById(nextEd.id, index) || this.filterNextCarById(nextEd.id, -1)) && 
-              <Xarrow start={o.id} end={nextEd.id}/>
+              {(this.filterNextEduById(nextIt.id, index) || this.filterNextCarById(nextIt.id, -1)) && 
+              <Xarrow start={o.id} end={nextIt.id}/>
               }
               </div>
               ))}
@@ -236,11 +262,12 @@ constructor(props) {
             <div key={i} className="map">
               <CarBox box={o}/>
               <TextareaAutosize value={o.notes} id={index+"_"+i} size="10" onChange={this.onChangeCareerInputBox}/>
-              <label>Salary:</label><input id={index+"_"+i} value={o.cost} onChange={this.onChangeEducationCost}/>
-              {o.nextEducation && o.nextEducation.map((nextEd,j)=> (
+              <JobSearch search={o.jobTitle} id={index+"_"+i} earnings={o.earnings} onChange={this.onChangeCareerEarnings}/>
+              <input label="total salary comparison" type="checkbox" id={index} name={o.id} value={o.earnings} onChange={this.addToEarnings} checked={o.id==this.state.earningsIds[index]}/>
+              {o.nextItem && o.nextItem.map((nextIt,j)=> (
               <div key={j}>
-              {this.filterNextCarById(nextEd.id, index) && 
-              <Xarrow start={o.id} end={nextEd.id}/>
+              {this.filterNextCarById(nextIt.id, index) && 
+              <Xarrow start={o.id} end={nextIt.id}/>
               }
               </div>
               ))}
