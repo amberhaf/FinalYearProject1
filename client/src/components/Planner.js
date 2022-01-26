@@ -107,8 +107,6 @@ constructor(props) {
     this.setState({qualification: event.target.value})
   }
   handleUpdatePaths(event){
-    console.log("Adding notes click")
-    console.log(this.state.myCars)
       if (this.state.user) {
       var uid = this.state.user.uid
       var myEdus = this.state.myEdus
@@ -145,10 +143,9 @@ constructor(props) {
     this.setState({myEdus: myPaths})  
   }
   onChangeCareerEarnings(event){
-    console.log("This is getting called")
     var myPaths=this.state.myCars;
-    var id=event.target.id
-    var split=id.split("_")
+    var name=event.target.name
+    var split=name.split("_")
     var i= split[0]
     var j = split[1]
     myPaths[i].details[j].earnings=event.target.value
@@ -217,7 +214,7 @@ constructor(props) {
           onChange = {this.onChangeYearsWorking}/> <h6>years working: {(this.state.earnings.reduce(reducer, 0)/(removeNull(this.state.earnings)).length)*this.state.yearsWorking}</h6>
       </Col>
       <Col>
-          <h6>Years to pay off: {this.state.cost.reduce(reducer, 0)/(this.state.earnings.reduce(reducer, 0)/(removeNull(this.state.earnings)).length)}</h6>
+          <h6>Years to pay off: {(removeNull(this.state.earnings).length>0 && (this.state.cost.reduce(reducer, 0)/(this.state.earnings.reduce(reducer, 0)/(removeNull(this.state.earnings)).length)))}</h6>
       </Col>
       <Col>
           <button onClick={this.handleUpdatePaths}>Update Path Planner</button>
@@ -262,7 +259,7 @@ constructor(props) {
             <div key={i} className="map">
               <CarBox box={o}/>
               <TextareaAutosize value={o.notes} id={index+"_"+i} size="10" onChange={this.onChangeCareerInputBox}/>
-              <JobSearch search={o.jobTitle} id={index+"_"+i} earnings={o.earnings} onChange={this.onChangeCareerEarnings}/>
+              <JobSearch search={o.jobTitle} name={index+"_"+i} earnings={o.earnings} onChange={this.onChangeCareerEarnings}/>
               <input label="total salary comparison" type="checkbox" id={index} name={o.id} value={o.earnings} onChange={this.addToEarnings} checked={o.id==this.state.earningsIds[index]}/>
               {o.nextItem && o.nextItem.map((nextIt,j)=> (
               <div key={j}>

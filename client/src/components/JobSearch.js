@@ -13,12 +13,14 @@ class JobSearch extends Component {
         earnings: this.props.earnings,
     };
     this.calcSalary = this.calcSalary.bind(this);
+    this.handleChange = this.handleChange.bind(this);
   }
   getTotalSalary(tot, obj) {
     return tot + obj.salary_min + obj.salary_max;
   }
   
   calcSalary() {
+    console.log("this was called")
     var url = {search: this.state.search, location: this.state.location, country: 'gb'};
     fetch('/server/choosePlaylist/' , {
       method: "POST",
@@ -31,24 +33,30 @@ class JobSearch extends Component {
     })
     .then(response => response.json())
       .then(({ results }) => {
-        //console.log( results)
-        for(var i=0; i<results.length; i++)
-        {
-          console.log(results[i].title)
-        }
         this.setState({results : results})
-        var avg = Math.round(results.reduce((this.getTotalSalary, 0.0)/ this.state.results.length)*119) / 100;
-        this.setState({earnings : avg})
-        // document.getElementById("inputSalary").onchange()
+        var avg =(results.reduce(this.getTotalSalary, 0.0))/ (this.state.results.length*2);
+        avg =(Math.round(avg*119))/100;
+        console.log(avg)
+        const setter = Object.getOwnPropertyDescriptor(window.HTMLInputElement.prototype, 'value').set;
+        setter.call(this.inputElement, avg)
+        this.inputElement.dispatchEvent(new Event('input', { bubbles: true }));
       })
       .catch(() => console.log("Error"));
+  }
+
+  handleChange (e) {
+    this.props.onChange(e)
   }
 
   render(){
     return (
       <div>
         <button onClick={this.calcSalary}> Estimate Salary </button>
-        <label>Salary:</label><input id={this.props.id} value={this.state.earnings} onChange={this.props.onChange}/>
+        <input
+        ref={input => { this.inputElement = input }}
+        name={this.props.name}
+        value={this.props.earnings}
+        onChange={this.handleChange}></input>
       </div>
     )
   }
