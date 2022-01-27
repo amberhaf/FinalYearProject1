@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { storage, datab, auth} from "../services/firebase"; 
+import { datab, auth} from "../services/firebase"; 
 import {FilterCareer, FilterCourse} from './FilterDropDown';
 import Institution from "./Institution";
 import {Container, Row, Col} from 'react-bootstrap'

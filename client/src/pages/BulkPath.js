@@ -2,7 +2,7 @@ import axios from 'axios';
 import Map from "../components/Map";
 import React, { Component } from 'react';
 import Header from "../components/Header";
-import { storage, datab, auth} from "../services/firebase"; 
+import { datab, auth} from "../services/firebase"; 
 
 class BulkPath extends Component {
     constructor(props) {

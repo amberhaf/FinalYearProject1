@@ -1,7 +1,7 @@
 import React from "react";
 import Map from "../components/Map";
 import Header from "../components/Header";
-import { storage, datab, auth} from "../services/firebase";
+import {datab, auth} from "../services/firebase";
 
 class PathMap extends React.Component {
   constructor(props) {

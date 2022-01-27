@@ -1,56 +1,50 @@
 {
-  "name": "pathMapper",
-  "version": "1.0.0",
-  "description": "Career Planning",
-  "keywords": [
-    "react",
-    "starter"
-  ],
+  "name": "my-app",
+  "version": "0.1.0",
+  "private": true,
   "main": "src/index.js",
   "dependencies": {
-    "@firebase/webchannel-wrapper": "^0.2.7",
-    "axios": "^0.21.4",
-    "bootstrap": "^4.5.3",
-    "cloudinary": "^1.26.3",
+    "@testing-library/jest-dom": "^5.16.1",
+    "@testing-library/react": "^12.1.2",
+    "@testing-library/user-event": "^13.5.0",
+    "axios": "^0.25.0",
+    "bootstrap": "^5.1.3",
     "cors": "^2.8.5",
     "express": "^4.17.1",
-    "firebase": "^4.6.0",
-    "firebase-admin": "^9.3.0",
-    "gh-pages": "^1.1.0",
-    "history": "^4.7.2",
-    "http-proxy-middleware": "^1.3.1",
-    "ical-generator": "^0.2.10",
-    "material-ui": "^0.19.4",
-    "moment": "^2.29.1",
-    "node-less-chokidar": "^0.1.2",
-    "npm-run-all": "^4.1.2",
-    "prop-types": "^15.6.0",
-    "react": "^17.0.1",
-    "react-arrows": "^1.2.0",
-    "react-big-calendar": "^0.19.0",
-    "react-bootstrap": "^1.4.0",
-    "react-dnd": "^2.6.0",
-    "react-dnd-html5-backend": "^2.6.0",
-    "react-dom": "^16.3.0",
-    "react-input-range": "^1.3.0",
-    "react-loadable": "^5.3.1",
-    "react-router-dom": "^4.2.2",
-    "react-scripts": "1.1.1",
-    "react-select": "^3.2.0",
-    "react-select-search": "^3.0.9",
+    "firebase": "^8.10.0",
+    "http-proxy-middleware": "^2.0.2",
+    "react": "^17.0.2",
+    "react-bootstrap": "^2.1.1",
+    "react-dom": "^17.0.2",
+    "react-router": "^5.2.0",
+    "react-router-dom": "^5.2.0",
+    "react-scripts": "^3.0.1",
     "react-textarea-autosize": "^8.3.3",
     "react-xarrows": "^2.0.2",
-    "rrule": "^2.6.6",
-    "uuid": "^3.2.1"
-  },
-  "devDependencies": {
-    "typescript": "3.3.3"
+    "web-vitals": "^2.1.4"
   },
   "scripts": {
     "start": "react-scripts start",
     "build": "react-scripts build",
-    "test": "react-scripts test --env=jsdom",
+    "test": "react-scripts test",
     "eject": "react-scripts eject"
   },
-  "proxy": "http://localhost:3001"
+  "eslintConfig": {
+    "extends": [
+      "react-app",
+      "react-app/jest"
+    ]
+  },
+  "browserslist": {
+    "production": [
+      ">0.2%",
+      "not dead",
+      "not op_mini all"
+    ],
+    "development": [
+      "last 1 chrome version",
+      "last 1 firefox version",
+      "last 1 safari version"
+    ]
+  }
 }

@@ -77,7 +77,7 @@ class App extends Component {
           <PublicRoute path="/login" authenticated={this.state.authenticated} component={Login}></PublicRoute>
         </Switch>
       </Router>
-    );
+    );  
   }
 }
 
