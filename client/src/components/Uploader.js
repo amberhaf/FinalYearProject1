@@ -130,13 +130,12 @@ export default class Uploader extends Component {
     this.setState({carList: l})
   }
 
-  onChangeJobTitle(event) {
+  onChangeJobTitle(value, name) {
     var l=this.state.carList;
-    l[event.target.name].jobTitle=event.target.value;
+    l[name].jobTitle=value;
     this.setState({carList: l})
   }
   onChangeJobLength(event) {
-    console.log("this thing called")
     let { value} = event.target;
     var l=this.state.carList;
     l[event.target.name].jobLength=value;

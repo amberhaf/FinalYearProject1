@@ -13,7 +13,6 @@ import { auth } from './services/firebase';
 import { Forgot } from './pages/Forgot';
 import { Delete } from './pages/DeleteAccount';
 
-
 function PrivateRoute({ component: Component, authenticated, ...rest }) {
   return (
     <Route

@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-
+import Select from "react-select";
 
 class JobTitle extends Component {
     constructor(props) {
@@ -8,22 +8,13 @@ class JobTitle extends Component {
             error: null,
             results: [],
             mapRes: [],
-            hide: "",
-            wordToComplete: "", 
-            search: props.search,
+            wordToComplete: this.props.jobTitle, 
+            menuIsOpen: true,
         };
         this.getJob = this.getJob.bind(this);
-        this.onChangeAutoComplete = this.onChangeAutoComplete.bind(this);
-        this.selectItem = this.selectItem.bind(this);
+        this.handleChange = this.handleChange.bind(this);
+        this.onInputChange = this.onInputChange.bind(this);
     }
-    onChangeAutoComplete(event) {
-        this.setState({wordToComplete: event.target.value})
-        if(this.state.wordToComplete.length>3)
-        {
-            var res = this.state.results.filter(this.filterByWord(this.state.wordToComplete));
-            this.setState({mapRes: res})
-        }
-      }
     filterByWord(fYear) {
         return function (stockObj) {
            var temp = stockObj.includes(fYear);
@@ -40,23 +31,36 @@ class JobTitle extends Component {
         .then(data => _this.setState({results: data["job-titles"]}))
         .catch(() => console.log("Error"));
     }
-    selectItem(event){
-        this.setState({wordToComplete: event.target.value})
-        // var myDropDown=document.getElementById("jobTitle");
-        // myDropDown.size = 0;
-    }
+    onInputChange = (options) => {
+        this.setState({wordToComplete: options})
+        //this.props.onChange(options, this.props.name);
+        if(this.state.wordToComplete && this.state.wordToComplete.length>3)
+        {
+            var res = this.state.results.filter(this.filterByWord(this.state.wordToComplete));
+            this.setState({mapRes: res})
+            this.setState({ menuIsOpen: true });
+        }           
+      };
+      handleChange(e){
+        this.props.onChange(e.value, this.props.name);
+        this.setState({ menuIsOpen: false });
+      }
+      
 
     render() {
         return (
             <div>
                <label>Job Title</label>
-               <input value={this.state.wordToComplete} onChange={this.onChangeAutoComplete} />
-                <select id ="jobTitle" name={this.props.name} autoFocus={true} value={this.state.wordToComplete} onChange={this.selectItem}>{
-                 this.state.mapRes && this.state.mapRes.map((name, index) => {
-                     return <option key={index} value={name}>{name}</option>
-                 })
-              }
-              </select>
+              <Select
+                options={this.state.mapRes.map((name) => {
+                    return { label: name, value: name}
+                })}
+                onInputChange={this.onInputChange}
+                menuIsOpen={this.state.menuIsOpen}
+                inputValue={this.state.wordToComplete}
+                onChange={this.handleChange}
+                name={this.props.name}
+              />
             </div>
         )
     }
