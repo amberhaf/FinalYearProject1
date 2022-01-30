@@ -1,6 +1,7 @@
 import React from "react";
 import Map from "../components/Map";
 import Header from "../components/Header";
+import Welcome from "../components/Welcome";
 import {datab, auth} from "../services/firebase";
 
 class PathMap extends React.Component {
@@ -122,6 +123,7 @@ class PathMap extends React.Component {
     return (
       <div>
         <Header/>
+        <Welcome/>
         <Map groupedEducation={this.state.groupedEducation} groupedCareer={this.state.groupedCareer}/>
       </div>
     );

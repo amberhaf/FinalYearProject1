@@ -8,7 +8,7 @@ class Header extends React.Component {
   render() {
     return (
       <div>
-        <Navbar bg="dark" variant="dark" expand="lg" sticky="top">
+        <Navbar className="navbarColour" variant="dark" expand="lg" sticky="top">
           <Container>
             <Navbar.Brand href="/">Path map</Navbar.Brand>
             <Navbar.Toggle aria-controls="basic-navbar-nav" />

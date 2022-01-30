@@ -3,14 +3,14 @@ import Xarrow from 'react-xarrows';
 import { auth, datab} from "../services/firebase";
 import {FilterCareer, FilterCourse} from './FilterDropDown';
 import {EduBox, CarBox} from './Box';
-import {Container, Row, Col} from 'react-bootstrap';
+import {Checkbox, Button, Form, Container, Row, Col} from 'react-bootstrap';
 import TextareaAutosize from 'react-textarea-autosize';
 import InstitionWebsite from './InstitutionWebsite';
 import JobSearch from './JobSearch';
 
 function reducer (previousValue, currentValue) {return parseInt(previousValue) + parseInt(currentValue);}
 
-function removeNull (array) {return array.filter(x => x !== 0 || x !==undefined)};
+function removeNull (array) {return array.filter(x => x !== 0 && x !==undefined)};
 
 export default class Planner extends Component {
 constructor(props) {
@@ -62,7 +62,6 @@ constructor(props) {
       cost[event.target.id]=event.target.value;
       costIds[event.target.id]=event.target.name;
     }
-    console.log(cost)
     this.setState({cost: cost});
     this.setState({costIds: costIds});
   }
@@ -81,6 +80,7 @@ constructor(props) {
     console.log(earnings)
     this.setState({earnings: earnings});
     this.setState({earningsIds: earningsIds});
+    console.log(removeNull(this.state.earnings).length)
   }
   sortByIndustry(industryA, industryB) {
     let comparison = 0;
@@ -193,10 +193,32 @@ constructor(props) {
   }
 
   render() {
+    const totalCost = this.state.cost.reduce(reducer, 0)
+    const nonNullEarnings = removeNull(this.state.earnings)
+    const yearsToPayOff =  totalCost /(nonNullEarnings.reduce(reducer, 0)/nonNullEarnings.length);
+    const totalEarnings = (nonNullEarnings.reduce(reducer, 0)/nonNullEarnings.length)*this.state.yearsWorking
   return (
-    <div>
+    <div className='section'>
       <Container>
-        <Row>
+      <Row>
+      <Col>
+          <label ><b>Total Cost: </b></label>
+          {totalCost>0 && <Button className="form-control totalButton"> €{totalCost}</Button>}
+      </Col>
+      <Col>
+          <div><label><b>Total Earnings: </b></label> {(!(isNaN(yearsToPayOff)) && <Button className="form-control totalButton"> €{totalEarnings}</Button>)}</div>
+          {(!(isNaN(yearsToPayOff)) && <div><Form.Control className="form-control totalInput" type="number" min="0" max="99" value={this.state.yearsWorking}
+          onChange = {this.onChangeYearsWorking}/> <span>years working</span></div>)}
+      </Col>
+      <Col>
+      <div><label><b>Years to pay off: </b></label>{(!(isNaN(yearsToPayOff)) && <Button className="form-control totalButton">{yearsToPayOff}</Button>)}</div>
+      </Col>
+      <Col>
+          <Button className="button greyButton" onClick={this.handleUpdatePaths}>Update Path Planner</Button>
+      </Col>
+      </Row>
+      <Row>
+      <Row>
           <Col>
             <FilterCourse qualification={this.state.qualification} nothingSelected={"All"} onChange={this.onChangeQualificationFilter}/>
           </Col>
@@ -204,36 +226,20 @@ constructor(props) {
             <FilterCareer industry={this.state.industry} nothingSelected={"All"} onChange={this.onChangeIndustryFilter}/>
           </Col>
       </Row>
-      <Row>
-      <Col>
-          <h6>Total Cost</h6>
-          <h7>{this.state.cost.reduce(reducer, 0)}</h7>
-      </Col>
-      <Col>
-          <h6>Total Earnings in</h6> <input type="number" min="0" max="99" value={this.state.yearsWorking}
-          onChange = {this.onChangeYearsWorking}/> <h6>years working: {(this.state.earnings.reduce(reducer, 0)/(removeNull(this.state.earnings)).length)*this.state.yearsWorking}</h6>
-      </Col>
-      <Col>
-          <h6>Years to pay off: {(removeNull(this.state.earnings).length>0 && (this.state.cost.reduce(reducer, 0)/(this.state.earnings.reduce(reducer, 0)/(removeNull(this.state.earnings)).length)))}</h6>
-      </Col>
-      <Col>
-          <button onClick={this.handleUpdatePaths}>Update Path Planner</button>
-      </Col>
-      </Row>
-      <Row>
         <Col>
         <table>
           <tbody>
-      <tr>
+      <tr className="block">
           {this.state.myEdus && this.state.myEdus.map((n,index) => (
             <td key={index}>  
             {n.details && n.details.sort(this.sortByQualification).map((o,i) => (
-            <div key={i} className="map">
-              <EduBox box={o}/>
+            <div key={i} className="map mapPurple center">
+              <input type="checkbox" id={index} name={o.id} value={(o.cost*o.courseLength)} onChange={this.addToTotal} checked={o.id==this.state.costIds[index]}/>
+              <label className="lightFont">Cost per year (€):</label>
+              <Form.Control className="form-control plannerNumberInput" id={index+"_"+i} type="number" value={o.cost} onChange={this.onChangeEducationCost}/>
               <InstitionWebsite search={o.instituteName} />
-              <TextareaAutosize value={o.notes} id={index+"_"+i} size="10" onChange={this.onChangeEducationInputBox}/>
-              <label>Cost per year:</label><input id={index+"_"+i} value={o.cost} onChange={this.onChangeEducationCost}/>
-              <input label="total price comparison" type="checkbox" id={index} name={o.id} value={o.cost*o.courseLength} onChange={this.addToTotal} checked={o.id==this.state.costIds[index]}/>
+              <EduBox box={o}/>
+              <TextareaAutosize className="stickyNote" value={o.notes} id={index+"_"+i} onChange={this.onChangeEducationInputBox} placeholder="Enter notes…"/>
               {o.nextItem && o.nextItem.map((nextIt,j)=> (
               <div key={j}>
               {(this.filterNextEduById(nextIt.id, index) || this.filterNextCarById(nextIt.id, -1)) && 
@@ -252,15 +258,16 @@ constructor(props) {
           <Col>
           <table>
           <tbody>
-      <tr>
+      <tr className="block">
           {this.state.myCars && this.state.myCars.map((n,index) => (
             <td key={index}>  
             {n.details && n.details.sort(this.sortByIndustry).map((o,i) => (
-            <div key={i} className="map">
-              <CarBox box={o}/>
-              <TextareaAutosize value={o.notes} id={index+"_"+i} size="10" onChange={this.onChangeCareerInputBox}/>
+            <div key={i} className="map mapBlue center">
+              <input className="checkbox" type="checkbox" id={index} name={o.id} value={o.earnings} onChange={this.addToEarnings} checked={o.id==this.state.earningsIds[index]}/>
+              <label className="lightFont">Annual Earnings (€):</label>
               <JobSearch search={o.jobTitle} name={index+"_"+i} earnings={o.earnings} onChange={this.onChangeCareerEarnings}/>
-              <input label="total salary comparison" type="checkbox" id={index} name={o.id} value={o.earnings} onChange={this.addToEarnings} checked={o.id==this.state.earningsIds[index]}/>
+              <CarBox box={o}/>
+              <TextareaAutosize className="stickyNote" value={o.notes} id={index+"_"+i} onChange={this.onChangeCareerInputBox} placeholder="Enter notes…"/>     
               {o.nextItem && o.nextItem.map((nextIt,j)=> (
               <div key={j}>
               {this.filterNextCarById(nextIt.id, index) && 
@@ -268,7 +275,7 @@ constructor(props) {
               }
               </div>
               ))}
-            </div>
+              </div>
             ))}
           </td>
           ))}

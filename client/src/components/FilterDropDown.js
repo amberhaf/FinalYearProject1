@@ -1,10 +1,11 @@
 import React, { Component } from "react";
+import { Form} from 'react-bootstrap'
 
 export const FilterCareer = (props) => {
     return (
          <div>
-          <label htmlFor="industry">Industry</label>
-          <select id ="industry" name={props.name} value={props.industry} onChange={props.onChange}>
+          <label htmlFor="industry">Industry: </label>
+          <Form.Select className="form-control" id ="industry" name={props.name} value={props.industry} onChange={props.onChange}>
           <option value="">{props.nothingSelected}</option>
           <option value="IT Jobs">IT Jobs</option>
           <option value="Logistics and Warehouse Jobs">Logistics and Warehouse Jobs</option>
@@ -17,17 +18,17 @@ export const FilterCareer = (props) => {
           <option value="Trade and Construction Jobs">Trade and Construction Jobs</option>
           <option value="Social work Jobs">Social work Jobs</option>
           <option value="Arts and Media Jobs">Arts and Media</option>
-          <option value="Admin and Clerical Jobs">Arts and Media</option>
+          <option value="Admin and Clerical Jobs">Admin and Clerical Jobs</option>
           <option value="Other">Other</option>
-        </select>
+        </Form.Select>
       </div>
     );
   }
 export const FilterCourse = (props) => {
     return (
          <div>
-          <label htmlFor="qualification">Qualification</label>
-          <select id ="qualification" name={props.name} value={props.qualification} onChange={props.onChange}>
+          <label htmlFor="qualification">Qualification: </label>
+          <Form.Select className="form-control" id ="qualification" name={props.name} value={props.qualification} onChange={props.onChange}>
           <option value="">{props.nothingSelected}</option>
           <option value="Level 5: PLC">Level 5: PLC</option>
           <option value="Level 6: Advanced Certificate">Level 6: Advanced Certificate</option>
@@ -39,7 +40,7 @@ export const FilterCourse = (props) => {
           <option value="Level 10: Doctoral Degree">Level 10: Doctoral Degree</option>
           <option value="Level 10: Higher Doctorate">Level 10: Higher Doctorate</option>
           <option value="Other: Certificate">Other: Certificate</option>
-        </select>
+        </Form.Select>
       </div>
     );
   }

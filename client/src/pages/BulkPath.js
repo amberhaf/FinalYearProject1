@@ -3,6 +3,7 @@ import Map from "../components/Map";
 import React, { Component } from 'react';
 import Header from "../components/Header";
 import { datab, auth} from "../services/firebase"; 
+import {Form, Button, Container, Row, Col} from 'react-bootstrap'
 
 class BulkPath extends Component {
     constructor(props) {
@@ -165,21 +166,23 @@ class BulkPath extends Component {
         return (
             <div>
               <Header/>
+              <div className='center section'>
                 <h3>
                     Map json file of education career history
                 </h3>
                 <div>
                     <input type="file" onChange={this.onFileChange} />
-                    <button onClick={this.onFileUpload}>
+                    <Button className="button" onClick={this.onFileUpload}>
                         Upload!
-                    </button>
+                    </Button>
                 </div>
                 {this.state.groupedEducation.length>0 && this.state.groupedCareer.length>0 && (
                 <div>
-                <button onClick={this.handleUpload}>Publish to database</button>
+                <Button className="button" onClick={this.handleUpload}>Publish to database</Button>
                 <Map groupedEducation={this.state.groupedEducation} groupedCareer={this.state.groupedCareer}/>
                 </div>
                 )}
+                </div>
             </div>
         );
     }

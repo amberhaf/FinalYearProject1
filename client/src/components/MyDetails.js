@@ -48,12 +48,12 @@ constructor(props) {
         <div key={index}>  
         <Row>
         {n.eduList && n.eduList.map((o,i) => (
-          <div key={i} className="myMap">
+          <div key={i} className="myMap mapPurple">
             <EduBox box={o} />
           </div>
           ))}
           {n.carList && n.carList.map((o,i) => (
-          <div key={i} className="myMap">
+          <div key={i} className="myMap mapBlue">
             <CarBox box={o} />
           </div>
           ))}

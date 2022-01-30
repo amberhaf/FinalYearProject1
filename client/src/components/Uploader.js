@@ -2,7 +2,7 @@ import React, { Component } from "react";
 import { datab, auth} from "../services/firebase"; 
 import {FilterCareer, FilterCourse} from './FilterDropDown';
 import Institution from "./Institution";
-import {Container, Row, Col} from 'react-bootstrap'
+import {Form, Button, Container, Row, Col} from 'react-bootstrap'
 import JobTitle from "./JobTitle";
 
 export default class Uploader extends Component {
@@ -144,54 +144,54 @@ export default class Uploader extends Component {
 
   render() {
     return (
-    <div className="center">
+    <div className="center section">
       <Container>
       <Row>
       <Col>
       <h4>Education</h4>
       {this.state.eduList.map((n,index) => (
-      <div key={index}>
+      <div className="Education" key={index}>
       <form>
         <Institution name={index} institution={n.instituteName} nothingSelected={"None"} onChange = {this.onChangeInstituteName}/>
         <FilterCourse name={index} qualification={n.qualification} nothingSelected={"None"} onChange = {this.onChangeQualification}/>
         <span>Course Name:</span>
-        <input type="text" name={index} value={n.courseTitle}
+        <Form.Control placeholder="None" className="form-control"  type="text" name={index} value={n.courseTitle}
         onChange = {this.onChangeCourseTitle}/>
           <span>Number of Years:</span>
-          <input type="number" min="0" max="99" name={index} value={n.courseLength}
+          <Form.Control type="number" min="0" max="99" name={index} value={n.courseLength}
           onChange = {this.onChangeCourseLength}/>
       </form>
       </div>
       ))}
       <form>
-        <button onClick={this.handleAddEducation}>Add new Education</button>
-        <button onClick={this.handleRemoveEducation}>Remove last Education</button>
+        <Button className="button" onClick={this.handleAddEducation}>Add new Education</Button>
+        <Button className="button" onClick={this.handleRemoveEducation}>Remove last Education</Button>
       </form>
       </Col>
       <Col>
       <h4>Career</h4>
       {this.state.carList.map((n,index) => (
-      <div key={index}>
+      <div className="Career" key={index}>
         <form>
-          <span>Company Name</span>
-          <input type="text" name={index} value={n.companyName}
+          <span>Company Name:</span>
+          <Form.Control placeholder="None" className="form-control" type="text" name={index} value={n.companyName}
           onChange = {this.onChangeCompanyName}/>
           <FilterCareer name={index} industry={n.industry} nothingSelected={"None"} onChange={this.onChangeIndustry}/>
           <JobTitle name={index} jobTitle={n.jobTitle} nothingSelected={"None"} onChange={this.onChangeJobTitle}/>
           <span>Number of Years:</span>
-          <input type="number" min="0" max="99" name={index} value={n.jobLength}
+          <Form.Control className="form-control" type="number" min="0" max="99" name={index} value={n.jobLength}
           onChange = {this.onChangeJobLength}/>
         </form>
       </div>
       ))}
       <form>
-        <button onClick={this.handleAddCareer}>Add new Career</button>
-        <button onClick={this.handleRemoveCareer}>Remove last Career</button>
+        <Button className="button margin10" onClick={this.handleAddCareer}>Add new Career</Button>
+        <Button className="button margin10" onClick={this.handleRemoveCareer}>Remove last Career</Button>
       </form>
       </Col>
       </Row>
       </Container>
-      <button onClick= {this.handleUpload}>Upload</button>
+      <Button className="greyButton" onClick= {this.handleUpload}>Upload</Button>
       {this.state.error ? <p className="text-danger">{this.state.error}</p> : null}
       </div>
     );

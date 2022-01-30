@@ -9,7 +9,7 @@ class JobTitle extends Component {
             results: [],
             mapRes: [],
             wordToComplete: this.props.jobTitle, 
-            menuIsOpen: true,
+            menuIsOpen: false,
         };
         this.getJob = this.getJob.bind(this);
         this.handleChange = this.handleChange.bind(this);
@@ -55,11 +55,13 @@ class JobTitle extends Component {
                 options={this.state.mapRes.map((name) => {
                     return { label: name, value: name}
                 })}
+                className="select-control"
                 onInputChange={this.onInputChange}
                 menuIsOpen={this.state.menuIsOpen}
                 inputValue={this.state.wordToComplete}
                 onChange={this.handleChange}
                 name={this.props.name}
+                placeholder={<div className="select-placeholder-text">None</div>} 
               />
             </div>
         )

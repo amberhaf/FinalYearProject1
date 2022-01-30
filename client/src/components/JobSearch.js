@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-
+import {Form, Button} from 'react-bootstrap'
 
 class JobSearch extends Component {
     constructor(props) {
@@ -51,12 +51,14 @@ class JobSearch extends Component {
   render(){
     return (
       <div>
-        <button onClick={this.calcSalary}> Estimate Salary </button>
-        <input
+        <Form.Control
+        className="form-control plannerNumberInput"
+        type="number"
         ref={input => { this.inputElement = input }}
         name={this.props.name}
         value={this.props.earnings}
-        onChange={this.handleChange}></input>
+        onChange={this.handleChange} />
+        <Button className="button smallFont" onClick={this.calcSalary}> Estimate Salary </Button>
       </div>
     )
   }

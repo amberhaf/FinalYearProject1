@@ -3,7 +3,7 @@ import Xarrow from 'react-xarrows';
 import { auth, datab} from "../services/firebase";
 import {FilterCareer, FilterCourse} from './FilterDropDown';
 import {EduBox, CarBox} from './Box';
-import {Container, Table, Row, Col} from 'react-bootstrap'
+import {Button, Container, Table, Row, Col} from 'react-bootstrap'
 
 export default class Map extends Component {
 constructor(props) {
@@ -17,7 +17,8 @@ constructor(props) {
     myEdus: [{details:[]}, {details:[]}, {details:[]}, {details:[]}],
     myCars: [{details:[]}, {details:[]}, {details:[]}, {details:[]}],
     groupedEducation: this.props.groupedEducation,
-    groupedCareer: this.props.groupedCareer
+    groupedCareer: this.props.groupedCareer,
+    authenticated: false
   }
   this.onChangeIndustryFilter = this.onChangeIndustryFilter.bind(this);  
   this.onChangeQualificationFilter = this.onChangeQualificationFilter.bind(this); 
@@ -30,6 +31,7 @@ constructor(props) {
 
 componentDidMount() {
   if (this.state.user) {
+    this.setState({authenticated: true})
     datab.collection('pathPlans').where('user','==', this.state.user.uid).get().then(querySnapshot => {
       querySnapshot.forEach(doc => {
         this.setState({myEdus: doc.data().eduList})
@@ -95,6 +97,7 @@ onChangeEducationCheckBox(event){
   var myEdus=this.state.myEdus;
   var id=event.target.value
   var index = event.target.name
+  console.log(index)
   var gp=this.state.groupedEducation
   var enter = []
   for(var j=0; j<gp[index].length; j++ )
@@ -127,6 +130,7 @@ onChangeCareerCheckBox(event){
   var myCars=this.state.myCars;
   var id=event.target.value
   var index = event.target.name
+  console.log(index)
   var gp=this.state.groupedCareer
   var enter = []
   for(var j=0; j<gp[index].length; j++ )
@@ -196,6 +200,14 @@ onChangeCareerCheckBox(event){
   return (
     <div>
       <Container>
+      <Row className="center">
+        <Col>
+      {auth().currentUser && (<Button className="button" onClick={this.handleUpdate}>Update Path Planner</Button>)}
+        </Col>
+        <Col>
+        <h4>Select to add to planner</h4>
+        </Col>
+      </Row>
         <Row>
           <Col>
             <FilterCourse qualification={this.state.qualification} nothingSelected={"All"} onChange={this.onChangeQualificationFilter}/>
@@ -205,18 +217,15 @@ onChangeCareerCheckBox(event){
           </Col>
       </Row>
       <Row>
-          {this.state.user && (<button onClick={this.handleUpdate}>Update Path Planner</button>)}
-      </Row>
-      <Row>
         <Col>
         <table>
             <tbody>
-      <tr>
+      <tr className="block">
           {this.state.groupedEducation && this.state.groupedEducation.map((n,index) => (
           <td key={index}>  
             {n && n.sort(this.sortByQualification).map((o,i) => (
-            <div key={i} className="map">
-              <input label="include planner" type="checkbox" name={index} value={o.id} checked={this.filterEduById(o.id, index)} onChange={this.onChangeEducationCheckBox}/>
+            <div key={i} className="map mapNavy">
+              <input className="checkbox" label="include planner" type="checkbox" name={index} value={o.id} checked={this.filterEduById(o.id, index)} onChange={this.onChangeEducationCheckBox}/>
               <EduBox box={o} />
               {o.nextItem && o.nextItem.map((nextIt,j)=> (
               <div key={j}>
@@ -234,11 +243,11 @@ onChangeCareerCheckBox(event){
           <Col>
           <table>
             <tbody>
-      <tr>
+      <tr className="block">
           {this.state.groupedCareer && this.state.groupedCareer.map((n,index) => (
-          <td className="col" key={index}>  
+          <td key={index}>  
             {n && n.sort(this.sortByIndustry).map((o,i) => (
-            <div key={i} className="map">
+            <div key={i} className="map mapNavy">
               <input label="include planner" type="checkbox" name={index} value={o.id} checked={this.filterCarById(o.id, index)} onChange={this.onChangeCareerCheckBox}/>
               <CarBox box={o}/>
               {o.nextItem && o.nextItem.map((nextIt,j)=> (

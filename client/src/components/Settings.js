@@ -7,26 +7,19 @@ export default class Settings extends Component {
   render() {
     return (
       <div>
-        <section className="page-section bg-primary" id="about">
-        <div className="container">
-        <div id = "mx-4">
+        <div className="center">
           <h1 className="text-center">
             Settings
           </h1>
-        </div>
-        <div className = "settingButton">
         {/*Link to change password*/}
-        <Link to = "/Forgot"><Button variant="warning" size="lg" block>
+        <Link to = "/Forgot"><Button  className = "forgotButton darkFont" variant="warning" size="lg" block>
           Change Password
         </Button></Link>
-        <br></br>
-        </div>
         {/*Link to delete account*/}
-        <Link to = "/DeleteAccount"><Button variant="danger" size="lg" block>
+        <Link to = "/DeleteAccount"><Button  className = "deleteButton" variant="danger" size="lg" block>
           Delete Account
         </Button></Link>
         </div>
-        </section>
       </div>
     );
   }

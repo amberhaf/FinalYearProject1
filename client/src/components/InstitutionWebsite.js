@@ -1,4 +1,5 @@
 import React, { Component } from "react";
+import {Button} from 'react-bootstrap'
 
 class InstitionWebsite extends Component {
     constructor(props) {
@@ -22,8 +23,8 @@ class InstitionWebsite extends Component {
   render(){
     return (
       <div>
-        <button onClick={this.getInstitutionWebsite}>See Website</button>
-        <a href={this.state.website}>{this.state.website}</a>
+        <Button className="button smallFont" onClick={this.getInstitutionWebsite}>See Website</Button>
+        <div><a href={this.state.website}>{this.state.website}</a></div>
       </div>
     )
   }

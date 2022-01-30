@@ -1,4 +1,5 @@
 import React, { Component } from "react";
+import { Form} from 'react-bootstrap'
 
 class Institution extends Component {
     constructor(props) {
@@ -25,15 +26,15 @@ class Institution extends Component {
     render() {
         return (
             <div>
-                <label htmlFor="institution">Institution</label>
-                <select id ="institution" name={this.props.name} value={this.props.institution} onChange={this.props.onChange}>
+                <label htmlFor="institution">Institution:</label>
+                <Form.Select className="form-control" id ="institution" name={this.props.name} value={this.props.institution} onChange={this.props.onChange}>
                 <option value="">{this.props.nothingSelected}</option>{
                  this.state.results && this.state.results.map((obj, index) => {
                      return <option key={index} value={obj.name}>{obj.name}</option>
                  })
               }<option value="Other: College of Further Education">Other: College of Further Education</option>
               <option value="Other: Institution">Other: Institution</option>
-              </select>
+              </Form.Select>
             </div>
         )
     }
