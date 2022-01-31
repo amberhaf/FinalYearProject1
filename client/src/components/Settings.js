@@ -7,10 +7,10 @@ export default class Settings extends Component {
   render() {
     return (
       <div>
-        <div className="center">
-          <h1 className="text-center">
+        <div className="center section">
+          <h3 className="text-center">
             Settings
-          </h1>
+          </h3>
         {/*Link to change password*/}
         <Link to = "/Forgot"><Button  className = "forgotButton darkFont" variant="warning" size="lg" block>
           Change Password

@@ -16,8 +16,8 @@ class Account extends React.Component {
     return (
       <div>
         <Header/>
-        <MyDetails/>
         <Settings/>
+        <MyDetails/>
       </div>
     );
   }

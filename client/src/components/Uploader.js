@@ -89,6 +89,7 @@ export default class Uploader extends Component {
       this.setState({eduList: [{instituteName: "", qualification:"", courseTitle:"", courseLength:0}]});
       this.setState({carList: [{companyName: "", industry:"", jobTitle:"", jobLength:0}]});
       this.setState({error: null });
+      window.location.reload(false);
     }
     else{
       this.setState({ error: "please complete some history" });
@@ -164,8 +165,8 @@ export default class Uploader extends Component {
       </div>
       ))}
       <form>
-        <Button className="button" onClick={this.handleAddEducation}>Add new Education</Button>
-        <Button className="button" onClick={this.handleRemoveEducation}>Remove last Education</Button>
+        <Button className="button margin10" onClick={this.handleAddEducation}>Add new Education</Button>
+        <Button className="button margin10" onClick={this.handleRemoveEducation}>Remove last Education</Button>
       </form>
       </Col>
       <Col>

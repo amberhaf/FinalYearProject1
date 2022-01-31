@@ -2,8 +2,8 @@ import React, { useRef, Component } from 'react';
 
 export const EduBox = (props) => {
     return (
-      <div id={props.box.id} className="boxStyle edu">
-        <ul>
+      <div className="boxStyle edu">
+        <ul id={props.box.id}>
           <li><b>Institute Name:</b></li>
           <li className="lightFont">{props.box.instituteName}</li>
           <li><b>Qualification:</b></li>
@@ -19,8 +19,8 @@ export const EduBox = (props) => {
   };
 export const CarBox = (props) => {
     return (
-      <div id={props.box.id} className="boxStyle car">
-        <ul>
+      <div className="boxStyle car">
+        <ul id={props.box.id}>
           <li><b>Company Name:</b></li>
           <li className="lightFont">{props.box.companyName}</li>
           <li><b>Industry:</b></li>

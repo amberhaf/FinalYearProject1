@@ -4,10 +4,9 @@
   color: #2e5273;
 }
 .map{
-  display: inline-block;
-  width:max-content;
-  margin-right: 2px;
+  margin-right: 10px;
   margin-top: 15px;
+  display: grid;
   padding: 0;
 }
 .mapPurple{
@@ -38,14 +37,12 @@ ul{
   color:  #d8dcde;
   margin: 0;
 }
-.table{
-  display: inline-block;
-  position: relative;
-}
 
 .myMap{
   margin: 5px;
   padding: 0px;
+  display: grid;
+  width: 12.5%;
 }
 
 .center{
@@ -87,6 +84,7 @@ form{
 
 .lightFont{
   color: whitesmoke;
+  font-size: small;
 }
 
 .form-control{

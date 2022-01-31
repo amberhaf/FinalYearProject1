@@ -4,6 +4,36 @@ import Header from "../components/Header";
 import Welcome from "../components/Welcome";
 import {datab, auth} from "../services/firebase";
 
+function compareTitles (cname1, cname2) {
+  //Convert to lowercase
+  cname1=cname1.toLowerCase();
+  cname2=cname2.toLowerCase();
+  //perform stop word removal
+  var stopwords=["and", "a","an", "with", "through", "the", "of", "in", "from", "major", "majoring", "minor", "minoring", "double"];
+  var res1 = []
+  var words = cname1.split(' ')
+  for(var i=0;i<words.length;i++) {
+      //remove punctuation
+      var word_clean = words[i].split(/[^\w\s]|_/g).join("")
+      if(!stopwords.includes(word_clean) && word_clean!=="") {
+          res1.push(word_clean)
+      }
+  }
+  var res2 = []
+  words = cname2.split(' ')
+  for(var i=0;i<words.length;i++) {
+    //remove punctuation
+      var word_clean = words[i].split(/[^\w\s]|_/g).join("")
+      if(!stopwords.includes(word_clean) && word_clean!=="") {
+          res2.push(word_clean)
+      }
+  }
+  if(res1.sort().join(',')=== res2.sort().join(',')){
+    return true;
+  }
+  else return false;
+};
+
 class PathMap extends React.Component {
   constructor(props) {
     super(props);
@@ -30,7 +60,7 @@ class PathMap extends React.Component {
           {
             var obj= p[i].eduList[h];
             var result = gp[h].find(groupObj => {
-              return groupObj.instituteName === obj.instituteName && groupObj.qualification === obj.qualification && groupObj.courseTitle.toLowerCase() === obj.courseTitle.toLowerCase();
+              return groupObj.instituteName === obj.instituteName && groupObj.qualification === obj.qualification && (compareTitles(groupObj.courseTitle, obj.courseTitle));
             })
             if(result==undefined){
               var nextIt=[]
@@ -57,7 +87,7 @@ class PathMap extends React.Component {
                 nextIt.push({id: nex.companyName+"_"+nex.industry+"_"+nex.jobTitle})
               }
               gp[h][index].nextItem=nextIt
-              gp[h][index].courseLength= gp[h][index].courseLength+parseInt(obj.courseLength)
+              gp[h][index].courseLength= (parseInt(gp[h][index].courseLength)+parseInt(obj.courseLength))
               gp[h][index].numOfEntries=gp[h][index].numOfEntries+1
             }
           }
@@ -73,7 +103,7 @@ class PathMap extends React.Component {
           {
             var obj= p[i].carList[h];
             var result = gc[h].find(groupObj => {
-              return groupObj.companyName.toLowerCase() === obj.companyName.toLowerCase() && groupObj.industry === obj.industry && groupObj.jobTitle === obj.jobTitle;
+              return groupObj.industry === obj.industry && groupObj.jobTitle === obj.jobTitle && (compareTitles( groupObj.companyName, obj.companyName));
             })
             if(result==undefined){
               var nextIt=[]
@@ -92,22 +122,13 @@ class PathMap extends React.Component {
                 nextIt.push({id: nex.companyName+"_"+nex.industry+"_"+nex.jobTitle})
               }
               gc[h][index].nextItem=nextIt
-              gc[h][index].jobLength= gc[h][index].jobLength+parseInt(obj.jobLength)
+              gc[h][index].jobLength= parseInt(gc[h][index].jobLength)+parseInt(obj.jobLength)
               gc[h][index].numOfEntries=gc[h][index].numOfEntries+1
             }
           }
         }
       }
       this.setState({ groupedCareer: gc});
-      console.log("mapped education: ")
-      for(var i=0; i<gp.length; i++)
-      {
-        console.log("mapped education: " + gp[i][0])
-      }
-      for(var i=0; i<gc.length; i++)
-      {
-        console.log("mapped career: "+gc[i][0])
-      }
     });
     if (this.state.user) {
     datab.collection('pathPlans').where('user','==', this.state.user.uid).get().then(querySnapshot => {

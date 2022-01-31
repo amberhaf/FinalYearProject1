@@ -42,7 +42,10 @@ constructor(props) {
 
   render() {
   return (
-    <div>
+    <div className='section'>
+          <h3 className="text-center">
+            Uploaded Paths
+          </h3>
       <Container>
       {this.state.posts && this.state.posts.map((n,index) => (
         <div key={index}>  
@@ -58,7 +61,7 @@ constructor(props) {
           </div>
           ))}
           </Row>
-          <button onClick={this.handleDeletePath} value={n.docId}>Delete</button>
+          <button className="greyButton" onClick={this.handleDeletePath} value={n.docId}>Delete</button>
         </div>
       ))}
       </Container>

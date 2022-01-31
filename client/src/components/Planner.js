@@ -202,7 +202,7 @@ constructor(props) {
       <Container>
       <Row>
       <Col>
-          <label ><b>Total Cost: </b></label>
+          <label><b>Total Cost: </b></label>
           {totalCost>0 && <Button className="form-control totalButton"> €{totalCost}</Button>}
       </Col>
       <Col>
@@ -243,7 +243,7 @@ constructor(props) {
               {o.nextItem && o.nextItem.map((nextIt,j)=> (
               <div key={j}>
               {(this.filterNextEduById(nextIt.id, index) || this.filterNextCarById(nextIt.id, -1)) && 
-              <Xarrow start={o.id} end={nextIt.id}/>
+              <Xarrow color="#8aa14c" start={o.id} end={nextIt.id}/>
               }
               </div>
               ))}
@@ -271,7 +271,7 @@ constructor(props) {
               {o.nextItem && o.nextItem.map((nextIt,j)=> (
               <div key={j}>
               {this.filterNextCarById(nextIt.id, index) && 
-              <Xarrow start={o.id} end={nextIt.id}/>
+              <Xarrow color="#8aa14c" start={o.id} end={nextIt.id}/>
               }
               </div>
               ))}
