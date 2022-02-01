@@ -47,6 +47,7 @@ handleUpdate(e) {
   var uid = this.state.user.uid
   var myEdus = this.state.myEdus
   var myCars = this.state.myCars
+  //make sure each myedus object is still contained Path map
   datab.collection('pathPlans').where("user", "==", uid)
   .get()
   .then(function(querySnapshot) {
@@ -225,7 +226,7 @@ onChangeCareerCheckBox(event){
           <td key={index}>  
             {n && n.sort(this.sortByQualification).map((o,i) => (
             <div key={i} className="map mapNavy">
-              <input className="checkbox" label="include planner" type="checkbox" name={index} value={o.id} checked={this.filterEduById(o.id, index)} onChange={this.onChangeEducationCheckBox}/>
+              {auth().currentUser && (<input className="checkbox" label="include planner" type="checkbox" name={index} value={o.id} checked={this.filterEduById(o.id, index)} onChange={this.onChangeEducationCheckBox}/>)}
               <EduBox box={o} />
               {o.nextItem && o.nextItem.map((nextIt,j)=> (
               <div key={j}>
@@ -248,7 +249,7 @@ onChangeCareerCheckBox(event){
           <td key={index}>  
             {n && n.sort(this.sortByIndustry).map((o,i) => (
             <div key={i} className="map mapNavy">
-              <input label="include planner" type="checkbox" name={index} value={o.id} checked={this.filterCarById(o.id, index)} onChange={this.onChangeCareerCheckBox}/>
+              {auth().currentUser && (<input label="include planner" type="checkbox" name={index} value={o.id} checked={this.filterCarById(o.id, index)} onChange={this.onChangeCareerCheckBox}/>)}
               <CarBox box={o}/>
               {o.nextItem && o.nextItem.map((nextIt,j)=> (
               <div key={j}>

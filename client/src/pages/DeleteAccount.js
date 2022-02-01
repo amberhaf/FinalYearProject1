@@ -1,7 +1,8 @@
 import React, {Component} from 'react';
 import { Link } from 'react-router-dom';
 import Header from "../components/Header";
-import firebase from 'firebase';
+import {datab, auth} from "../services/firebase";
+
 export class Delete extends Component {
 
     constructor() {
@@ -21,13 +22,13 @@ export class Delete extends Component {
     }
     async handleSubmit(event){
         event.preventDefault();
-        var user = firebase.auth().currentUser;
-
+        var user = auth().currentUser;
+        //first delete all paths matching this user
         user.delete().then(function() {
         // User deleted.
         window.alert("Account Deleted");
         }).catch(function(error) {
-        window.alert("Error occurred. Account not deleted");
+        window.alert("Error occurred. Account not deleted"+error);
         });
     }
 
@@ -35,8 +36,8 @@ export class Delete extends Component {
         return(
         <div>
         <Header />
-        <header class="masthead">
-          <div class="container h-100">
+        <header className="masthead">
+          <div className="container h-100">
             <form className="mt-5 py-5 px-5" autoComplete="off" onSubmit={this.handleSubmit}>
           <h1>
             Path Mapper Online

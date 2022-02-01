@@ -32,7 +32,7 @@ class JobTitle extends Component {
         .catch(() => console.log("Error"));
     }
     onInputChange = (options) => {
-        this.setState({wordToComplete: options})
+        this.setState({wordToComplete: options.toLowerCase()})
         //this.props.onChange(options, this.props.name);
         if(this.state.wordToComplete && this.state.wordToComplete.length>3)
         {
@@ -42,7 +42,7 @@ class JobTitle extends Component {
         }           
       };
       handleChange(e){
-        this.props.onChange(e.value, this.props.name);
+        this.props.onChange(e.value.toLowerCase(), this.props.name);
         this.setState({ menuIsOpen: false });
       }
       

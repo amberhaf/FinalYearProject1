@@ -16,7 +16,7 @@ class Header extends React.Component {
             {auth().currentUser && (
           <Nav className="me-auto">
             <Nav.Link href="/plan">Planner</Nav.Link>
-            <Nav.Link href="/inputPath">Input Career Path</Nav.Link>
+            <Nav.Link href="/inputPath">Input Path</Nav.Link>
             <Nav.Link href="/bulkPath">Bulk Path</Nav.Link>
           </Nav>
           )}

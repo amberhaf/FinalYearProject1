@@ -45,7 +45,7 @@ class BulkPath extends Component {
             this.state.selectedFile,
             this.state.selectedFile.name
         );
-        fetch('/upload',
+        fetch('/server/upload',
             {
               method: "POST",
               body: formData
@@ -90,7 +90,7 @@ class BulkPath extends Component {
                       nextIt.push({id: nex.companyName+"_"+nex.industry+"_"+nex.jobTitle})
                     }
                     gp[h][index].nextItem=nextIt
-                    gp[h][index].courseLength=gp[h][index].courseLength+ obj.courseLength;
+                    gp[h][index].courseLength= (parseInt(gp[h][index].courseLength)+parseInt(obj.courseLength))
                     gp[h][index].numOfEntries=gp[h][index].numOfEntries+1
                   }
                 }
@@ -125,7 +125,7 @@ class BulkPath extends Component {
                       nextIt.push({id: nex.companyName+"_"+nex.industry+"_"+nex.jobTitle})
                     }
                     gc[h][index].nextItem=nextIt
-                    gc[h][index].jobLength= gc[h][index].jobLength+obj.jobLength
+                    gc[h][index].jobLength= parseInt(gc[h][index].jobLength)+parseInt(obj.jobLength)
                     gc[h][index].numOfEntries=gc[h][index].numOfEntries+1
                   }
                 }

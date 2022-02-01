@@ -30,42 +30,13 @@ const headers = {
 const request = require('superagent');
 require('dotenv').config()
 
-/* Handle LinkedIn OAuth callback and return user profile. */
-app.get('/server/linkedIn', function(req, res, next) {
-  requestAccessToken(req.query.code,req.query.state)
-  .then((response) => {
-    console.log("ACCESS TOKEN WOOO"+response.body.access_token)
-    requestProfile(response.body.access_token)
-    .then(response => {
-      console.log(response.body)
-      //res.render('callback', { profile: response.body});
-    })
-  })
-  .catch((error) => {
-    res.status(500).send(`${error}`)
-    console.error(error)
-  })
-});
-
-function requestAccessToken(code,state) {
-  return request.post('https://www.linkedin.com/oauth/v2/accessToken')
-    .send('grant_type=client_credentials')
-    .send(`client_id=${process.env.EXPRESS_APP_CLIENT_ID}`)
-    .send(`client_secret=${process.env.EXPRESS_APP_CLIENT_SECRET}`)
-}
-
-function requestProfile(token) {
-  console.log("got to request Profile")
-  return request.get('https://api.linkedin.com/v2/me?projection=(id,localizedFirstName,localizedLastName,profilePicture(displayImage~digitalmediaAsset:playableStreams))')
-  .set('Authorization', `Bearer ${token}`)
-}
-
 const fileUpload = require('express-fileupload');
 // middle ware
 app.use(express.static('public')); //to access the files in public folder
 app.use(fileUpload());
 // file upload api
-app.post('/upload', (req, res) => {
+app.post('/server/upload', (req, res) => {
+  console.log("arrived at server")
     if (!req.files) {
         return res.status(500).send({ msg: "file is not found" })
     }

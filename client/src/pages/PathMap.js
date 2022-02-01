@@ -59,6 +59,7 @@ class PathMap extends React.Component {
           if(p[i].eduList.length>h)
           {
             var obj= p[i].eduList[h];
+            //I could change this to search at any level
             var result = gp[h].find(groupObj => {
               return groupObj.instituteName === obj.instituteName && groupObj.qualification === obj.qualification && (compareTitles(groupObj.courseTitle, obj.courseTitle));
             })

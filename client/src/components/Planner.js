@@ -193,10 +193,19 @@ constructor(props) {
   }
 
   render() {
-    const totalCost = this.state.cost.reduce(reducer, 0)
-    const nonNullEarnings = removeNull(this.state.earnings)
-    const yearsToPayOff =  totalCost /(nonNullEarnings.reduce(reducer, 0)/nonNullEarnings.length);
-    const totalEarnings = (nonNullEarnings.reduce(reducer, 0)/nonNullEarnings.length)*this.state.yearsWorking
+    var totalCost = this.state.cost.reduce(reducer, 0);
+    var nonNullEarnings = removeNull(this.state.earnings);
+    var averageGrossEarnings = (nonNullEarnings.reduce(reducer, 0)/nonNullEarnings.length);
+    var taxCredit = 3400;
+    var lowerTaxDeduction = (Math.min(averageGrossEarnings, 36800))*0.2;
+    var higherTaxDeduction = (Math.max(0, averageGrossEarnings-36800))*0.4;
+    console.log("lower Tax"+lowerTaxDeduction)
+    console.log("higher Tax"+higherTaxDeduction)
+    var totalNetEarnings = averageGrossEarnings-(Math.max(0,lowerTaxDeduction+higherTaxDeduction-taxCredit));
+    var yearsToPayOff =  (Math.round((totalCost /totalNetEarnings)*100))/100;
+    var totalEarnings = (Math.round((totalNetEarnings*this.state.yearsWorking)*100))/100;
+
+
   return (
     <div className='section'>
       <Container>
@@ -206,7 +215,7 @@ constructor(props) {
           {totalCost>0 && <Button className="form-control totalButton"> €{totalCost}</Button>}
       </Col>
       <Col>
-          <div><label><b>Total Earnings: </b></label> {(!(isNaN(yearsToPayOff)) && <Button className="form-control totalButton"> €{totalEarnings}</Button>)}</div>
+          <div><label><b>Total Net Earnings: </b></label> {(!(isNaN(yearsToPayOff)) && <Button className="form-control totalButton"> €{totalEarnings}</Button>)}</div>
           {(!(isNaN(yearsToPayOff)) && <div><Form.Control className="form-control totalInput" type="number" min="0" max="99" value={this.state.yearsWorking}
           onChange = {this.onChangeYearsWorking}/> <span>years working</span></div>)}
       </Col>
@@ -264,7 +273,7 @@ constructor(props) {
             {n.details && n.details.sort(this.sortByIndustry).map((o,i) => (
             <div key={i} className="map mapBlue center">
               <input className="checkbox" type="checkbox" id={index} name={o.id} value={o.earnings} onChange={this.addToEarnings} checked={o.id==this.state.earningsIds[index]}/>
-              <label className="lightFont">Annual Earnings (€):</label>
+              <label className="lightFont">Annual Salary (€):</label>
               <JobSearch search={o.jobTitle} name={index+"_"+i} earnings={o.earnings} onChange={this.onChangeCareerEarnings}/>
               <CarBox box={o}/>
               <TextareaAutosize className="stickyNote" value={o.notes} id={index+"_"+i} onChange={this.onChangeCareerInputBox} placeholder="Enter notes…"/>     
