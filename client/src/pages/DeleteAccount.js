@@ -1,6 +1,7 @@
 import React, {Component} from 'react';
 import { Link } from 'react-router-dom';
 import Header from "../components/Header";
+import { signin } from '../helpers/auth';
 import {datab, auth} from "../services/firebase";
 
 export class Delete extends Component {
@@ -20,17 +21,38 @@ export class Delete extends Component {
             [event.target.name]: event.target.value
         });
     }
+    async handleDeleteAllPaths(userId){
+      var query = datab.collection('path').where('user','==', userId);
+      query.get().then(function(querySnapshot) {
+        querySnapshot.forEach(function(doc) {
+            doc.ref.delete();
+        });
+      })
+    }
+    async handleDeleteAccount(user){
+      user.delete().then(function() {
+      window.alert("Account Deleted");
+      }).catch(function(error) {
+      window.alert("Error occurred. Account not deleted"+error);
+      });
+    }
+
     async handleSubmit(event){
         event.preventDefault();
         var user = auth().currentUser;
-        //first delete all paths matching this user
-        user.delete().then(function() {
-        // User deleted.
-        window.alert("Account Deleted");
-        }).catch(function(error) {
-        window.alert("Error occurred. Account not deleted"+error);
-        });
+        var userId = user.uid;
+        try {
+        await signin(this.state.email, this.state.password);
+        //delete user Account
+        await this.handleDeleteAccount(user);
+        //then delete all paths matching this user
+        await this.handleDeleteAllPaths(userId)
+      } catch (error) {
+        window.alert("Error occurred"+ error.message );
+      }
     }
+
+
 
     render(){
         return(

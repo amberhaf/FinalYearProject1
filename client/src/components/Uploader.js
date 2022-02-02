@@ -89,11 +89,17 @@ export default class Uploader extends Component {
       this.setState({eduList: [{instituteName: "", qualification:"", courseTitle:"", courseLength:0}]});
       this.setState({carList: [{companyName: "", industry:"", jobTitle:"", jobLength:0}]});
       this.setState({error: null });
-      window.location.reload(false);
+      this.refresh();
     }
     else{
       this.setState({ error: "please complete some history" });
     }
+  }
+
+  refresh(){
+    setTimeout(() => {
+      window.location.reload(false);
+    }, 1000);
   }
   
   onChangeInstituteName(event) {
