@@ -10,7 +10,6 @@ constructor(props) {
   super(props);
   this.state = {
     user: auth().currentUser,
-    posts: [{eduList:[]}, {carList:[]}],
     industry: "",
     qualification: "",
     pos: 0,
@@ -48,6 +47,8 @@ handleUpdate(e) {
   var myEdus = this.state.myEdus
   var myCars = this.state.myCars
   //make sure each myedus object is still contained Path map
+  var myEdus=this.removeDeletedPlans(this.state.myEdus);
+  var myCars=this.removeDeletedPlans(this.state.myCars);
   datab.collection('pathPlans').where("user", "==", uid)
   .get()
   .then(function(querySnapshot) {
@@ -69,6 +70,28 @@ handleUpdate(e) {
     }
  })
 }
+}
+
+removeDeletedPlans(paths){
+  var groupedEducation= this.state.groupedEducation
+  for(var i=0; i<paths.length; i++){
+    var levels=paths[i].details
+    for(var j=0; j<levels.length; j++){
+      console.log("edu plan" + levels[j].id)
+      var result = undefined
+      if(groupedEducation.length>i){
+        var result = groupedEducation[i].find(groupObj => {
+            return groupObj.id === levels[j].id;
+        })
+      }
+      if(result==undefined)
+      {
+        console.log("Can't find item")
+        paths[i].details.splice(j, 1);
+      }
+    }
+  }
+  return paths;
 }
 sortByIndustry(industryA, industryB) {
   let comparison = 0;
