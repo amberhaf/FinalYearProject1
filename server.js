@@ -26,8 +26,8 @@ require('dotenv').config()
 const fileUpload = require('express-fileupload');
 // middle ware
 // ... other app.use middleware 
-app.use(express.static(path.join(__dirname, "client", "build")))
 
+app.use(express.static(path.join( "client", "build")))
 app.use(fileUpload());
 // file upload api
 app.post('/server/upload', (req, res) => {
