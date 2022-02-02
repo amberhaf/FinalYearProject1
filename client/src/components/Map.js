@@ -41,46 +41,52 @@ componentDidMount() {
 }
 
 handleUpdate(e) {
-  console.log(this.state.myEdus)
-  if (this.state.user) {
-  var uid = this.state.user.uid
-  var myEdus = this.state.myEdus
-  var myCars = this.state.myCars
-  //make sure each myedus object is still contained Path map
-  var myEdus=this.removeDeletedPlans(this.state.myEdus);
-  var myCars=this.removeDeletedPlans(this.state.myCars);
-  datab.collection('pathPlans').where("user", "==", uid)
-  .get()
-  .then(function(querySnapshot) {
-    if(querySnapshot.docs.length>0)
-    {
-      querySnapshot.forEach(function(doc) {
-        doc.ref.update({
-          user: uid,
-          eduList: myEdus,
-          carList: myCars})
-      });       
-    }
-    else{
-      datab.collection("pathPlans").add({
-      user: uid,
-      eduList: myEdus,
-      carList: myCars
-    });
-    }
- })
-}
+  try{
+    console.log(this.state.myEdus)
+    if (this.state.user) {
+    var uid = this.state.user.uid
+    var myEdus = this.state.myEdus
+    var myCars = this.state.myCars
+    //make sure each myedus object is still contained Path map
+    var myEdus=this.removeDeletedPlans(this.state.myEdus, this.state.groupedEducation);
+    var myCars=this.removeDeletedPlans(this.state.myCars, this.state.groupedCareer);
+    datab.collection('pathPlans').where("user", "==", uid)
+    .get()
+    .then(function(querySnapshot) {
+      if(querySnapshot.docs.length>0)
+      {
+        querySnapshot.forEach(function(doc) {
+          doc.ref.update({
+            user: uid,
+            eduList: myEdus,
+            carList: myCars})
+        });       
+      }
+      else{
+        datab.collection("pathPlans").add({
+        user: uid,
+        eduList: myEdus,
+        carList: myCars
+      });
+      }
+  })
+  window.alert("Successfully updated paths");
+  }
+  }
+  catch(error)
+  {
+    window.alert("Error occurred"+ error.message );
+  }
 }
 
-removeDeletedPlans(paths){
-  var groupedEducation= this.state.groupedEducation
+removeDeletedPlans(paths, grouped){
   for(var i=0; i<paths.length; i++){
     var levels=paths[i].details
     for(var j=0; j<levels.length; j++){
       console.log("edu plan" + levels[j].id)
       var result = undefined
-      if(groupedEducation.length>i){
-        var result = groupedEducation[i].find(groupObj => {
+      if(grouped.length>i){
+        var result = grouped[i].find(groupObj => {
             return groupObj.id === levels[j].id;
         })
       }

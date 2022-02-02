@@ -34,7 +34,6 @@ constructor(props) {
         var myPaths = doc.data()
         this.setState({myEdus: myPaths.eduList})
         this.setState({myCars: myPaths.carList})
-        console.log(myPaths)
       })
     });
     this.onChangeIndustryFilter = this.onChangeIndustryFilter.bind(this);  
@@ -107,6 +106,7 @@ constructor(props) {
     this.setState({qualification: event.target.value})
   }
   handleUpdatePaths(event){
+    try{
       if (this.state.user) {
       var uid = this.state.user.uid
       var myEdus = this.state.myEdus
@@ -132,6 +132,12 @@ constructor(props) {
         }
     })
     }
+    window.alert("Successfully updated paths");
+  }
+  catch(error)
+  {
+    window.alert("Error occurred"+ error.message );
+  }
   }
   onChangeEducationInputBox(event){
     var myPaths=this.state.myEdus;
@@ -199,8 +205,6 @@ constructor(props) {
     var taxCredit = 3400;
     var lowerTaxDeduction = (Math.min(averageGrossEarnings, 36800))*0.2;
     var higherTaxDeduction = (Math.max(0, averageGrossEarnings-36800))*0.4;
-    console.log("lower Tax"+lowerTaxDeduction)
-    console.log("higher Tax"+higherTaxDeduction)
     var totalNetEarnings = averageGrossEarnings-(Math.max(0,lowerTaxDeduction+higherTaxDeduction-taxCredit));
     var yearsToPayOff =  (Math.round((totalCost /totalNetEarnings)*100))/100;
     var totalEarnings = (Math.round((totalNetEarnings*this.state.yearsWorking)*100))/100;
