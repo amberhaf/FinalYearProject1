@@ -1,5 +1,6 @@
 const axios = require('axios');
 const chalk = require('chalk');
+require('dotenv').config();
 const config = require('./config');
 {/*use express module*/}
 const express = require('express');
@@ -22,19 +23,10 @@ const headers = {
   'Access-Control-Allow-Methods': 'GET',
 };
 
-require('dotenv').config()
-
 const fileUpload = require('express-fileupload');
 // middle ware
 // ... other app.use middleware 
-if(process.env.NODE_ENV=== 'production')
-{
-  app.use(express.static(path.join( "client", "build")))
-}
-else
-{
-  app.use(express.static('public'));
-}
+
 app.use(fileUpload());
 // file upload api
 app.post('/server/upload', (req, res) => {
@@ -64,9 +56,6 @@ app.post('/server/choosePlaylist', function (req, res) {
       });
 });
 
-app.get("*", (req, res) => {
-  res.sendFile(path.join(__dirname, "client", "build", "index.html"));
-});
 
 const PORT = process.env.PORT || 3001; // Step 1
 app.listen(PORT, console.log(`Server is starting at ${PORT}`));
