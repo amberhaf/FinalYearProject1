@@ -201,23 +201,34 @@ onChangeCareerCheckBox(event){
     }
     return result!=undefined
   }
-  filterNextEduById(id, index) {
+  filterNextEduById(id) {
     var myPaths = this.state.groupedEducation
-    if(myPaths.length-1>index){
-    var result = myPaths[index+1].find(groupObj => {
-        return groupObj.id === id;
-    })
+    for(var iter=0; iter<myPaths.length; iter++)
+    {
+        var result = myPaths[iter].find(groupObj => {
+          return groupObj.id === id;
+        })
+      if(result!=undefined)
+      {
+        return true;
+      }
     }
-    return result!=undefined
+    return false;
   }
-  filterNextCarById(id, index) {
+  filterNextCarById(id) {
     var myPaths = this.state.groupedCareer
-    if(myPaths.length-1>index){
-    var result = myPaths[index+1].find(groupObj => {
-        return groupObj.id === id;
-    })
+    var result=undefined
+    for(var iter=0; iter<myPaths.length; iter++)
+    {
+        var result = myPaths[iter].find(groupObj => {
+          return groupObj.id === id;
+        })
+        if(result!=undefined)
+        {
+          return true;
+        }
     }
-    return result!=undefined
+    return false;
   }
 
   render() {
@@ -253,7 +264,7 @@ onChangeCareerCheckBox(event){
               <EduBox box={o} />
               {o.nextItem && o.nextItem.map((nextIt,j)=> (
               <div key={j}>
-              {(this.filterNextEduById(nextIt.id, index) || this.filterNextCarById(nextIt.id, -1)) && <Xarrow color="#8aa14c" className="arrow" start={o.id} end={nextIt.id} />}
+              {(this.filterNextEduById(nextIt.id) || this.filterNextCarById(nextIt.id)) && <Xarrow color="#8aa14c" className="arrow" start={o.id} end={nextIt.id} />}
               </div>
               ))}
             </div>
@@ -276,7 +287,7 @@ onChangeCareerCheckBox(event){
               <CarBox box={o}/>
               {o.nextItem && o.nextItem.map((nextIt,j)=> (
               <div key={j}>
-              {this.filterNextCarById(nextIt.id, index) && <Xarrow color="#8aa14c" start={o.id} end={nextIt.id} />}
+              {this.filterNextCarById(nextIt.id) && <Xarrow color="#8aa14c" start={o.id} end={nextIt.id} />}
               </div>
               ))}
             </div>
