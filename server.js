@@ -1,16 +1,10 @@
-const url = require('url');
-var fs = require('fs'),
-    obj
 const axios = require('axios');
 const chalk = require('chalk');
 const config = require('./config');
-const multer = require("multer");
-const uploadLocation = multer({ dest: "uploads/" });
 {/*use express module*/}
 const express = require('express');
 {/*use morgan module*/}
 const morgan = require('morgan');
-const path = require('path');
 const app = express();
 app.use(express.json());
 app.use(express.urlencoded({
@@ -27,12 +21,12 @@ const headers = {
   'Access-Control-Allow-Methods': 'GET',
 };
 
-const request = require('superagent');
 require('dotenv').config()
 
 const fileUpload = require('express-fileupload');
 // middle ware
-app.use(express.static('public')); //to access the files in public folder
+// ... other app.use middleware 
+app.use(express.static(path.join(__dirname, "client", "build")))
 app.use(fileUpload());
 // file upload api
 app.post('/server/upload', (req, res) => {
