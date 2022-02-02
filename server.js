@@ -9,6 +9,10 @@ const express = require('express');
 const morgan = require('morgan');
 const path = require('path');
 const app = express();
+
+if (process.env.NODE_ENV === 'production') {
+  app.use(express.static('client/build'));
+}
 app.use(express.json());
 app.use(express.urlencoded({
   extended: false
@@ -17,10 +21,6 @@ app.use(morgan('tiny'));
 {/*enable cors*/}
 var cors = require('cors')
 app.use(cors())
-
-if (process.env.NODE_ENV === 'production') {
-  app.use(express.static('client/build'));
-}
 
 const headers = {
   'Content-Type': 'application/json',
