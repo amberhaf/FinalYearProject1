@@ -3,6 +3,7 @@ const chalk = require('chalk');
 const config = require('./config');
 {/*use express module*/}
 const express = require('express');
+const path = require('path');
 {/*use morgan module*/}
 const morgan = require('morgan');
 const app = express();
@@ -26,8 +27,14 @@ require('dotenv').config()
 const fileUpload = require('express-fileupload');
 // middle ware
 // ... other app.use middleware 
-
-app.use(express.static(path.join( "client", "build")))
+if(process.env.NODE_ENV=== 'production')
+{
+  app.use(express.static(path.join( "client", "build")))
+}
+else
+{
+  app.use(express.static('public'));
+}
 app.use(fileUpload());
 // file upload api
 app.post('/server/upload', (req, res) => {
