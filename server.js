@@ -63,9 +63,6 @@ app.post('/server/choosePlaylist', function (req, res) {
       });
 });
 
-app.get("*", (req, res) => {
-  res.sendFile(path.join(__dirname, "client", "build", "index.html"));
-});
 
 const PORT = process.env.PORT || 3001; // Step 1
 app.listen(PORT, console.log(`Server is starting at ${PORT}`));
