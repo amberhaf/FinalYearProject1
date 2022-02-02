@@ -26,14 +26,8 @@ require('dotenv').config()
 const fileUpload = require('express-fileupload');
 // middle ware
 // ... other app.use middleware 
-if(process.env.NODE_ENV=== 'production')
-{
-  app.use(express.static(path.join(__dirname, "client", "build")))
-}
-else
-{
-  app.use(express.static('public'));
-}
+app.use(express.static(path.join(__dirname, "client", "build")))
+
 app.use(fileUpload());
 // file upload api
 app.post('/server/upload', (req, res) => {
