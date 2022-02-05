@@ -152,6 +152,7 @@ export default class Uploader extends Component {
   render() {
     return (
     <div className="center section">
+      <h4>Fill out as accurately as you can from earliest to latest</h4>
       <Container>
       <Row>
       <Col>
