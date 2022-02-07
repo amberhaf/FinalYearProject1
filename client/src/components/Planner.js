@@ -247,7 +247,7 @@ constructor(props) {
             <td key={index}>  
             {n.details && n.details.sort(this.sortByQualification).map((o,i) => (
             <div key={i} className="map mapPurple center">
-              <input type="checkbox" id={index} name={o.id} value={(o.cost*o.courseLength)} onChange={this.addToTotal} checked={o.id==this.state.costIds[index]}/>
+              <input type="checkbox" id={index} name={o.id} value={(o.cost*(o.courseLength/(o.numOfEntries||1)))} onChange={this.addToTotal} checked={o.id==this.state.costIds[index]}/>
               <label className="lightFont">Cost per year (€):</label>
               <Form.Control className="form-control plannerNumberInput" id={index+"_"+i} type="number" value={o.cost} onChange={this.onChangeEducationCost}/>
               <InstitionWebsite search={o.instituteName} />
