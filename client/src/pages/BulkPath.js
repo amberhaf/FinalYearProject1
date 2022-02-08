@@ -26,7 +26,7 @@ class BulkPath extends Component {
             eduList: this.state.uploadedPosts[i].eduList,
             carList: this.state.uploadedPosts[i].carList,
           });
-          console.log("Uploaded Successfully");
+          window.alert("Successfully uploaded paths");
           this.setState({groupedEducation: []})
           this.setState({groupedCareer: []})
         }

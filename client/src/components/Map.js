@@ -5,6 +5,12 @@ import {FilterCareer, FilterCourse} from './FilterDropDown';
 import {EduBox, CarBox} from './Box';
 import {Button, Container, Table, Row, Col} from 'react-bootstrap'
 
+const colourArray = ['#d4afb9', '#ffd670', '#d1cfe2', 
+'#9cadce', '#7ec4cf', '#52b2cf','#79addc', '#ffc09f', 
+'#ffee93', '#adf7b6','#84dcc6', '#a5ffd6', '#ffa69e', 
+'#ff686b', '#f6bc66','#ff7477', '#e69597', '#ceb5b7', 
+'#b5d6d6', '#9cf6f6','#f6ac69', '#fdffb6', '#ff9770']
+
 export default class Map extends Component {
 constructor(props) {
   super(props);
@@ -70,7 +76,7 @@ handleUpdate(e) {
       });
       }
   })
-  window.alert("Successfully updated paths");
+  window.alert("Successfully updatedjkd paths");
   }
   }
   catch(error)
@@ -270,7 +276,7 @@ onChangeCareerCheckBox(event){
               <EduBox box={o} />
               {o.nextItem && o.nextItem.map((nextIt,j)=> (
               <div key={j}>
-              {(this.filterNextEduById(nextIt.id) || this.filterNextCarById(nextIt.id)) && <Xarrow color="#8aa14c" className="arrow" start={o.id} end={nextIt.id} />}
+              {(this.filterNextEduById(nextIt.id) || this.filterNextCarById(nextIt.id)) && <Xarrow color={colourArray[i%colourArray.length]} className="arrow" start={o.id} end={nextIt.id} />}
               </div>
               ))}
             </div>
@@ -293,7 +299,7 @@ onChangeCareerCheckBox(event){
               <CarBox box={o}/>
               {o.nextItem && o.nextItem.map((nextIt,j)=> (
               <div key={j}>
-              {this.filterNextCarById(nextIt.id) && <Xarrow color="#8aa14c" start={o.id} end={nextIt.id} />}
+              {this.filterNextCarById(nextIt.id) && <Xarrow color={colourArray[i%colourArray.length]} start={o.id} end={nextIt.id} />}
               </div>
               ))}
             </div>

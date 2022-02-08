@@ -8,6 +8,12 @@ import TextareaAutosize from 'react-textarea-autosize';
 import InstitionWebsite from './InstitutionWebsite';
 import JobSearch from './JobSearch';
 
+const colourArray = ['#d4afb9', '#ffd670', '#d1cfe2', 
+'#9cadce', '#7ec4cf', '#52b2cf','#79addc', '#ffc09f', 
+'#ffee93', '#adf7b6','#84dcc6', '#a5ffd6', '#ffa69e', 
+'#ff686b', '#f6bc66','#ff7477', '#e69597', '#ceb5b7', 
+'#b5d6d6', '#9cf6f6','#f6ac69', '#fdffb6', '#ff9770']
+
 function reducer (previousValue, currentValue) {return parseInt(previousValue) + parseInt(currentValue);}
 
 function removeNull (array) {return array.filter(x => x !== 0 && x !==undefined)};
@@ -256,7 +262,7 @@ constructor(props) {
               {o.nextItem && o.nextItem.map((nextIt,j)=> (
               <div key={j}>
               {(this.filterNextEduById(nextIt.id, index) || this.filterNextCarById(nextIt.id, -1)) && 
-              <Xarrow color="#8aa14c" start={o.id} end={nextIt.id}/>
+              <Xarrow color={colourArray[i%colourArray.length]} start={o.id} end={nextIt.id}/>
               }
               </div>
               ))}
@@ -284,7 +290,7 @@ constructor(props) {
               {o.nextItem && o.nextItem.map((nextIt,j)=> (
               <div key={j}>
               {this.filterNextCarById(nextIt.id, index) && 
-              <Xarrow color="#8aa14c" start={o.id} end={nextIt.id}/>
+              <Xarrow color={colourArray[i%colourArray.length]} start={o.id} end={nextIt.id}/>
               }
               </div>
               ))}
