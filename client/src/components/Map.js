@@ -243,7 +243,7 @@ onChangeCareerCheckBox(event){
       <Container>
       <Row className="center">
         <Col>
-      {auth().currentUser && (<Button className="button" onClick={this.handleUpdate}>Update Path Planner</Button>)}
+      {this.props.showPlanUpdater && (<Button className="button" onClick={this.handleUpdate}>Update Path Planner</Button>)}
         </Col>
         <Col>
         <h4>Select to add to planner</h4>

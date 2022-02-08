@@ -179,7 +179,7 @@ class BulkPath extends Component {
                 {this.state.groupedEducation.length>0 && this.state.groupedCareer.length>0 && (
                 <div>
                 <Button className="button" onClick={this.handleUpload}>Publish to database</Button>
-                <Map groupedEducation={this.state.groupedEducation} groupedCareer={this.state.groupedCareer}/>
+                <Map showPlanUpdater={false} groupedEducation={this.state.groupedEducation} groupedCareer={this.state.groupedCareer}/>
                 </div>
                 )}
                 </div>

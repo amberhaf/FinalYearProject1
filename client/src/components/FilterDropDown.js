@@ -19,6 +19,10 @@ export const FilterCareer = (props) => {
           <option value="Social work Jobs">Social work Jobs</option>
           <option value="Arts and Media Jobs">Arts and Media</option>
           <option value="Admin and Clerical Jobs">Admin and Clerical Jobs</option>
+          <option value="Public Service and Government Jobs">Public Service and Government Jobs</option>
+          <option value="Charity, Animal Welfare and Environment Jobs">Charity, Animal Welfare and Environment Jobs</option>
+          <option value="Saftey and Maintainance Jobs">Saftey and Maintainance Jobs</option>
+          <option value="Science and Research Jobs">Science and Research Jobs</option>
           <option value="Other">Other</option>
         </Form.Select>
       </div>

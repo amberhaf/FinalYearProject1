@@ -1,0 +1,80 @@
+[
+    {
+        "carList": [
+            {
+                "companyName": "Dunnes",
+                "industry": "Sales Jobs",
+                "jobTitle": "Sales Assistant",
+                "jobLength": 6
+            },
+            {
+                "companyName": "Civil Service",
+                "industry": "Public Service and Government Jobs",
+                "jobTitle": "Clerical Officer",
+                "jobLength": 3
+            }
+        ],
+        "eduList": [
+        ]
+    },
+    {
+        "carList": [{
+            "companyName": "Voluntary Worker",
+            "industry": "Volunteering and Charity Jobs",
+            "jobTitle": "Tidy Towns",
+            "jobLength": 6
+        },
+        {
+            "companyName": "Health Service Executive",
+            "industry": "Public Service and Government Jobs",
+            "jobTitle": "Environmental Health Officer",
+            "jobLength": 3
+        }],
+        "eduList": [
+            {
+                "courseTitle": "Science Majoring in Biology and Minoring in Chemistry",
+                "instituteName": "National University of Ireland, Maynooth",
+                "qualification": "Level 8: Honours Bachelor Degree",
+                "courseLength": 4
+            },
+            {
+                "courseTitle": "Climate Change: Policy, Media and Society",
+                "instituteName": "Dublin City University",
+                "qualification": "Level 9: Masters Degree",
+                "courseLength": 2
+            }
+        ]
+    },
+    {
+        "carList": [{
+            "companyName": "Dublin Zoo",
+            "industry": "Hospitality and Catering Jobs",
+            "jobTitle": "Kitchen Staff",
+            "jobLength": 1
+        },{
+            "companyName": "Dublin Zoo",
+            "industry": "Charity, Animal Welfare and Environment Jobs",
+            "jobTitle": "General Assistant Grade 1",
+            "jobLength": 1
+        },{
+            "companyName": "Department of Agriculture, Food and the Marine",
+            "industry": "Public Service and Government Jobs",
+            "jobTitle": "Agricultural Inspectorate",
+            "jobLength": 1
+        }],
+        "eduList": [
+            {
+                "courseTitle": "Science Degree in Biology and Chemistry",
+                "instituteName": "National University of Ireland, Maynooth",
+                "qualification": "Level 8: Honours Bachelor Degree",
+                "courseLength": 4
+            },
+            {
+                "courseTitle": "Biodiversity and Conservation",
+                "instituteName": "University of Dublin, Trinity College",
+                "qualification": "Level 9: Masters Degree",
+                "courseLength": 4
+            }
+        ]
+    }
+]

@@ -89,6 +89,7 @@ export default class Uploader extends Component {
       this.setState({eduList: [{instituteName: "", qualification:"", courseTitle:"", courseLength:0}]});
       this.setState({carList: [{companyName: "", industry:"", jobTitle:"", jobLength:0}]});
       this.setState({error: null });
+      window.alert("Successfully uploaded paths");
       this.refresh();
     }
     else{

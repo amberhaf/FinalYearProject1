@@ -9,14 +9,14 @@ function compareTitles(cname1, cname2) {
   cname1 = cname1.toLowerCase();
   cname2 = cname2.toLowerCase();
   //perform stop word removal
-  var stopwords = ["and", "a", "an", "with", "through", "the", "of", "in", "from", "major", "majoring", "minor", "minoring", "double"];
+  var stopwords = ["&", "&&","and", "a", "an", "with", "through", "the", "of", "in", "from", "major", "majoring", "minor", "minoring", "single", "double", "course", "degree"];
   var res1 = []
   var words = cname1.split(' ')
   for (var i = 0; i < words.length; i++) {
     //remove punctuation
     var word_clean = words[i].split(/[^\w\s]|_/g).join("")
     if (!stopwords.includes(word_clean) && word_clean !== "") {
-      res1.push(word_clean)
+      res1.push(word_clean);
     }
   }
   var res2 = []
@@ -25,7 +25,7 @@ function compareTitles(cname1, cname2) {
     //remove punctuation
     var word_clean = words[i].split(/[^\w\s]|_/g).join("")
     if (!stopwords.includes(word_clean) && word_clean !== "") {
-      res2.push(word_clean)
+      res2.push(word_clean);
     }
   }
   if (res1.sort().join(',') === res2.sort().join(',')) {
@@ -150,7 +150,7 @@ class PathMap extends React.Component {
       <div>
         <Header />
         <Welcome />
-        <Map groupedEducation={this.state.groupedEducation} groupedCareer={this.state.groupedCareer} />
+        <Map showPlanUpdater={auth().currentUser} groupedEducation={this.state.groupedEducation} groupedCareer={this.state.groupedCareer} />
       </div>
     );
   }
