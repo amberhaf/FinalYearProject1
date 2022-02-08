@@ -8,6 +8,7 @@ import TextareaAutosize from 'react-textarea-autosize';
 import InstitionWebsite from './InstitutionWebsite';
 import JobSearch from './JobSearch';
 
+
 const colourArray = ['#d4afb9', '#ffd670', '#d1cfe2', 
 '#9cadce', '#7ec4cf', '#52b2cf','#79addc', '#ffc09f', 
 '#ffee93', '#adf7b6','#84dcc6', '#a5ffd6', '#ffa69e', 
@@ -82,7 +83,6 @@ constructor(props) {
       earnings[event.target.id]=event.target.value;
       earningsIds[event.target.id]=event.target.name;
     }
-    console.log(earnings)
     this.setState({earnings: earnings});
     this.setState({earningsIds: earningsIds});
     console.log(removeNull(this.state.earnings).length)
@@ -157,11 +157,18 @@ constructor(props) {
   onChangeCareerEarnings(event){
     var myPaths=this.state.myCars;
     var name=event.target.name
-    var split=name.split("_")
+    var split=name.split("|")
     var i= split[0]
     var j = split[1]
+    var n = split[2]
     myPaths[i].details[j].earnings=event.target.value
     this.setState({myCars: myPaths})  
+    var earnings=this.state.earnings;
+    if(n==this.state.earningsIds[i])
+    {
+      earnings[i]=event.target.value
+    }
+    this.setState({earnings: earnings})
   }
   onChangeEducationCost(event){
     var myPaths=this.state.myEdus;
@@ -171,6 +178,12 @@ constructor(props) {
     var j = split[1]
     myPaths[i].details[j].cost=event.target.value
     this.setState({myEdus: myPaths})  
+    var cost=this.state.cost;
+    if(event.target.name==this.state.costIds[i])
+    {
+      cost[i]=event.target.value
+    }
+    this.setState({cost: cost})
   }
   onChangeCareerInputBox(event){
     var myPaths=this.state.myCars;
@@ -255,7 +268,7 @@ constructor(props) {
             <div key={i} className="map mapPurple center">
               <input type="checkbox" id={index} name={o.id} value={(o.cost*(o.courseLength/(o.numOfEntries||1)))} onChange={this.addToTotal} checked={o.id==this.state.costIds[index]}/>
               <label className="lightFont">Cost per year (€):</label>
-              <Form.Control className="form-control plannerNumberInput" id={index+"_"+i} type="number" value={o.cost} onChange={this.onChangeEducationCost}/>
+              <Form.Control className="form-control plannerNumberInput"  name={o.id} id={index+"_"+i} type="number" value={o.cost} onChange={this.onChangeEducationCost}/>
               <InstitionWebsite search={o.instituteName} />
               <EduBox box={o}/>
               <TextareaAutosize className="stickyNote" value={o.notes} id={index+"_"+i} onChange={this.onChangeEducationInputBox} placeholder="Enter notes…"/>
@@ -284,7 +297,7 @@ constructor(props) {
             <div key={i} className="map mapBlue center">
               <input className="checkbox" type="checkbox" id={index} name={o.id} value={o.earnings} onChange={this.addToEarnings} checked={o.id==this.state.earningsIds[index]}/>
               <label className="lightFont">Annual Salary (€):</label>
-              <JobSearch search={o.jobTitle} name={index+"_"+i} earnings={o.earnings} onChange={this.onChangeCareerEarnings}/>
+              <JobSearch search={o.jobTitle} name={index+"|"+i+"|"+o.id} earnings={o.earnings} onChange={this.onChangeCareerEarnings}/>
               <CarBox box={o}/>
               <TextareaAutosize className="stickyNote" value={o.notes} id={index+"_"+i} onChange={this.onChangeCareerInputBox} placeholder="Enter notes…"/>     
               {o.nextItem && o.nextItem.map((nextIt,j)=> (
