@@ -1,0 +1,23 @@
+[
+    {
+        "carList": [
+            {
+                "companyName": "",
+                "industry": "",
+                "jobTitle": "",
+                "jobLength": 6
+            },
+            {
+                "companyName": "",
+                "industry": "",
+                "jobTitle": "",
+                "jobLength": 3
+            }
+        ],
+        "eduList": [
+        ]
+    },
+    {
+    "json": []
+    }
+]

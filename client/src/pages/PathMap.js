@@ -40,10 +40,22 @@ class PathMap extends React.Component {
     this.state = {
       user: auth().currentUser,
       groupedEducation: [],
-      groupedCareer: []
+      groupedCareer: [],
+      allSelected: true
     };
+    this.changeDisplayAll= this.changeDisplayAll.bind(this);
+    this.changeDisplayMine= this.changeDisplayMine.bind(this);
   }
   componentDidMount() {
+    var storedIds=[]
+    if(this.state.user)
+    {
+      var uid = this.state.user.uid
+    }
+    else
+    {
+      uid = ""
+    }
     datab.collection('path').get().then(querySnapshot => {
       let allPosts = [];
       querySnapshot.forEach(doc => {
@@ -74,6 +86,12 @@ class PathMap extends React.Component {
                   var nex = p[i].carList[0]
                   nextIt.push({ id: nex.companyName + "_" + nex.industry + "_" + nex.jobTitle })
                 }
+                if(p[i].user === uid || storedIds.includes(gp[iter][index].id))
+                {
+                  gp[iter][index].currentUser=true;
+                  //add id to the list of acceptable ids
+                 storedIds.push(nextIt.id)
+                }
                 gp[iter][index].nextItem = nextIt
                 gp[iter][index].courseLength = (parseInt(gp[iter][index].courseLength) + parseInt(obj.courseLength))
                 gp[iter][index].numOfEntries = gp[iter][index].numOfEntries + 1
@@ -90,7 +108,14 @@ class PathMap extends React.Component {
                 var nex = p[i].carList[0]
                 nextIt.push({ id: nex.companyName + "_" + nex.industry + "_" + nex.jobTitle })
               }
-              var insert = { id: obj.instituteName + "_" + obj.qualification + "_" + obj.courseTitle, instituteName: obj.instituteName, qualification: obj.qualification, courseTitle: obj.courseTitle, courseLength: obj.courseLength, nextItem: nextIt, numOfEntries: 1, notes: "", cost: 0, website: "" };
+              //add id to the list of acceptable ids
+              var insert = { id: obj.instituteName + "_" + obj.qualification + "_" + obj.courseTitle, instituteName: obj.instituteName, qualification: obj.qualification, courseTitle: obj.courseTitle, courseLength: obj.courseLength, nextItem: nextIt, numOfEntries: 1, notes: "", cost: 0, website: "" , currentUser: p[i].user === uid};
+              if(p[i].user === uid || storedIds.includes(insert.id))
+              {
+                insert.currentUser=true;
+                //add id to the list of acceptable ids
+               storedIds.push(nextIt.id)
+              }
               gp[h] = gp[h].concat(insert)
             }
           }
@@ -115,6 +140,12 @@ class PathMap extends React.Component {
                   var nex = p[i].carList[h + 1]
                   nextIt.push({ id: nex.companyName + "_" + nex.industry + "_" + nex.jobTitle })
                 }
+                if(p[i].user === uid || storedIds.includes(gp[iter][index].id))
+                {
+                  gp[iter][index].currentUser=true;
+                  //add id to the list of acceptable ids
+                 storedIds.push(nextIt.id)
+                }
                 gc[iter][index].nextItem = nextIt
                 gc[iter][index].jobLength = parseInt(gc[iter][index].jobLength) + parseInt(obj.jobLength)
                 gc[iter][index].numOfEntries = gc[iter][index].numOfEntries + 1
@@ -127,7 +158,13 @@ class PathMap extends React.Component {
                 var nex = p[i].carList[h + 1]
                 nextIt.push({ id: nex.companyName + "_" + nex.industry + "_" + nex.jobTitle })
               }
-              var insert = { id: obj.companyName + "_" + obj.industry + "_" + obj.jobTitle, companyName: obj.companyName, industry: obj.industry, jobTitle: obj.jobTitle, jobLength: obj.jobLength, numOfEntries: 1, nextItem: nextIt, notes: "", earnings: 0, website: "" };
+              var insert = { id: obj.companyName + "_" + obj.industry + "_" + obj.jobTitle, companyName: obj.companyName, industry: obj.industry, jobTitle: obj.jobTitle, jobLength: obj.jobLength, numOfEntries: 1, nextItem: nextIt, notes: "", earnings: 0, website: "", currentUser: p[i].user === uid};
+              if(p[i].user === uid || storedIds.includes(insert.id))
+              {
+                insert.currentUser=true;
+                //add id to the list of acceptable ids
+               storedIds.push(nextIt.id)
+              }
               gc[h] = gc[h].concat(insert)
             }
           }
@@ -144,13 +181,21 @@ class PathMap extends React.Component {
       });
     }
   }
+  changeDisplayMine(){
+    this.setState({allSelected: false});
+  }
+  changeDisplayAll(){
+    this.setState({allSelected: true});
+  }
 
   render() {
     return (
       <div>
         <Header />
         <Welcome />
-        <Map showPlanUpdater={auth().currentUser} groupedEducation={this.state.groupedEducation} groupedCareer={this.state.groupedCareer} />
+        {auth().currentUser && (<div className="center"><button onClick={this.changeDisplayAll} className={this.state.allSelected ? "" : "button"}>All Paths</button>
+        <button onClick={this.changeDisplayMine} className={!this.state.allSelected ? "" : "button"}>My Paths</button></div>)}
+        <Map allSelected={this.state.allSelected} showPlanUpdater={auth().currentUser} groupedEducation={this.state.groupedEducation} groupedCareer={this.state.groupedCareer} />
       </div>
     );
   }

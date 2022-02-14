@@ -32,6 +32,7 @@ constructor(props) {
   this.onChangeEducationCheckBox = this.onChangeEducationCheckBox.bind(this);
   this.onChangeCareerCheckBox = this.onChangeCareerCheckBox.bind(this);
   this.handleUpdate = this.handleUpdate.bind(this);
+  this.currentUserMatch= this.currentUserMatch.bind(this);
 }
 
 componentDidMount() {
@@ -44,6 +45,10 @@ componentDidMount() {
       })
     });
   }
+}
+
+currentUserMatch(o){
+  return (o.currentUser)
 }
 
 handleUpdate(e) {
@@ -217,19 +222,21 @@ onChangeCareerCheckBox(event){
     var myPaths = this.state.groupedEducation
     for(var iter=0; iter<myPaths.length; iter++)
     {
-        var result = myPaths[iter].find(groupObj => {
-          return groupObj.id === id;
-        })
+      var result = myPaths[iter].find(groupObj => {
+        return groupObj.id === id;
+      })
       if(result!=undefined)
       {
-        return true;
+        if(this.props.allSelected || result.currentUser)
+        {
+          return true;
+        }
       }
     }
     return false;
   }
   filterNextCarById(id) {
     var myPaths = this.state.groupedCareer
-    var result=undefined
     for(var iter=0; iter<myPaths.length; iter++)
     {
         var result = myPaths[iter].find(groupObj => {
@@ -237,7 +244,10 @@ onChangeCareerCheckBox(event){
         })
         if(result!=undefined)
         {
-          return true;
+          if(this.props.allSelected || result.currentUser)
+          {
+            return true;
+          }
         }
     }
     return false;
@@ -271,16 +281,17 @@ onChangeCareerCheckBox(event){
           {this.state.groupedEducation && this.state.groupedEducation.map((n,index) => (
           <td key={index}>  
             {n && n.sort(this.sortByQualification).map((o,i) => (
+              (this.props.allSelected || this.currentUserMatch(o)) && (
             <div key={i} className="map mapNavy">
-              {auth().currentUser && (<input className="checkbox" label="include planner" type="checkbox" name={index} value={o.id} checked={this.filterEduById(o.id, index)} onChange={this.onChangeEducationCheckBox}/>)}
+              {this.props.showPlanUpdater && (<input className="checkbox" label="include planner" type="checkbox" name={index} value={o.id} checked={this.filterEduById(o.id, index)} onChange={this.onChangeEducationCheckBox}/>)}
               <EduBox box={o} />
               {o.nextItem && o.nextItem.map((nextIt,j)=> (
               <div key={j}>
-              {(this.filterNextEduById(nextIt.id) || this.filterNextCarById(nextIt.id)) && <Xarrow color={colourArray[i%colourArray.length]} className="arrow" start={o.id} end={nextIt.id} />}
+              {(this.filterNextEduById(nextIt.id) || this.filterNextCarById(nextIt.id)) && <Xarrow color={colourArray[Math.floor(Math.random() * colourArray.length)]} className="arrow" start={o.id} end={nextIt.id} />}
               </div>
               ))}
             </div>
-            ))}
+            )))}
           </td>
           ))}
           </tr>
@@ -294,16 +305,17 @@ onChangeCareerCheckBox(event){
           {this.state.groupedCareer && this.state.groupedCareer.map((n,index) => (
           <td key={index}>  
             {n && n.sort(this.sortByIndustry).map((o,i) => (
+              (this.props.allSelected || this.currentUserMatch(o)) && (
             <div key={i} className="map mapNavy">
-              {auth().currentUser && (<input label="include planner" type="checkbox" name={index} value={o.id} checked={this.filterCarById(o.id, index)} onChange={this.onChangeCareerCheckBox}/>)}
+              {this.props.showPlanUpdater && (<input label="include planner" type="checkbox" name={index} value={o.id} checked={this.filterCarById(o.id, index)} onChange={this.onChangeCareerCheckBox}/>)}
               <CarBox box={o}/>
               {o.nextItem && o.nextItem.map((nextIt,j)=> (
               <div key={j}>
-              {this.filterNextCarById(nextIt.id) && <Xarrow color={colourArray[i%colourArray.length]} start={o.id} end={nextIt.id} />}
+              {this.filterNextCarById(nextIt.id) && <Xarrow color={colourArray[Math.floor(Math.random() * colourArray.length)]} start={o.id} end={nextIt.id} />}
               </div>
               ))}
             </div>
-            ))}
+            )))}
           </td>
           ))}
           </tr>

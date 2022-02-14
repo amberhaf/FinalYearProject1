@@ -44,7 +44,7 @@ constructor(props) {
   return (
     <div className='section'>
           <h3 className="text-center">
-            Uploaded Paths
+            Uploaded Paths for {this.state.user.email}
           </h3>
       <Container>
       {this.state.posts && this.state.posts.map((n,index) => (
