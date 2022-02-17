@@ -1,20 +1,20 @@
 [
     {
-        "carList": [
+        "list": [
             {
+                "education": false,
                 "companyName": "",
                 "industry": "",
                 "jobTitle": "",
-                "jobLength": 6
+                "length": 6
             },
             {
+                "education": false,
                 "companyName": "",
                 "industry": "",
                 "jobTitle": "",
-                "jobLength": 3
+                "length": 3
             }
-        ],
-        "eduList": [
         ]
     },
     {

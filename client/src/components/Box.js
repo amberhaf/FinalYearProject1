@@ -11,7 +11,7 @@ export const EduBox = (props) => {
           <li><b>Course Title:</b></li>
           <li className="lightFont">{props.box.courseTitle}</li>
           <li><b>Course Length:</b></li>
-          <li className="lightFont">{props.box.courseLength/(props.box.numOfEntries||1)} years</li>
+          <li className="lightFont">{props.box.length/(props.box.numOfEntries||1)} years</li>
         </ul>
         {/* todo make boxes connect at different points */}
       </div>
@@ -28,7 +28,7 @@ export const CarBox = (props) => {
           <li><b>Job Title:</b></li>
           <li className="lightFont">{props.box.jobTitle}</li>
           <li><b>Job length:</b></li>
-          <li className="lightFont">{props.box.jobLength/(props.box.numOfEntries||1)} years</li>
+          <li className="lightFont">{props.box.length/(props.box.numOfEntries||1)} years</li>
         </ul>
       </div>
     );

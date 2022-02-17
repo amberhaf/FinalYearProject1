@@ -1,0 +1,417 @@
+[
+    {
+        "list": [
+            {
+                "education": true,
+                "length": 4,
+                "courseTitle": "Science Majoring in Biology and Minoring in Chemistry",
+                "instituteName": "National University of Ireland, Maynooth",
+                "qualification": "Level 8: Honours Bachelor Degree"
+            },
+            {
+                "education": true,
+                "length": 2,
+                "courseTitle": "Climate Change: Policy, Media and Society",
+                "instituteName": "Dublin City University",
+                "qualification": "Level 9: Masters Degree"
+            },
+            {
+                "education": false,
+                "companyName": "Voluntary Worker",
+                "industry": "Volunteering and Charity Jobs",
+                "length": 6,
+                "jobTitle": "Tidy Towns"
+            },
+            {
+                "education": false,
+                "companyName": "Health Service Executive",
+                "industry": "Public Service and Government Jobs",
+                "length": 3,
+                "jobTitle": "Environmental Health Officer"
+            }
+        ]
+    },
+    {
+        "list": [
+            {
+                "education": true,
+                "length": "4",
+                "courseTitle": "Business and Management ",
+                "instituteName": "National University of Ireland, Maynooth",
+                "qualification": "Level 8: Honours Bachelor Degree"
+            },
+            {
+                "education": false,
+                "companyName": "State Street",
+                "industry": "Accounting and Finance Jobs",
+                "length": "1",
+                "jobTitle": "fund accountant"
+            },
+            {
+                "education": false,
+                "companyName": "Bank of Ireland",
+                "industry": "Accounting and Finance Jobs",
+                "length": "2",
+                "jobTitle": "business analyst"
+            },
+            {
+                "education": true,
+                "length": "1",
+                "courseTitle": "Strategic Management ",
+                "instituteName": "Lund University",
+                "qualification": "Level 9: Masters Degree"
+            },
+            {
+                "education": false,
+                "companyName": "Guidehouse ",
+                "industry": "Healthcare and Nursing Jobs",
+                "length": "2",
+                "jobTitle": "business analyst"
+            },
+            {
+                "education": false,
+                "companyName": "TikTok",
+                "industry": "Arts and Media Jobs",
+                "length": "1",
+                "jobTitle": "sales operations"
+            }
+        ]
+    },
+    {
+        "list": [
+            {
+                "education": true,
+                "length": "3",
+                "courseTitle": "Arts, English, German",
+                "instituteName": "University College Dublin",
+                "qualification": "Level 7: Ordinary Bachelor Degree"
+            },
+            {
+                "education": false,
+                "companyName": "Dublin City Council",
+                "industry": "Public Service and Government Jobs",
+                "length": "10",
+                "jobTitle": "library assistant"
+            },
+            {
+                "education": false,
+                "companyName": "Matthew Hall Mechanical and Electrical Engineering ",
+                "industry": "Admin and Clerical Jobs",
+                "length": "8",
+                "jobTitle": "assistant buyer"
+            }
+        ]
+    },
+    {
+        "list": [
+            {
+                "education": false,
+                "companyName": "The Springfield Leixlip",
+                "industry": "Hospitality and Catering Jobs",
+                "length": 3,
+                "jobTitle": "Bar Staff"
+            },
+            {
+                "education": false,
+                "companyName": "The Springfield Leixlip",
+                "industry": "Hospitality and Catering Jobs",
+                "length": 8,
+                "jobTitle": "Bar manager"
+            }
+        ]
+    },
+    {
+        "list": [
+            {
+                "education": true,
+                "length": 3,
+                "courseTitle": "Computer Science through arts",
+                "instituteName": "National University of Ireland, Maynooth",
+                "qualification": "Level 8: Honours Bachelor Degree"
+            },
+            {
+                "education": true,
+                "length": 2,
+                "courseTitle": "Business Analytics",
+                "instituteName": "University of Dublin, Trinity College",
+                "qualification": "Level 9: Masters Degree"
+            },
+            {
+                "education": false,
+                "companyName": "Maynooth Language School",
+                "industry": "Arts and Media Jobs",
+                "length": 2,
+                "jobTitle": "Foreign language teacher"
+            }
+        ]
+    },
+    {
+        "list": [
+            {
+                "education": true,
+                "qualification": "Level 8: Honours Bachelor Degree",
+                "instituteName": "University College Dublin",
+                "courseTitle": "Arts: English Major",
+                "length": 3
+            },
+            {
+                "education": false,
+                "companyName": "Self Employed",
+                "industry": "Arts and Media Jobs",
+                "length": 5,
+                "jobTitle": "Fiction Writer"
+            }
+        ]
+    },
+    {
+        "list": [
+            {
+                "education": true,
+                "length": 3,
+                "courseTitle": "Media",
+                "instituteName": "National University of Ireland, Maynooth",
+                "qualification": "Level 8: Honours Bachelor Degree"
+            },
+            {
+                "education": true,
+                "length": 1,
+                "courseTitle": "SOFTWARE DEVELOPMENT",
+                "instituteName": "National University of Ireland, Maynooth",
+                "qualification": "Level 8: Higher Diploma"
+            },
+            {
+                "education": false,
+                "companyName": "Accenture",
+                "industry": "IT Jobs",
+                "length": 4,
+                "jobTitle": "Software Developer"
+            }
+        ]
+    },
+    {
+        "list": [
+            {
+                "education": true,
+                "length": 1,
+                "courseTitle": "Architectural Design & Technology",
+                "instituteName": "Other: College of Further Education",
+                "qualification": "Level 5: PLC"
+            },
+            {
+                "education": true,
+                "length": 4,
+                "courseTitle": "Architecture",
+                "instituteName": "Dublin Institute of Technology",
+                "qualification": "Level 8: Honours Bachelor Degree"
+            },
+            {
+                "education": true,
+                "length": 1,
+                "courseTitle": "Architecture",
+                "instituteName": "Dublin Institute of Technology",
+                "qualification": "Level 9: Masters Degree"
+            },
+            {
+                "education": false,
+                "companyName": "Dublin Design Studio",
+                "industry": "Trade and Construction Jobs",
+                "length": 10,
+                "jobTitle": "Architect"
+            }
+        ]
+    },
+    {
+        "list": [
+            {
+                "education": false,
+                "companyName": "Lavelle Partners",
+                "industry": "Admin and Clerical Jobs",
+                "length": "10",
+                "jobTitle": "insurance solicitor"
+            }
+        ]
+    },
+    {
+        "list": [
+            {
+                "education": true,
+                "length": "4",
+                "courseTitle": "Computer Science and Software Engineering",
+                "instituteName": "National University of Ireland, Maynooth",
+                "qualification": "Level 8: Honours Bachelor Degree"
+            },
+            {
+                "education": false,
+                "companyName": "Workday",
+                "industry": "IT Jobs",
+                "length": "3",
+                "jobTitle": "software engineering project manager"
+            }
+        ]
+    },
+    {
+        "list": [
+            {
+                "education": false,
+                "companyName": "Dunnes",
+                "industry": "Sales Jobs",
+                "length": 6,
+                "jobTitle": "Sales Assistant"
+            },
+            {
+                "education": false,
+                "companyName": "Civil Service",
+                "industry": "Public Service and Government Jobs",
+                "length": 3,
+                "jobTitle": "Clerical Officer"
+            }
+        ]
+    },
+    {
+        "list": [
+            {
+                "education": true,
+                "length": "4",
+                "courseTitle": "Medicine",
+                "instituteName": "Royal College of Surgeons",
+                "qualification": "Level 8: Honours Bachelor Degree"
+            }
+        ]
+    },
+    {
+        "list": [
+            {
+                "education": true,
+                "length": "3",
+                "courseTitle": "Arts Law and Psychology",
+                "instituteName": "National University of Ireland, Maynooth",
+                "qualification": "Level 8: Honours Bachelor Degree"
+            },
+            {
+                "education": false,
+                "companyName": "Glenroyal Hotel and Leisure Club",
+                "industry": "Hospitality and Catering Jobs",
+                "length": "1",
+                "jobTitle": "hotel receptionist"
+            },
+            {
+                "education": false,
+                "companyName": "Peter McVerry Trust",
+                "industry": "Social worker Jobs",
+                "length": "1",
+                "jobTitle": "clinical social worker"
+            }
+        ]
+    },
+    {
+        "list": [
+            {
+                "education": false,
+                "companyName": "Dublin Design Studio",
+                "industry": "Trade and Construction Jobs",
+                "length": "1",
+                "jobTitle": "architecture intern"
+            },
+            {
+                "education": true,
+                "length": "3",
+                "courseTitle": "Architecture",
+                "instituteName": "University College Dublin",
+                "qualification": "Level 8: Honours Bachelor Degree"
+            },
+            {
+                "education": true,
+                "length": "2",
+                "courseTitle": "Architecture",
+                "instituteName": "Dublin Institute of Technology",
+                "qualification": "Level 9: Masters Degree"
+            }
+        ]
+    },
+    {
+        "list": [
+            {
+                "education": true,
+                "length": 4,
+                "courseTitle": "Computer Science and Software Engineering",
+                "instituteName": "National University of Ireland, Maynooth",
+                "qualification": "Level 8: Honours Bachelor Degree"
+            },
+            {
+                "education": false,
+                "companyName": "Apple",
+                "industry": "IT Jobs",
+                "length": 5,
+                "jobTitle": "Technology Support Analyst"
+            },
+            {
+                "education": false,
+                "companyName": "Google",
+                "industry": "IT Jobs",
+                "length": 3,
+                "jobTitle": "Front End Software Developer"
+            }
+        ]
+    },
+    {
+        "list": [
+            {
+                "education": true,
+                "length": "4",
+                "courseTitle": "European Studies",
+                "instituteName": "National University of Ireland, Maynooth",
+                "qualification": "Level 8: Honours Bachelor Degree"
+            }
+        ]
+    },
+    {
+        "list": [
+            {
+                "education": true,
+                "length": "4",
+                "courseTitle": "European Studies",
+                "instituteName": "National University of Ireland, Maynooth",
+                "qualification": "Level 8: Honours Bachelor Degree"
+            },
+            {
+                "education": true,
+                "length": "1",
+                "courseTitle": "Computer Science",
+                "instituteName": "National University of Ireland, Maynooth",
+                "qualification": "Level 8: Higher Diploma"
+            },
+            {
+                "industry": "IT Jobs",
+                "jobTitle": "technical support analyst",
+                "length": "2",
+                "education": false,
+                "companyName": "CPL Technology"
+            }
+        ]
+    },
+    {
+        "list": [
+            {
+                "education": true,
+                "length": 3,
+                "courseTitle": "Arts: English Major",
+                "instituteName": "University College Dublin",
+                "qualification": "Level 8: Honours Bachelor Degree"
+            },
+            {
+                "education": true,
+                "length": 1,
+                "courseTitle": "Journalism & International Affairs",
+                "instituteName": "University College Dublin",
+                "qualification": "Level 9: Masters Degree"
+            },
+            {
+                "education": false,
+                "companyName": "The Irish Times",
+                "industry": "Arts and Media Jobs",
+                "length": 5,
+                "jobTitle": "Newspaper Journalist"
+            }
+        ]
+    }
+]

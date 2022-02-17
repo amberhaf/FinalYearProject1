@@ -45,7 +45,7 @@ app.post('/server/upload', (req, res) => {
       res.end(response);
     });
 //recieves playlist request using express
-app.post('/server/choosePlaylist', function (req, res) {
+app.post('/server/getSalary', function (req, res) {
   console.log(req.body.search+","+req.body.location+","+req.body.country)
   const targetURL = `${config.BASE_URL}/${req.body.country.toLowerCase()}/${config.BASE_PARAMS}&app_id=${config.APP_ID}&app_key=${config.API_KEY}&what=${req.body.search}&where=${req.body.location}`;
     console.log(chalk.green(`Proxy GET request to : ${targetURL}`));

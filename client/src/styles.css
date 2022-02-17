@@ -41,8 +41,6 @@ ul{
 .myMap{
   margin: 5px;
   padding: 0px;
-  display: grid;
-  width: 12.5%;
 }
 
 .center{
@@ -148,12 +146,21 @@ form{
 .totalInput{
   border: 2px solid #66a1dd;
 }
-.Career,.Education{
-  border: 2px solid #66a1dd;
+.Career{
+  border: 4px solid #66a1dd;
+  padding: 10px;
+  margin-bottom: 10px;
+}
+.Education{
+  border: 5px solid #8f7ba7;
   padding: 10px;
   margin-bottom: 10px;
 }
 
 .forgotButton{
   background-color: rgb(253, 253, 129);
+}
+
+.white{
+  color: beige;
 }

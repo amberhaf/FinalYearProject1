@@ -15,13 +15,11 @@ export default class Uploader extends Component {
       file: null,
       ready: false,
       error: null,
-      eduList: [{instituteName: "", qualification:"", courseTitle:"", courseLength:0}],
-      carList: [{companyName: "", industry:"", jobTitle:"", jobLength:0}],
+      list: []
     };
     this.handleAddEducation = this.handleAddEducation.bind(this);   
-    this.handleRemoveEducation = this.handleRemoveEducation.bind(this);  
+    this.handleRemove = this.handleRemove.bind(this);  
     this.handleAddCareer = this.handleAddCareer.bind(this);    
-    this.handleRemoveCareer = this.handleRemoveCareer.bind(this);
     this.handleUpload = this.handleUpload.bind(this);
     this.onChangeInstituteName = this.onChangeInstituteName.bind(this);
     this.onChangeQualification = this.onChangeQualification.bind(this);
@@ -29,65 +27,51 @@ export default class Uploader extends Component {
     this.onChangeCompanyName = this.onChangeCompanyName.bind(this);
     this.onChangeIndustry = this.onChangeIndustry.bind(this);
     this.onChangeJobTitle = this.onChangeJobTitle.bind(this);
-    this.onChangeCourseLength = this.onChangeCourseLength.bind(this);
-    this.onChangeJobLength = this.onChangeJobLength.bind(this);
+    this.onChangelength = this.onChangelength.bind(this);
   }
   handleAddEducation(e) {
     e.preventDefault();
-    if(this.state.eduList.length<4)
+    if(this.state.list.length<8)
     {
-      var obj = {instituteName: "", qualification:"", courseTitle:"", courseLength:0};
-      this.setState({ eduList: this.state.eduList.concat(obj)});
+      var obj = {education: true, instituteName: "", qualification:"", courseTitle:"", length:0};
+      this.setState({ list: this.state.list.concat(obj)});
     }
   }
   handleAddCareer(e) {
     e.preventDefault();
-    if(this.state.carList.length<4)
+    if(this.state.list.length<8)
     {
-    var obj = {companyName: "", industry:"", jobTitle:"", jobLength:0};
-    this.setState({ carList: this.state.carList.concat(obj)});
+    var obj = {education: false, companyName: "", industry:"", jobTitle:"", length:0};
+    this.setState({ list: this.state.list.concat(obj)});
     }
   }
-  handleRemoveEducation(e) {
+  handleRemove(e) {
     e.preventDefault();
-    var edu=this.state.eduList
-    if(edu.length>1){
-      edu.pop();
-      this.setState({ eduList: edu});
-    }
-  }
-  handleRemoveCareer(e) {
-    e.preventDefault();
-    var car=this.state.carList
-    if(car.length>1){
-      car.pop();
-      this.setState({ carList: car});
+    var list=this.state.list
+    if(list.length>0){
+      list.pop();
+      this.setState({ list: list});
     }
   }
   handleUpload(e) {
     console.log("validation called")
-    var edu =  []
-    for (var i = 0; i < this.state.eduList.length; i++){
-      if(! (this.state.eduList[i].instituteName === "" || this.state.eduList[i].qualification === ""  || this.state.eduList[i].courseTitle === ""))
+    var list =  []
+    for (var i = 0; i < this.state.list.length; i++){
+      if(this.state.list[i].education === true && !(this.state.list[i].instituteName === "" || this.state.list[i].qualification === ""  || this.state.list[i].courseTitle === ""))
       {
-        edu.push(this.state.eduList[i])
+        list.push(this.state.list[i])
+      }
+      else if(this.state.list[i].education === false && ! (this.state.list[i].companyName === "" || this.state.list[i].industry === ""  || this.state.list[i].jobTitle === ""))
+      {
+        list.push(this.state.list[i])
       }
     }
-    var car = []    
-    for (var i = 0; i < this.state.carList.length; i++){
-      if(! (this.state.carList[i].companyName === "" || this.state.carList[i].industry === ""  || this.state.carList[i].jobTitle === ""))
-      {
-        car.push(this.state.carList[i])
-      }
-    }
-    if(edu.length>0 || car.length>0){
-      datab.collection("path").add({
+    if(list.length>0){
+      datab.collection("pathIntertwined").add({
         user: this.state.user.uid,
-        eduList: edu,
-        carList: car
+        list: list
       });
-      this.setState({eduList: [{instituteName: "", qualification:"", courseTitle:"", courseLength:0}]});
-      this.setState({carList: [{companyName: "", industry:"", jobTitle:"", jobLength:0}]});
+      this.setState({list: []});
       this.setState({error: null });
       window.alert("Successfully uploaded paths");
       this.refresh();
@@ -104,62 +88,65 @@ export default class Uploader extends Component {
   }
   
   onChangeInstituteName(event) {
-    var l=this.state.eduList;
+    var l=this.state.list;
     l[event.target.name].instituteName=event.target.value;
-    this.setState({eduList: l})
+    this.setState({list: l})
   }
 
   onChangeQualification(event) {
-    var l=this.state.eduList;
+    var l=this.state.list;
     l[event.target.name].qualification=event.target.value;
     this.setState({eduList: l})
   }
 
   onChangeCourseTitle(event) {
-    var l=this.state.eduList;
+    var l=this.state.list;
     l[event.target.name].courseTitle=event.target.value;
-    this.setState({eduList: l})
+    this.setState({list: l})
   }
-  onChangeCourseLength(event) {
-    var l=this.state.eduList;
-    l[event.target.name].courseLength=event.target.value;
-    this.setState({eduList: l})
+  onChangelength(event) {
+    var l=this.state.list;
+    l[event.target.name].length=event.target.value;
+    this.setState({list: l})
   }
 
   onChangeCompanyName(event) {
-    var l=this.state.carList;
+    var l=this.state.list;
     l[event.target.name].companyName=event.target.value;
-    this.setState({carList: l})
+    this.setState({list: l})
   }
 
   onChangeIndustry(event) {
-    var l=this.state.carList;
+    var l=this.state.list;
     l[event.target.name].industry=event.target.value;
-    this.setState({carList: l})
+    this.setState({llist: l})
   }
 
   onChangeJobTitle(value, name) {
-    var l=this.state.carList;
+    var l=this.state.list;
     l[name].jobTitle=value;
-    this.setState({carList: l})
+    this.setState({list: l})
   }
-  onChangeJobLength(event) {
+  onChangelength(event) {
     let { value} = event.target;
-    var l=this.state.carList;
-    l[event.target.name].jobLength=value;
-    this.setState({carList: l})
+    var l=this.state.list;
+    l[event.target.name].length=value;
+    this.setState({list: l})
   }
 
   render() {
     return (
     <div className="center section">
       <h4>Fill out as accurately as you can from earliest to latest</h4>
+      <h6>Only input items that you feel were essential to your career</h6>
       <Container>
       <Row>
       <Col>
-      <h4>Education</h4>
-      {this.state.eduList.map((n,index) => (
-      <div className="Education" key={index}>
+      {this.state.list.map((n,index) => (
+        <div key={index}>
+        {(n.education===true &&(
+      <div className="Education">
+        <h4>Education</h4>
       <form>
         <Institution name={index} institution={n.instituteName} nothingSelected={"None"} onChange = {this.onChangeInstituteName}/>
         <FilterCourse name={index} qualification={n.qualification} nothingSelected={"None"} onChange = {this.onChangeQualification}/>
@@ -167,20 +154,14 @@ export default class Uploader extends Component {
         <Form.Control placeholder="None" className="form-control"  type="text" name={index} value={n.courseTitle}
         onChange = {this.onChangeCourseTitle}/>
           <span>Number of Years:</span>
-          <Form.Control type="number" min="0" max="99" name={index} value={n.courseLength}
-          onChange = {this.onChangeCourseLength}/>
+          <Form.Control type="number" min="0" max="99" name={index} value={n.length}
+          onChange = {this.onChangelength}/>
       </form>
-      </div>
+      </div>          
       ))}
-      <form>
-        <Button className="button margin10" onClick={this.handleAddEducation}>Add new Education</Button>
-        <Button className="button margin10" onClick={this.handleRemoveEducation}>Remove last Education</Button>
-      </form>
-      </Col>
-      <Col>
-      <h4>Career</h4>
-      {this.state.carList.map((n,index) => (
-      <div className="Career" key={index}>
+      {(n.education===false &&(
+      <div className="Career">
+        <h4>Career</h4>
         <form>
           <span>Company Name:</span>
           <Form.Control placeholder="None" className="form-control" type="text" name={index} value={n.companyName}
@@ -188,14 +169,18 @@ export default class Uploader extends Component {
           <FilterCareer name={index} industry={n.industry} nothingSelected={"None"} onChange={this.onChangeIndustry}/>
           <JobTitle name={index} jobTitle={n.jobTitle} nothingSelected={"None"} onChange={this.onChangeJobTitle}/>
           <span>Number of Years:</span>
-          <Form.Control className="form-control" type="number" min="0" max="99" name={index} value={n.jobLength}
-          onChange = {this.onChangeJobLength}/>
+          <Form.Control className="form-control" type="number" min="0" max="99" name={index} value={n.length}
+          onChange = {this.onChangelength}/>
         </form>
-      </div>
+      </div>          
       ))}
+      </div>))}
       <form>
+        <Button className="button margin10" onClick={this.handleAddEducation}>Add new Education</Button>
         <Button className="button margin10" onClick={this.handleAddCareer}>Add new Career</Button>
-        <Button className="button margin10" onClick={this.handleRemoveCareer}>Remove last Career</Button>
+        </form>
+      <form>
+        <Button className="button margin10" onClick={this.handleRemove}>Remove last</Button>
       </form>
       </Col>
       </Row>

@@ -1,160 +1,170 @@
 [
     {
-        "carList": [
+        "list": [
             {
-                "companyName": "Apple",
-                "industry": "IT Jobs",
-                "jobTitle": "Technology Support Analyst",
-                "jobLength": 5
-            },
-            {
-                "companyName": "Google",
-                "industry": "IT Jobs",
-                "jobTitle": "Front End Software Developer",
-                "jobLength": 3
-            }
-        ],
-        "eduList": [
-            {
+                "education": true,
                 "courseTitle": "Computer Science and Software Engineering",
                 "instituteName": "National University of Ireland, Maynooth",
                 "qualification": "Level 8: Honours Bachelor Degree",
-                "courseLength": 4
+                "length": 4
+            },
+            {
+                "education": false,
+                "companyName": "Apple",
+                "industry": "IT Jobs",
+                "jobTitle": "Technology Support Analyst",
+                "length": 5
+            },
+            {
+                "education": false,
+                "companyName": "Google",
+                "industry": "IT Jobs",
+                "jobTitle": "Front End Software Developer",
+                "length": 3
             }
         ]
     },
     {
-        "carList": [],
-        "eduList": [
+        "list": [
             {
+                "education": true,
                 "courseTitle": "Computer Science through arts",
                 "instituteName": "National University of Ireland, Maynooth",
                 "qualification": "Level 8: Honours Bachelor Degree",
-                "courseLength": 3
+                "length": 3
             },
             {
+                "education": true,
                 "courseTitle": "Business Analytics",
                 "instituteName": "University of Dublin, Trinity College",
                 "qualification": "Level 9: Masters Degree",
-                "courseLength": 2
+                "length": 2
             }
         ]
     },
     {
-        "carList": [{
-            "companyName": "The Irish Times",
-            "industry": "Arts and Media Jobs",
-            "jobTitle": "Newspaper Journalist",
-            "jobLength": 5
-        }],
-        "eduList": [
+        "list": [
             {
+                "education": true,
                 "courseTitle": "Arts: English Major",
                 "instituteName": "University College Dublin",
                 "qualification": "Level 8: Honours Bachelor Degree",
-                "courseLength": 3
+                "length": 3
             },
             {
+                "education": true,
                 "courseTitle": "Journalism & International Affairs",
                 "instituteName": "University College Dublin",
                 "qualification": "Level 9: Masters Degree",
-                "courseLength": 1
+                "length": 1
+            },
+            {
+                "education": false,
+                "companyName": "The Irish Times",
+                "industry": "Arts and Media Jobs",
+                "jobTitle": "Newspaper Journalist",
+                "length": 5
             }
         ]
     },
     {
-        "carList": [
+        "list": [
             {
-                "companyName": "Accenture",
-                "industry": "IT Jobs",
-                "jobTitle": "Software Developer",
-                "jobLength": 4
-            }
-        ],
-        "eduList": [
-            {
+                "education": true,
                 "courseTitle": "Media",
                 "instituteName": "National University of Ireland, Maynooth",
                 "qualification": "Level 8: Honours Bachelor Degree",
-                "courseLength": 3
+                "length": 3
             },
             {
+                "education": true,
                 "courseTitle": "SOFTWARE DEVELOPMENT",
                 "instituteName": "National University of Ireland, Maynooth",
                 "qualification": "Level 8: Higher Diploma",
-                "courseLength": 1
+                "length": 1
+            },
+            {
+                "education": false,
+                "companyName": "Accenture",
+                "industry": "IT Jobs",
+                "jobTitle": "Software Developer",
+                "length": 4
             }
         ]
     },
     {
-        "carList": [
+        "list": [
             {
-                "companyName": "Dublin Design Studio",
-                "industry": "Trade and Construction Jobs",
-                "jobTitle": "Architect",
-                "jobLength": 10
-            }
-        ],
-        "eduList": [
-            {
+                "education": true,
                 "courseTitle": "Architectural Design & Technology",
                 "instituteName": "Other: College of Further Education",
                 "qualification": "Level 5: PLC",
-                "courseLength": 1
+                "length": 1
             },
             {
+                "education": true,
                 "courseTitle": "Architecture",
                 "instituteName": "Dublin Institute of Technology",
                 "qualification": "Level 8: Honours Bachelor Degree",
-                "courseLength": 4
+                "length": 4
             },
             {
+                "education": true,
                 "courseTitle": "Architecture",
                 "instituteName": "Dublin Institute of Technology",
                 "qualification": "Level 9: Masters Degree",
-                "courseLength": 1
+                "length": 1
+            },
+            {
+                "education": false,
+                "companyName": "Dublin Design Studio",
+                "industry": "Trade and Construction Jobs",
+                "jobTitle": "Architect",
+                "length": 10
             }
         ]
     },
     {
-        "carList": [
+        "list": [
             {
-                "companyName": "Maynooth Language School",
-                "industry": "Arts and Media Jobs",
-                "jobTitle": "Foreign language teacher",
-                "jobLength": 2
-            },
-            {
-                "companyName": "Self Employed",
-                "industry": "Arts and Media Jobs",
-                "jobTitle": "Fiction Writer",
-                "jobLength": 5
-            }
-        ],
-        "eduList": [
-            {
+                "education": true,
                 "courseTitle": "Arts: English Major",
                 "instituteName": "University College Dublin",
                 "qualification": "Level 8: Honours Bachelor Degree",
-                "courseLength": 3
+                "length": 3
+            },
+            {
+                "education": false,
+                "companyName": "Maynooth Language School",
+                "industry": "Arts and Media Jobs",
+                "jobTitle": "Foreign language teacher",
+                "length": 2
+            },
+            {
+                "education": false,
+                "companyName": "Self Employed",
+                "industry": "Arts and Media Jobs",
+                "jobTitle": "Fiction Writer",
+                "length": 5
             }
         ]
     },
     {
-        "carList": [
+        "list": [
             {
+                "education": false,
                 "companyName": "The Springfield Leixlip",
                 "industry": "Hospitality and Catering Jobs",
                 "jobTitle": "Bar Staff",
-                "jobLength": 3
+                "length": 3
             },
             {
+                "education": false,
                 "companyName": "The Springfield Leixlip",
                 "industry": "Hospitality and Catering Jobs",
                 "jobTitle": "Bar manager",
-                "jobLength": 8
+                "length": 8
             }
-        ],
-        "eduList": []
+        ]
     }
 ]

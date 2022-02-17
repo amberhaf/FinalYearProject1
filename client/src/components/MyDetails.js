@@ -8,24 +8,22 @@ constructor(props) {
   super(props);
   this.state = {
     user: auth().currentUser,
-    posts: [{eduList:[]}, {carList:[]}],
+    posts: [{list:[]}],
   }
   this.handleDeletePath = this.handleDeletePath.bind(this)
 }
   componentDidMount() {
-    datab.collection('path').where('user','==', this.state.user.uid).get().then(querySnapshot => {
+    datab.collection('pathIntertwined').where('user','==', this.state.user.uid).get().then(querySnapshot => {
       let allPosts = [];
       querySnapshot.forEach(doc => {
-        var docData = {eduList: doc.data().eduList, carList: doc.data().carList, docId: doc.id}
+        var docData = {list: doc.data().list, docId: doc.id}
         allPosts.push(docData)
       })
-      console.log(allPosts)
       this.setState({posts: allPosts})
     });
   }
   handleDeletePath(event){
     var _this = this;
-    console.log("this was called");
     var docId = event.target.value
     var query = datab.collection('path').where('user','==', this.state.user.uid);
     query.get().then(function(querySnapshot) {
@@ -50,15 +48,19 @@ constructor(props) {
       {this.state.posts && this.state.posts.map((n,index) => (
         <div key={index}>  
         <Row>
-        {n.eduList && n.eduList.map((o,i) => (
-          <div key={i} className="myMap mapPurple">
+        {n.list && n.list.map((o,i) => (
+          <Col key={i}>
+          {o.education && (
+          <div className="myMap mapPurple">
             <EduBox box={o} />
           </div>
-          ))}
-          {n.carList && n.carList.map((o,i) => (
-          <div key={i} className="myMap mapBlue">
+          )}
+          {!o.education && (
+          <div className="myMap mapBlue">
             <CarBox box={o} />
           </div>
+          )}
+          </Col>
           ))}
           </Row>
           <button className="greyButton" onClick={this.handleDeletePath} value={n.docId}>Delete</button>

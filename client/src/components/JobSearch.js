@@ -20,9 +20,8 @@ class JobSearch extends Component {
   }
   
   calcSalary() {
-    console.log("this was called")
     var url = {search: this.state.search, location: this.state.location, country: 'gb'};
-    fetch('/server/choosePlaylist/' , {
+    fetch('/server/getSalary/' , {
       method: "POST",
       headers: {
       'Content-type': 'application/json',

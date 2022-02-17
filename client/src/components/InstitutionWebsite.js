@@ -19,7 +19,7 @@ class InstitionWebsite extends Component {
       _this.setState({website: "https://www.maynoothuniversity.ie/"})
     }
     else{
-      fetch('http://universities.hipolabs.com/search?country=Ireland&name='+this.state.search)
+      fetch('http://universities.hipolabs.com/search?name='+this.state.search)
       .then(response => response.json())
       .then(data => _this.setState({website: data[0].web_pages[0]}))
         .catch(() => console.log("Error"));
