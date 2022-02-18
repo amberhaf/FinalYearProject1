@@ -36,7 +36,7 @@ const PreRenderMap = function preRenderMap(p, gp, uid){
               {
                 gp[iter][index].currentUser=true;
                 //add id to the list of acceptable ids
-               storedIds.push(nextIt.id)
+                storedIds.push(nextIt.id)
               }
               gp[iter][index].nextItem = nextIt
               gp[iter][index].length = (parseInt(gp[iter][index].length) + parseInt(obj.length))
@@ -70,7 +70,7 @@ const PreRenderMap = function preRenderMap(p, gp, uid){
             {
               insert.currentUser=true;
               //add id to the list of acceptable ids
-             storedIds.push(nextIt.id)
+              storedIds.push(nextIt.id)
             }
             gp[h] = gp[h].concat(insert)
           }

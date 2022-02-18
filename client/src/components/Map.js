@@ -1,9 +1,9 @@
 import React, { useRef, Component } from 'react';
 import Xarrow from 'react-xarrows';
 import { auth, datab} from "../services/firebase";
-import {FilterCareer, FilterCourse} from './FilterDropDown';
 import {EduBox, CarBox} from './Box';
-import {Button, Container, Table, Row, Col} from 'react-bootstrap'
+import {Button, Container, Table, Row, Col} from 'react-bootstrap';
+import UpdateFilter from "../components/Functions2";
 
 const colourArray = ['#d4afb9', '#ffd670', '#d1cfe2', 
 '#9cadce', '#7ec4cf', '#52b2cf','#79addc', '#ffc09f', 
@@ -16,19 +16,15 @@ constructor(props) {
   super(props);
   this.state = {
     user: auth().currentUser,
-    industry: "",
-    qualification: "",
     pos: 0,
+    qualification: this.props.qualification,
+    industry: this.props.industry,
     myPaths: [{details:[]}, {details:[]}, {details:[]}, {details:[]}, {details:[]}, {details: []}, {details: []}, {details: []}],
     groupedPosts: this.props.groupedPosts,
     authenticated: false
   }
-  this.onChangeIndustryFilter = this.onChangeIndustryFilter.bind(this);  
-  this.onChangeQualificationFilter = this.onChangeQualificationFilter.bind(this); 
-  this.sortByQualification = this.sortByQualification.bind(this); 
   this.onChangeCheckBox = this.onChangeCheckBox.bind(this);
   this.handleUpdate = this.handleUpdate.bind(this);
-  this.currentUserMatch= this.currentUserMatch.bind(this);
   this.filterNextEduById= this.filterNextEduById.bind(this);
 }
 
@@ -41,10 +37,11 @@ componentDidMount() {
       })
     });
   }
-}
-
-currentUserMatch(o){
-  return (o.currentUser)
+  var qualification=this.state.qualification;
+  var industry=this.state.industry;
+  var gp= this.state.groupedPosts;
+  UpdateFilter(gp, qualification, industry);
+  this.setState({ groupedPosts: gp });
 }
 
 handleUpdate(e) {
@@ -52,8 +49,6 @@ handleUpdate(e) {
     if (this.state.user) {
     var uid = this.state.user.uid
     var myPaths = this.state.myPaths
-    //console.log(myPaths)
-    //make sure each myedus object is still contained Path map
     var myPaths=this.removeDeletedPlans(this.state.myPaths, this.state.groupedPosts);
     datab.collection('pathPlans').where("user", "==", uid)
     .get()
@@ -100,21 +95,7 @@ removeDeletedPlans(paths, grouped){
   }
   return paths;
 }
-sortByQualification(qualificationA, qualificationB) {
-  let comparison = 0;
-  if (this.state.qualification != "") {
-    if (qualificationA.education && qualificationA.qualification == this.state.qualification) comparison = -1;
-    else if (qualificationA.education && qualificationB.qualification == this.state.qualification) comparison = +1;
-    else comparison = 0;
-  }
-  return comparison;
-}
-onChangeIndustryFilter(event) {
-  this.setState({industry: event.target.value})
-}
-onChangeQualificationFilter(event){
-  this.setState({qualification: event.target.value})
-}
+
 onChangeCheckBox(event){
   var myPaths=this.state.myPaths
   var id=event.target.value
@@ -165,7 +146,7 @@ onChangeCheckBox(event){
       })
       if(result!=undefined)
       {
-        if(this.props.allSelected || result.currentUser)
+        if((this.props.allSelected || result.currentUser) && result.filterMatch)
         {
           return true;
         }
@@ -192,7 +173,7 @@ onChangeCheckBox(event){
           {this.state.groupedPosts && this.state.groupedPosts.map((n,index) => (
           <td key={index}>  
             {n && n.map((o,i) => (
-              (this.props.allSelected || this.currentUserMatch(o)) && (
+              ((this.props.allSelected || o.currentUser) && o.filterMatch) && (
             <div key={i} className="map mapNavy">
               {this.props.showPlanUpdater && (<input className="checkbox" label="include planner" type="checkbox" name={index} value={o.id} checked={this.filterEduById(o.id, index)} onChange={this.onChangeCheckBox}/>)}
               {o.education && (
@@ -205,7 +186,7 @@ onChangeCheckBox(event){
               {o.nextItem && o.nextItem.map((nextIt,j)=> (
               <div key={j}>
               {(this.filterNextEduById(nextIt.id)) && 
-              <Xarrow color={colourArray[Math.floor(Math.random() * colourArray.length)]} className="arrow" start={o.id} end={nextIt.id} />}
+              (<Xarrow color={colourArray[Math.floor(Math.random() * colourArray.length)]} className="arrow" start={o.id} end={nextIt.id} />)}
               </div>
               ))}
             </div>

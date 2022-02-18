@@ -2,22 +2,20 @@ import React from "react";
 import Map from "../components/Map";
 import Header from "../components/Header";
 import Welcome from "../components/Welcome";
-import UpdateFilter from "../components/Functions2";
 import PreRenderMap from "../components/Functions";
 import { datab, auth } from "../services/firebase";
 import { FilterCareer, FilterCourse } from '../components/FilterDropDown';
-import {Button, Container, Table, Row, Col} from 'react-bootstrap';
+import {Button, Container, Table, Row, Col} from 'react-bootstrap'
 
 class PathMap extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
       user: auth().currentUser,
-      groupedPosts: [[]],
+      groupedPosts: [],
       allSelected: true,
       industry: "",
       qualification: "",
-      key: 0
     };
     this.changeDisplayAll= this.changeDisplayAll.bind(this);
     this.changeDisplayMine= this.changeDisplayMine.bind(this);
@@ -36,15 +34,12 @@ class PathMap extends React.Component {
       querySnapshot.forEach(doc => {
         allPosts.push(doc.data())
       })
+      console.log(allPosts)
       this.setState({ posts: allPosts })
     }).then(() => {            
       var p = _this.state.posts
-      var gp= this.state.groupedPosts
-      var qualification=this.state.qualification
-      var industry=this.state.industry
-      PreRenderMap(p, gp, uid, qualification, industry);
+      var gp=PreRenderMap(p, uid, "", "");
       this.setState({ groupedPosts: gp });
-      this.setState({ key: Math.random() });
   })      
   .catch((error) => {
     window.alert("Error occurred"+ error.message );
@@ -65,11 +60,19 @@ class PathMap extends React.Component {
   }
   onChangeIndustryFilter(event) {
     this.setState({industry: event.target.value})
-    this.setState({ key: Math.random() });
+    var uid = this.state.user.uid
+    var p = this.state.posts
+    var qualification=this.state.qualification
+    var gp=PreRenderMap(p, uid, qualification, event.target.value);
+    this.setState({ groupedPosts: gp });
   }
   onChangeQualificationFilter(event){
     this.setState({qualification: event.target.value})
-    this.setState({ key: Math.random() });
+    var uid = this.state.user.uid
+    var p = this.state.posts
+    var industry=this.state.industry
+    var gp=PreRenderMap(p, uid, event.target.value, industry);
+    this.setState({ groupedPosts: gp });
   }
 
   render() {
@@ -89,7 +92,7 @@ class PathMap extends React.Component {
         </Col>
         </Row>
         </Container>
-        <Map key={this.state.key} allSelected={this.state.allSelected} showPlanUpdater={auth().currentUser} groupedPosts={this.state.groupedPosts} qualification={this.state.qualification} industry={this.state.industry}/>
+        <Map allSelected={this.state.allSelected} showPlanUpdater={auth().currentUser} filterApplied={this.state.qualification==="All" && this.state.industry==="All"} groupedPosts={this.state.groupedPosts}/>
       </div>
     );
   }

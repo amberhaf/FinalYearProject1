@@ -13,6 +13,8 @@ class BulkPath extends Component {
           user: auth().currentUser,
           uploadedPosts: [],
           groupedPosts: [],
+          qualification: "",
+          industry: ""
         }
         this.handleUpload = this.handleUpload.bind(this);
     }
@@ -121,7 +123,7 @@ class BulkPath extends Component {
                 {this.state.groupedPosts.length>0 && (
                 <div>
                 <Button className="button" onClick={this.handleUpload}>Publish to database</Button>
-                <Map allSelected={true} showPlanUpdater={false} groupedPosts={this.state.groupedPosts}/>
+                <Map key={this.state.key} allSelected={this.state.allSelected} showPlanUpdater={auth().currentUser} groupedPosts={this.state.groupedPosts} qualification={this.state.qualification} industry={this.state.industry}/>
                 </div>
                 )}
                 </div>
