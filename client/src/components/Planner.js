@@ -80,7 +80,6 @@ export default class Planner extends Component {
     }
     this.setState({ earnings: earnings });
     this.setState({ earningsIds: earningsIds });
-    console.log(removeNull(this.state.earnings).length)
   }
   sortByIndustry(industryA, industryB) {
     let comparison = 0;
@@ -181,17 +180,21 @@ export default class Planner extends Component {
     var i = split[0]
     var j = split[1]
     myPaths[i].details[j].notes = event.target.value
-    console.log(myPaths)
-    this.setState({ myCars: myPaths })
+    this.setState({ myPaths: myPaths })
   }
-  filterNextEduById(id, index) {
+  filterNextById(id) {
     var myPaths = this.state.myPaths
-    if (myPaths.length - 1 > index) {
-      var result = myPaths[index + 1].details.find(groupObj => {
+    for(var iter=0; iter<myPaths.length; iter++)
+    {
+      var result = myPaths[iter].details.find(groupObj => {
         return groupObj.id === id;
       })
+      if(result!=undefined)
+      {
+        return true;
+      }
     }
-    return result != undefined
+    return false;
   }
   onChangeYearsWorking(e) {
     this.setState({ yearsWorking: e.target.value })
@@ -253,7 +256,7 @@ export default class Planner extends Component {
                             <TextareaAutosize className="stickyNote" value={o.notes} id={index + "_" + i} onChange={this.onChangeEducationInputBox} placeholder="Enter notes…" />
                             {o.nextItem && o.nextItem.map((nextIt, j) => (
                               <div key={j}>
-                                {(this.filterNextEduById(nextIt.id, index)) &&
+                                {(this.filterNextById(nextIt.id)) &&
                                   <Xarrow color={colourArray[i % colourArray.length]} start={o.id} end={nextIt.id} />
                                 }
                               </div>
@@ -268,7 +271,7 @@ export default class Planner extends Component {
                           <TextareaAutosize className="stickyNote" value={o.notes} id={index + "_" + i} onChange={this.onChangeCareerInputBox} placeholder="Enter notes…" />
                           {o.nextItem && o.nextItem.map((nextIt, j) => (
                             <div key={j}>
-                              {this.filterNextEduById(nextIt.id, index) &&
+                              {this.filterNextById(nextIt.id) &&
                                 <Xarrow color={colourArray[i % colourArray.length]} start={o.id} end={nextIt.id} />
                               }
                             </div>

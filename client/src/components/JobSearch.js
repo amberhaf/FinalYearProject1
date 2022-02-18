@@ -35,7 +35,6 @@ class JobSearch extends Component {
         this.setState({results : results})
         var avg =(results.reduce(this.getTotalSalary, 0.0))/ (this.state.results.length*2);
         avg =(Math.round(avg*119))/100;
-        console.log(avg)
         const setter = Object.getOwnPropertyDescriptor(window.HTMLInputElement.prototype, 'value').set;
         setter.call(this.inputElement, avg)
         this.inputElement.dispatchEvent(new Event('input', { bubbles: true }));

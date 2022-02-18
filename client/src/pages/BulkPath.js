@@ -1,5 +1,5 @@
 import axios from 'axios';
-import Map from "../components/Map";
+import Map2 from "../components/Map2";
 import React, { Component } from 'react';
 import Header from "../components/Header";
 import { datab, auth} from "../services/firebase"; 
@@ -13,8 +13,6 @@ class BulkPath extends Component {
           user: auth().currentUser,
           uploadedPosts: [],
           groupedPosts: [],
-          qualification: "",
-          industry: ""
         }
         this.handleUpload = this.handleUpload.bind(this);
     }
@@ -123,7 +121,7 @@ class BulkPath extends Component {
                 {this.state.groupedPosts.length>0 && (
                 <div>
                 <Button className="button" onClick={this.handleUpload}>Publish to database</Button>
-                <Map key={this.state.key} allSelected={this.state.allSelected} showPlanUpdater={auth().currentUser} groupedPosts={this.state.groupedPosts} qualification={this.state.qualification} industry={this.state.industry}/>
+                <Map2 allSelected={true} showPlanUpdater={false} groupedPosts={this.state.groupedPosts}/>
                 </div>
                 )}
                 </div>

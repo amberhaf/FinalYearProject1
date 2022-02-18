@@ -2,7 +2,6 @@ import React from "react";
 import Map from "../components/Map";
 import Header from "../components/Header";
 import Welcome from "../components/Welcome";
-import UpdateFilter from "../components/Functions2";
 import PreRenderMap from "../components/Functions";
 import { datab, auth } from "../services/firebase";
 import { FilterCareer, FilterCourse } from '../components/FilterDropDown';
