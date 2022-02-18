@@ -1,5 +1,5 @@
 import axios from 'axios';
-import Map2 from "../components/Map2";
+import Map from "../components/Map";
 import React, { Component } from 'react';
 import Header from "../components/Header";
 import { datab, auth} from "../services/firebase"; 
@@ -121,7 +121,7 @@ class BulkPath extends Component {
                 {this.state.groupedPosts.length>0 && (
                 <div>
                 <Button className="button" onClick={this.handleUpload}>Publish to database</Button>
-                <Map2 allSelected={true} showPlanUpdater={false} groupedPosts={this.state.groupedPosts}/>
+                <Map allSelected={true} showPlanUpdater={false} groupedPosts={this.state.groupedPosts} qualification="" industry=""/>
                 </div>
                 )}
                 </div>
