@@ -26,17 +26,23 @@ const PreRenderMap = function preRenderMap(p, gp, uid){
                 if(nex.education===true)
                 {
                   nextIt.push({ id: nex.instituteName + "_" + nex.qualification + "_" + nex.courseTitle })
+                  if(p[i].user === uid || storedIds.includes(insert.id))
+                  {
+                    insert.currentUser=true;
+                    //add id to the list of acceptable ids
+                    storedIds.push(nex.instituteName + "_" + nex.qualification + "_" + nex.courseTitle)
+                  }
                 }
                 else
                 {
                   nextIt.push({ id: nex.companyName + "_" + nex.industry + "_" + nex.jobTitle })
+                  if(p[i].user === uid || storedIds.includes(insert.id))
+                  {
+                    insert.currentUser=true;
+                    //add id to the list of acceptable ids
+                    storedIds.push(nex.companyName + "_" + nex.industry + "_" + nex.jobTitle)
+                  }
                 }
-              }
-              if(p[i].user === uid || storedIds.includes(gp[iter][index].id))
-              {
-                gp[iter][index].currentUser=true;
-                //add id to the list of acceptable ids
-                storedIds.push(nextIt.id)
               }
               gp[iter][index].nextItem = nextIt
               gp[iter][index].length = (parseInt(gp[iter][index].length) + parseInt(obj.length))
@@ -61,16 +67,22 @@ const PreRenderMap = function preRenderMap(p, gp, uid){
             if(obj.education)
             {
               insert={ education: true, id: obj.instituteName + "_" + obj.qualification + "_" + obj.courseTitle, instituteName: obj.instituteName, qualification: obj.qualification, courseTitle: obj.courseTitle, length: obj.length, nextItem: nextIt, numOfEntries: 1, notes: "", cost: 0, website: "" , currentUser: p[i].user === uid};
+              if(p[i].user === uid || storedIds.includes(insert.id))
+              {
+                insert.currentUser=true;
+                //add id to the list of acceptable ids
+                storedIds.push(obj.instituteName + "_" + obj.qualification + "_" + obj.courseTitle)
+              }
             }
             else
             {
               insert = { education: false, id: obj.companyName + "_" + obj.industry + "_" + obj.jobTitle, companyName: obj.companyName, industry: obj.industry, jobTitle: obj.jobTitle, length: obj.length, numOfEntries: 1, nextItem: nextIt, notes: "", earnings: 0, website: "", currentUser: p[i].user === uid};       
-            }
-            if(p[i].user === uid || storedIds.includes(insert.id))
-            {
-              insert.currentUser=true;
-              //add id to the list of acceptable ids
-              storedIds.push(nextIt.id)
+              if(p[i].user === uid || storedIds.includes(insert.id))
+              {
+                insert.currentUser=true;
+                //add id to the list of acceptable ids
+                storedIds.push(obj.companyName + "_" + obj.industry + "_" + obj.jobTitle)
+              }
             }
             gp[h] = gp[h].concat(insert)
           }

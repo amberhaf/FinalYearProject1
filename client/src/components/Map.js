@@ -30,7 +30,7 @@ constructor(props) {
   this.onChangeCheckBox = this.onChangeCheckBox.bind(this);
   this.handleUpdate = this.handleUpdate.bind(this);
   this.currentUserMatch= this.currentUserMatch.bind(this);
-  this.filterNextEduById= this.filterNextEduById.bind(this);
+  this.filterNextById= this.filterNextById.bind(this);
 }
 
 componentDidMount() {
@@ -156,7 +156,7 @@ onChangeCheckBox(event){
   this.setState({myPaths: myPaths})
 }
 
-  filterEduById(id, index) {
+  filterById(id, index) {
     var myPaths = this.state.myPaths
     if(myPaths.length>index){
     var result = myPaths[index].details.find(groupObj => {
@@ -165,7 +165,7 @@ onChangeCheckBox(event){
     }
     return result!=undefined
   }
-  filterNextEduById(id) {
+  filterNextById(id) {
     var myPaths = this.state.groupedPosts
     for(var iter=0; iter<myPaths.length; iter++)
     {
@@ -204,7 +204,7 @@ onChangeCheckBox(event){
             {n && n.map((o,i) => (
               ((this.props.allSelected || o.currentUser) && (!this.props.showPlanUpdater || o.filterMatch)) && (
             <div key={i} className="map mapNavy">
-              {this.props.showPlanUpdater && (<input className="checkbox" label="include planner" type="checkbox" name={index} value={o.id} checked={this.filterEduById(o.id, index)} onChange={this.onChangeCheckBox}/>)}
+              {this.props.showPlanUpdater && (<input className="checkbox" label="include planner" type="checkbox" name={index} value={o.id} checked={this.filterById(o.id, index)} onChange={this.onChangeCheckBox}/>)}
               {o.education && (
               <div><EduBox box={o} />
               </div>
@@ -214,7 +214,7 @@ onChangeCheckBox(event){
               </div>)}
               {o.nextItem && o.nextItem.map((nextIt,j)=> (
               <div key={j}>
-              {(this.filterNextEduById(nextIt.id)) && 
+              {(this.filterNextById(nextIt.id)) && 
               <Xarrow color={colourArray[Math.floor(Math.random() * colourArray.length)]} className="arrow" start={o.id} end={nextIt.id} />}
               </div>
               ))}
