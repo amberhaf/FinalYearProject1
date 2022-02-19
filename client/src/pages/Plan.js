@@ -1,7 +1,7 @@
 import React from "react";
 import Planner from "../components/Planner";
 import Header from "../components/Header";
-import { datab, auth} from "../services/firebase";
+import { auth } from "../services/firebase";
 
 class Profile extends React.Component {
   constructor(props) {
@@ -15,7 +15,7 @@ class Profile extends React.Component {
     return (
       <div>
         <Header />
-        <Planner/>
+        <Planner />
       </div>
     );
   }

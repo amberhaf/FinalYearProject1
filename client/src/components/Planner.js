@@ -3,7 +3,7 @@ import Xarrow from 'react-xarrows';
 import { auth, datab } from "../services/firebase";
 import { FilterCareer, FilterCourse } from './FilterDropDown';
 import { EduBox, CarBox } from './Box';
-import { Checkbox, Button, Form, Container, Row, Col } from 'react-bootstrap';
+import { Button, Form, Container, Row, Col } from 'react-bootstrap';
 import TextareaAutosize from 'react-textarea-autosize';
 import InstitionWebsite from './InstitutionWebsite';
 import JobSearch from './JobSearch';
@@ -23,6 +23,7 @@ export default class Planner extends Component {
     super(props);
     this.state = {
       user: auth().currentUser,
+      //paths user has saved in my planner
       myPaths: [{ details: [] }, { details: [] }, { details: [] }, { details: [] }, { details: [] }, { details: [] }, { details: [] }, { details: [] }],
       cost: [0, 0, 0, 0, 0, 0, 0, 0],
       costIds: ["", "", "", "", "", "", "", ""],
@@ -34,6 +35,7 @@ export default class Planner extends Component {
     }
   }
   componentDidMount() {
+    //retrieve all paths user has saved in planner
     datab.collection('pathPlans').where('user', '==', this.state.user.uid).get().then(querySnapshot => {
       querySnapshot.forEach(doc => {
         var myPaths = doc.data()
@@ -43,8 +45,7 @@ export default class Planner extends Component {
     this.onChangeIndustryFilter = this.onChangeIndustryFilter.bind(this);
     this.onChangeQualificationFilter = this.onChangeQualificationFilter.bind(this);
     this.handleUpdatePaths = this.handleUpdatePaths.bind(this)
-    this.onChangeEducationInputBox = this.onChangeEducationInputBox.bind(this)
-    this.onChangeCareerInputBox = this.onChangeCareerInputBox.bind(this)
+    this.onChangeNoteInputBox = this.onChangeNoteInputBox.bind(this)
     this.onChangeEducationCost = this.onChangeEducationCost.bind(this)
     this.onChangeYearsWorking = this.onChangeYearsWorking.bind(this)
     this.onChangeCareerEarnings = this.onChangeCareerEarnings.bind(this)
@@ -54,6 +55,7 @@ export default class Planner extends Component {
     this.addToEarnings = this.addToEarnings.bind(this);
   }
   addToTotal(event) {
+    //update cost and corresponding costId list at correct position
     var cost = this.state.cost;
     var costIds = this.state.costIds;
     if (costIds[event.target.id] === event.target.name) {
@@ -68,6 +70,7 @@ export default class Planner extends Component {
     this.setState({ costIds: costIds });
   }
   addToEarnings(event) {
+    //update earnings and corresponding earnings list at correct position
     var earnings = this.state.earnings;
     var earningsIds = this.state.earningsIds;
     if (earningsIds[event.target.id] === event.target.name) {
@@ -84,18 +87,32 @@ export default class Planner extends Component {
   sortByIndustry(industryA, industryB) {
     let comparison = 0;
     if (this.state.industry != "") {
-      if (industryA.industry == this.state.industry) comparison = -1;
-      else if (industryB.industry == this.state.industry) comparison = +1;
-      else comparison = 0;
+      //if an education object automatically swap
+      if (industryA.education) {
+        comparison = 1;
+      }
+      else {
+        //only swap if one matches the dropdown selected
+        if (industryA.industry == this.state.industry) comparison = -1;
+        else if (industryB.industry == this.state.industry) comparison = +1;
+        else comparison = 0;
+      }
     }
     return comparison;
   }
   sortByQualification(qualificationA, qualificationB) {
     let comparison = 0;
     if (this.state.qualification != "") {
-      if (qualificationA.education && qualificationA.qualification == this.state.qualification) comparison = -1;
-      else if (qualificationA.education && qualificationB.qualification == this.state.qualification) comparison = +1;
-      else comparison = 0;
+      //if an education object automatically swap
+      if (!qualificationA.education) {
+        comparison = 1;
+      }
+      else {
+        //only swap if one matches the dropdown selected
+        if (qualificationA.qualification == this.state.qualification) comparison = -1;
+        else if (qualificationA.education && qualificationB.qualification == this.state.qualification) comparison = +1;
+        else comparison = 0;
+      }
     }
     return comparison;
   }
@@ -113,18 +130,13 @@ export default class Planner extends Component {
         datab.collection('pathPlans').where("user", "==", uid)
           .get()
           .then(function (querySnapshot) {
+            //only update if there are already valid entries in your saved paths
             if (querySnapshot.docs.length > 0) {
               querySnapshot.forEach(function (doc) {
                 doc.ref.update({
                   user: uid,
                   list: myPaths,
                 })
-              });
-            }
-            else {
-              datab.collection("pathPlans").add({
-                user: uid,
-                list: myPaths,
               });
             }
           })
@@ -135,16 +147,8 @@ export default class Planner extends Component {
       window.alert("Error occurred" + error.message);
     }
   }
-  onChangeEducationInputBox(event) {
-    var myPaths = this.state.myPaths;
-    var id = event.target.id
-    var split = id.split("_")
-    var i = split[0]
-    var j = split[1]
-    myPaths[i].details[j].notes = event.target.value
-    this.setState({ myPaths: myPaths })
-  }
   onChangeCareerEarnings(event) {
+    //update corresponding index in myPaths as earnings changes
     var myPaths = this.state.myPaths;
     var name = event.target.name
     var split = name.split("|")
@@ -154,12 +158,14 @@ export default class Planner extends Component {
     myPaths[i].details[j].earnings = event.target.value
     this.setState({ myPaths: myPaths })
     var earnings = this.state.earnings;
+    //check if it is ticked and if so update it
     if (n == this.state.earningsIds[i]) {
       earnings[i] = event.target.value
     }
     this.setState({ earnings: earnings })
   }
   onChangeEducationCost(event) {
+    //update corresponding index in myPaths as earnings changes
     var myPaths = this.state.myPaths;
     var id = event.target.id
     var split = id.split("_")
@@ -168,12 +174,14 @@ export default class Planner extends Component {
     myPaths[i].details[j].cost = event.target.value
     this.setState({ myPaths: myPaths })
     var cost = this.state.cost;
+    //check if it is ticked and if so update it
     if (event.target.name == this.state.costIds[i]) {
       cost[i] = event.target.value
     }
     this.setState({ cost: cost })
   }
-  onChangeCareerInputBox(event) {
+  onChangeNoteInputBox(event) {
+    //update myPaths as notes change
     var myPaths = this.state.myPaths;
     var id = event.target.id
     var split = id.split("_")
@@ -183,14 +191,13 @@ export default class Planner extends Component {
     this.setState({ myPaths: myPaths })
   }
   filterNextById(id) {
+    //check if arrows point to valid objects
     var myPaths = this.state.myPaths
-    for(var iter=0; iter<myPaths.length; iter++)
-    {
+    for (var iter = 0; iter < myPaths.length; iter++) {
       var result = myPaths[iter].details.find(groupObj => {
         return groupObj.id === id;
       })
-      if(result!=undefined)
-      {
+      if (result != undefined) {
         return true;
       }
     }
@@ -214,7 +221,11 @@ export default class Planner extends Component {
 
     return (
       <div className='section'>
-        <Container>
+        <Container className="center">
+          <Row>
+            <h5>Here are all the different path objects that you've saved</h5>
+            <p>Add your own notes and estimates. Tick to use in calculator</p>
+          </Row>
           <Row>
             <Col>
               <label><b>Total Cost: </b></label>
@@ -229,61 +240,63 @@ export default class Planner extends Component {
               <div><label><b>Years to pay off: </b></label>{(!(isNaN(yearsToPayOff)) && <Button className="form-control totalButton">{yearsToPayOff}</Button>)}</div>
             </Col>
             <Col>
-              <Button className="button greyButton" onClick={this.handleUpdatePaths}>Update Path Planner</Button>
+              <Button className="button greyButton" onClick={this.handleUpdatePaths}>Save changes</Button>
             </Col>
           </Row>
           <Row>
-              <Col>
-                <FilterCourse qualification={this.state.qualification} nothingSelected={"All"} onChange={this.onChangeQualificationFilter} />
-              </Col>
-              <Col>
-                <FilterCareer industry={this.state.industry} nothingSelected={"All"} onChange={this.onChangeIndustryFilter} />
-              </Col>
-              <table>
-                <tbody>
-                  <tr className="block">
-                    {this.state.myPaths && this.state.myPaths.map((n, index) => (
-                      <td key={index}>
-                        {n.details && n.details.sort(this.sortByQualification).map((o, i) => (
-                          <div key={i}>
+            <Col>
+              <FilterCourse qualification={this.state.qualification} nothingSelected={"All"} onChange={this.onChangeQualificationFilter} />
+            </Col>
+            <Col>
+              <FilterCareer industry={this.state.industry} nothingSelected={"All"} onChange={this.onChangeIndustryFilter} />
+            </Col>
+            <table>
+              <tbody>
+                <tr className="block">
+                  {this.state.myPaths && this.state.myPaths.map((n, index) => (
+                    <td key={index}>
+                      {n.details && n.details.sort(this.sortByQualification).sort(this.sortByIndustry).map((o, i) => (
+                        <div key={i}>
                           {o.education && (
-                          <div className="map mapPurple center">
-                            <input type="checkbox" id={index} name={o.id} value={(o.cost * (o.length / (o.numOfEntries || 1)))} onChange={this.addToTotal} checked={o.id == this.state.costIds[index]} />
-                            <label className="lightFont">Cost per year (€):</label>
-                            <Form.Control className="form-control plannerNumberInput" name={o.id} id={index + "_" + i} type="number" value={o.cost} onChange={this.onChangeEducationCost} />
-                            <InstitionWebsite search={o.instituteName} />
-                            <EduBox box={o} />
-                            <TextareaAutosize className="stickyNote" value={o.notes} id={index + "_" + i} onChange={this.onChangeEducationInputBox} placeholder="Enter notes…" />
-                            {o.nextItem && o.nextItem.map((nextIt, j) => (
-                              <div key={j}>
-                                {(this.filterNextById(nextIt.id)) &&
-                                  <Xarrow color={colourArray[i % colourArray.length]} start={o.id} end={nextIt.id} />
-                                }
-                              </div>
-                            ))}
-                          </div>)}
-                          {!o.education && 
-                          (<div className="map mapBlue center">
-                          <input className="checkbox" type="checkbox" id={index} name={o.id} value={o.earnings} onChange={this.addToEarnings} checked={o.id == this.state.earningsIds[index]} />
-                          <label className="lightFont">Annual Salary (€):</label>
-                          <JobSearch search={o.jobTitle} name={index + "|" + i + "|" + o.id} earnings={o.earnings} onChange={this.onChangeCareerEarnings} />
-                          <CarBox box={o} />
-                          <TextareaAutosize className="stickyNote" value={o.notes} id={index + "_" + i} onChange={this.onChangeCareerInputBox} placeholder="Enter notes…" />
-                          {o.nextItem && o.nextItem.map((nextIt, j) => (
-                            <div key={j}>
-                              {this.filterNextById(nextIt.id) &&
-                                <Xarrow color={colourArray[i % colourArray.length]} start={o.id} end={nextIt.id} />
-                              }
-                            </div>
-                          ))}
-                        </div>)}
+                            //check if education
+                            <div className="map mapPurple center">
+                              <input type="checkbox" id={index} name={o.id} value={(o.cost * (o.length / (o.numOfEntries || 1)))} onChange={this.addToTotal} checked={o.id == this.state.costIds[index]} />
+                              <label className="lightFont">Cost per year (€):</label>
+                              <Form.Control className="form-control plannerNumberInput" name={o.id} id={index + "_" + i} type="number" value={o.cost} onChange={this.onChangeEducationCost} />
+                              <InstitionWebsite search={o.instituteName} />
+                              <EduBox box={o} />
+                              <TextareaAutosize className="stickyNote" value={o.notes} id={index + "_" + i} onChange={this.onChangeNoteInputBox} placeholder="Enter notes…" />
+                              {o.nextItem && o.nextItem.map((nextIt, j) => (
+                                <div key={j}>
+                                  {(this.filterNextById(nextIt.id)) &&
+                                    <Xarrow color={colourArray[i % colourArray.length]} start={o.id} end={nextIt.id} />
+                                  }
+                                </div>
+                              ))}
+                            </div>)}
+                          {!o.education && (
+                            //check if career object
+                            <div className="map mapBlue center">
+                              <input className="checkbox" type="checkbox" id={index} name={o.id} value={o.earnings} onChange={this.addToEarnings} checked={o.id == this.state.earningsIds[index]} />
+                              <label className="lightFont">Annual Salary (€):</label>
+                              <JobSearch search={o.jobTitle} name={index + "|" + i + "|" + o.id} earnings={o.earnings} onChange={this.onChangeCareerEarnings} />
+                              <CarBox box={o} />
+                              <TextareaAutosize className="stickyNote" value={o.notes} id={index + "_" + i} onChange={this.onChangeNoteInputBox} placeholder="Enter notes…" />
+                              {o.nextItem && o.nextItem.map((nextIt, j) => (
+                                <div key={j}>
+                                  {this.filterNextById(nextIt.id) &&
+                                    <Xarrow color={colourArray[i % colourArray.length]} start={o.id} end={nextIt.id} />
+                                  }
+                                </div>
+                              ))}
+                            </div>)}
                         </div>
-                        ))}
-                      </td>
-                    ))}
-                  </tr>
-                </tbody>
-              </table>
+                      ))}
+                    </td>
+                  ))}
+                </tr>
+              </tbody>
+            </table>
           </Row>
         </Container>
       </div>

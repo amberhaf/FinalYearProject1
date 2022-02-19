@@ -3,22 +3,22 @@ import Button from 'react-bootstrap/Button';
 import { Link } from "react-router-dom";
 export default class Settings extends Component {
 
-//settings page
+  //settings page
   render() {
     return (
       <div>
         <div className="center section">
-          <h3 className="text-center">
+          <h4 className="text-center">
             Settings
-          </h3>
-        {/*Link to change password*/}
-        <Link to = "/Forgot"><Button  className = "forgotButton darkFont" variant="warning" size="lg">
-          Change Password
-        </Button></Link>
-        {/*Link to delete account*/}
-        <Link to = "/DeleteAccount"><Button  className = "deleteButton" variant="danger" size="lg">
-          Delete Account
-        </Button></Link>
+          </h4>
+          {/*Link to change password*/}
+          <Link to="/Forgot"><Button className="forgotButton darkFont" variant="warning" size="lg">
+            Change Password
+          </Button></Link>
+          {/*Link to delete account*/}
+          <Link to="/DeleteAccount"><Button className="deleteButton" variant="danger" size="lg">
+            Delete Account
+          </Button></Link>
         </div>
       </div>
     );

@@ -33,9 +33,8 @@ const fileUpload = require('express-fileupload');
 // ... other app.use middleware 
 
 app.use(fileUpload());
-// file upload api
+// way to process files uploaded
 app.post('/server/upload', (req, res) => {
-  console.log("arrived at server")
     if (!req.files) {
         return res.status(500).send({ msg: "file is not found" })
     }
@@ -44,7 +43,7 @@ app.post('/server/upload', (req, res) => {
       res.writeHead(200, headers);
       res.end(response);
     });
-//recieves playlist request using express
+//recieves results that match search term from adzunna api
 app.post('/server/getSalary', function (req, res) {
   console.log(req.body.search+","+req.body.location+","+req.body.country)
   const targetURL = `${config.BASE_URL}/${req.body.country.toLowerCase()}/${config.BASE_PARAMS}&app_id=${config.APP_ID}&app_key=${config.API_KEY}&what=${req.body.search}&where=${req.body.location}`;
