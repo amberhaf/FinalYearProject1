@@ -39,7 +39,7 @@ class PathMap extends React.Component {
     }).then(() => {
       var p = _this.state.posts
       var gp = this.state.groupedPosts
-      //pre-format them so that similar objects are matched together and they can be more easily rendered
+        //pre-format them so that similar objects are matched together and they can be more easily rendered
       PreRenderMap(p, gp, uid);
       this.setState({ groupedPosts: gp });
       this.setState({ key: Math.random() });
