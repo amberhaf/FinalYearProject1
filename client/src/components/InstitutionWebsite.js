@@ -18,11 +18,12 @@ class InstitionWebsite extends Component {
       _this.setState({ website: "https://www.maynoothuniversity.ie/" })
     }
     //retrieve the website corresponding to the instition from online dataset
-    else {
+    else if (this.state.search !== "Other: College of Further Education" && this.state.search !== "Other: Institution")
+    {
       fetch('http://universities.hipolabs.com/search?name=' + this.state.search)
         .then(response => response.json())
         .then(data => _this.setState({ website: data[0].web_pages[0] }))
-        .catch(() => console.log("Error"));
+        .catch(() => console.log("Error for : "+this.state.search));
     }
   }
 

@@ -28,6 +28,11 @@ const headers = {
   'Access-Control-Allow-Methods': 'GET',
 };
 
+function getTotalSalary(tot, obj) {
+  //add the min and max salary returned in result
+  return tot + obj.salary_min + obj.salary_max;
+} 
+
 const fileUpload = require('express-fileupload');
 // middle ware
 // ... other app.use middleware 
@@ -39,7 +44,6 @@ app.post('/server/upload', (req, res) => {
         return res.status(500).send({ msg: "file is not found" })
     }
     var response = req.files.myFile.data.toString();
-    console.log(response)
       res.writeHead(200, headers);
       res.end(response);
     });
@@ -50,8 +54,20 @@ app.post('/server/getSalary', function (req, res) {
     console.log(chalk.green(`Proxy GET request to : ${targetURL}`));
     axios.get(targetURL)
       .then(response => {
+        //sum everything and divide by twice the length as both min and max are returned
+        return response.data.results
+      })
+      .then(results => {
+        //sum everything and divide by twice the length as both min and max are returned
+        return (results.reduce(getTotalSalary, 0.0))/ (results.length * 2);;
+      })
+      .then( sum => {
+        //round and convert from pounds to euros
+        return avg = (Math.round(sum * 119)) / 100;
+      })
+      .then(data => {
         res.writeHead(200, headers);
-        res.end(JSON.stringify(response.data));
+        res.end(JSON.stringify(data));
       })
       .catch(response => {
         console.log(chalk.red(response));

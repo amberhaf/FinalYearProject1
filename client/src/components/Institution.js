@@ -30,7 +30,7 @@ class Institution extends Component {
             .then(response => response.json())
             .then((data) => {
                 var Filtered = _this.state.countries;
-                const filterDuplicates = data.reduce((arr, el) => {
+                data.reduce((arr, el) => {
                     if (!arr.some(current => current === el.country)) {
                         arr.push(el.country);
                     }

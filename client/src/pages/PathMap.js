@@ -12,7 +12,7 @@ class PathMap extends React.Component {
     super(props);
     this.state = {
       user: auth().currentUser,
-      groupedPosts: [[]],
+      groupedPosts: [],
       allSelected: true,
       industry: "",
       qualification: "",

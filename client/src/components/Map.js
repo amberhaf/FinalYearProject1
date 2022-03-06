@@ -189,10 +189,13 @@ onChangeCheckBox(event){
           {this.state.groupedPosts && this.state.groupedPosts.map((n,index) => (
           <td key={index}>  
             {n && n.map((o,i) => (
-              //display based on if we are display all paths or if there are there is filtering applied
+              //display based on if we want all paths or if it matches filtering applied
               ((this.props.allSelected || o.currentUser) && (o.filterMatch)) && (
             <div key={i} className="map mapNavy">
-              {this.props.showPlanUpdater && (<input className="checkbox" label="include planner" type="checkbox" name={index} value={o.id} checked={this.filterEduById(o.id, index)} onChange={this.onChangeCheckBox}/>)}
+              {this.props.showPlanUpdater && (
+              <input className="checkbox" label="include planner" type="checkbox"
+              name={index} value={o.id} checked={this.filterEduById(o.id, index)} 
+              onChange={this.onChangeCheckBox}/>)}
               {o.education && (
               //check if education object
               <div><EduBox box={o} />
@@ -206,7 +209,7 @@ onChangeCheckBox(event){
               <div key={j}>
               {(this.filterNextEduById(nextIt.id)) && 
               //check if arrow is pointing to a valid object
-              (<Xarrow color={colourArray[Math.floor(Math.random() * colourArray.length)]} className="arrow" start={o.id} end={nextIt.id} />)}
+              (<Xarrow color={colourArray[i % colourArray.length]} className="arrow" start={o.id} end={nextIt.id} />)}
               </div>
               ))}
             </div>
