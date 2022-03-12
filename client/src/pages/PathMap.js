@@ -30,7 +30,7 @@ class PathMap extends React.Component {
       uid = this.state.user.uid
     }
     //retrieve paths from database
-    datab.collection('pathIntertwined').get().then(querySnapshot => {
+    datab.collection('path').get().then(querySnapshot => {
       let allPosts = [];
       querySnapshot.forEach(doc => {
         allPosts.push(doc.data())

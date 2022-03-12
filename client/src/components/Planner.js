@@ -208,16 +208,33 @@ export default class Planner extends Component {
   }
 
   render() {
+    //calculating average gross earnings
     var totalCost = this.state.cost.reduce(reducer, 0);
     var nonNullEarnings = removeNull(this.state.earnings);
     var averageGrossEarnings = (nonNullEarnings.reduce(reducer, 0) / nonNullEarnings.length);
+    //calculating PRSI
+    console.log("Gross Salary: "+ averageGrossEarnings)
+    var credit = Math.max(0, 624 - ((averageGrossEarnings-18303.52)/6));
+    var PRSI = Math.max(0, (averageGrossEarnings*0.04)-credit);
+    console.log("PRSI: "+ PRSI);
+    if(averageGrossEarnings<18304){ PRSI=0 }
+    //calculating USC
+    var USC = 0;
+    if(averageGrossEarnings>13000){
+    if(averageGrossEarnings<21295){ USC= 60.06+ (Math.min(averageGrossEarnings-12012, 9283) * 0.02); }
+    else{ USC= 60.06 + 185.66 + ((averageGrossEarnings-21295) * 0.045); }
+    }
+    console.log("USC: "+ USC);
+    //calculating Income tax
     var taxCredit = 3400;
     var lowerTaxDeduction = (Math.min(averageGrossEarnings, 36800)) * 0.2;
     var higherTaxDeduction = (Math.max(0, averageGrossEarnings - 36800)) * 0.4;
-    var totalNetEarnings = averageGrossEarnings - (Math.max(0, lowerTaxDeduction + higherTaxDeduction - taxCredit));
+    var incomeTax = (Math.max(0, (lowerTaxDeduction + higherTaxDeduction) - taxCredit));
+    var totalNetEarnings= averageGrossEarnings - (incomeTax + PRSI + USC);
     var yearsToPayOff = (Math.round((totalCost / totalNetEarnings) * 100)) / 100;
     var totalEarnings = (Math.round((totalNetEarnings * this.state.yearsWorking) * 100)) / 100;
-
+    console.log("Net Income Tax: "+ incomeTax)
+    console.log("Net Salary: "+ totalEarnings)
 
     return (
       <div className='section'>

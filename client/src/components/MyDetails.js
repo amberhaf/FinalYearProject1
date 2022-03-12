@@ -14,7 +14,7 @@ export default class MyDetails extends Component {
   }
   componentDidMount() {
     //retrieve all the paths in database where user id matches the current user
-    datab.collection('pathIntertwined').where('user', '==', this.state.user.uid).get().then(querySnapshot => {
+    datab.collection('path').where('user', '==', this.state.user.uid).get().then(querySnapshot => {
       let allPosts = [];
       querySnapshot.forEach(doc => {
         var docData = { list: doc.data().list, docId: doc.id }

@@ -32,7 +32,7 @@ class BulkPath extends Component {
         }
       }
       if (list.length > 0) {
-        datab.collection("pathIntertwined").add({
+        datab.collection("path").add({
           user: this.state.user.uid,
           list: list
         });

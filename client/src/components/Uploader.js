@@ -67,7 +67,7 @@ export default class Uploader extends Component {
     }
     //only update if there is at least one valid object in array
     if (list.length > 0) {
-      datab.collection("pathIntertwined").add({
+      datab.collection("path").add({
         user: this.state.user.uid,
         list: list
       });

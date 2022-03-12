@@ -49,8 +49,8 @@ app.post('/server/upload', (req, res) => {
     });
 //recieves results that match search term from adzunna api
 app.post('/server/getSalary', function (req, res) {
-  console.log(req.body.search+","+req.body.location+","+req.body.country)
-  const targetURL = `${config.BASE_URL}/${req.body.country.toLowerCase()}/${config.BASE_PARAMS}&app_id=${config.APP_ID}&app_key=${config.API_KEY}&what=${req.body.search}&where=${req.body.location}`;
+  const targetURL = `${config.BASE_URL}/${req.body.country.toLowerCase()}/${config.BASE_PARAMS}
+  &app_id=${config.APP_ID}&app_key=${config.API_KEY}&what=${req.body.search}&where=${req.body.location}`;
     console.log(chalk.green(`Proxy GET request to : ${targetURL}`));
     axios.get(targetURL)
       .then(response => {
@@ -76,10 +76,10 @@ app.post('/server/getSalary', function (req, res) {
       });
 });
 
-// ...
 // Right before your app.listen(), add this:
 app.get("*", (req, res) => {
     res.sendFile(path.join(__dirname, "client", "build", "index.html"));
 });
+
 const PORT = process.env.PORT || 5000; // Step 1
 app.listen(PORT, console.log(`Server is starting at ${PORT}`));
