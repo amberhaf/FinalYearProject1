@@ -42,15 +42,11 @@ export default class Planner extends Component {
         this.setState({ myPaths: myPaths.list })
       })
     });
-    this.onChangeIndustryFilter = this.onChangeIndustryFilter.bind(this);
-    this.onChangeQualificationFilter = this.onChangeQualificationFilter.bind(this);
     this.handleUpdatePaths = this.handleUpdatePaths.bind(this)
     this.onChangeNoteInputBox = this.onChangeNoteInputBox.bind(this)
     this.onChangeEducationCost = this.onChangeEducationCost.bind(this)
     this.onChangeYearsWorking = this.onChangeYearsWorking.bind(this)
     this.onChangeCareerEarnings = this.onChangeCareerEarnings.bind(this)
-    this.sortByIndustry = this.sortByIndustry.bind(this);
-    this.sortByQualification = this.sortByQualification.bind(this);
     this.addToTotal = this.addToTotal.bind(this);
     this.addToEarnings = this.addToEarnings.bind(this);
   }
@@ -83,44 +79,6 @@ export default class Planner extends Component {
     }
     this.setState({ earnings: earnings });
     this.setState({ earningsIds: earningsIds });
-  }
-  sortByIndustry(industryA, industryB) {
-    let comparison = 0;
-    if (this.state.industry != "") {
-      //if an education object automatically swap
-      if (industryA.education) {
-        comparison = 1;
-      }
-      else {
-        //only swap if one matches the dropdown selected
-        if (industryA.industry == this.state.industry) comparison = -1;
-        else if (industryB.industry == this.state.industry) comparison = +1;
-        else comparison = 0;
-      }
-    }
-    return comparison;
-  }
-  sortByQualification(qualificationA, qualificationB) {
-    let comparison = 0;
-    if (this.state.qualification != "") {
-      //if an education object automatically swap
-      if (!qualificationA.education) {
-        comparison = 1;
-      }
-      else {
-        //only swap if one matches the dropdown selected
-        if (qualificationA.qualification == this.state.qualification) comparison = -1;
-        else if (qualificationA.education && qualificationB.qualification == this.state.qualification) comparison = +1;
-        else comparison = 0;
-      }
-    }
-    return comparison;
-  }
-  onChangeIndustryFilter(event) {
-    this.setState({ industry: event.target.value })
-  }
-  onChangeQualificationFilter(event) {
-    this.setState({ qualification: event.target.value })
   }
   handleUpdatePaths(event) {
     try {
@@ -213,18 +171,14 @@ export default class Planner extends Component {
     var nonNullEarnings = removeNull(this.state.earnings);
     var averageGrossEarnings = (nonNullEarnings.reduce(reducer, 0) / nonNullEarnings.length);
     //calculating PRSI
-    console.log("Gross Salary: "+ averageGrossEarnings)
     var credit = Math.max(0, 624 - ((averageGrossEarnings-18303.52)/6));
     var PRSI = Math.max(0, (averageGrossEarnings*0.04)-credit);
-    console.log("PRSI: "+ PRSI);
     if(averageGrossEarnings<18304){ PRSI=0 }
     //calculating USC
     var USC = 0;
     if(averageGrossEarnings>13000){
     if(averageGrossEarnings<21295){ USC= 60.06+ (Math.min(averageGrossEarnings-12012, 9283) * 0.02); }
-    else{ USC= 60.06 + 185.66 + ((averageGrossEarnings-21295) * 0.045); }
-    }
-    console.log("USC: "+ USC);
+    else{ USC= 60.06 + 185.66 + ((averageGrossEarnings-21295) * 0.045); }}
     //calculating Income tax
     var taxCredit = 3400;
     var lowerTaxDeduction = (Math.min(averageGrossEarnings, 36800)) * 0.2;
@@ -233,8 +187,6 @@ export default class Planner extends Component {
     var totalNetEarnings= averageGrossEarnings - (incomeTax + PRSI + USC);
     var yearsToPayOff = (Math.round((totalCost / totalNetEarnings) * 100)) / 100;
     var totalEarnings = (Math.round((totalNetEarnings * this.state.yearsWorking) * 100)) / 100;
-    console.log("Net Income Tax: "+ incomeTax)
-    console.log("Net Salary: "+ totalEarnings)
 
     return (
       <div className='section'>
@@ -261,18 +213,12 @@ export default class Planner extends Component {
             </Col>
           </Row>
           <Row>
-            <Col>
-              <FilterCourse qualification={this.state.qualification} nothingSelected={"All"} onChange={this.onChangeQualificationFilter} />
-            </Col>
-            <Col>
-              <FilterCareer industry={this.state.industry} nothingSelected={"All"} onChange={this.onChangeIndustryFilter} />
-            </Col>
             <table>
               <tbody>
                 <tr className="block">
                   {this.state.myPaths && this.state.myPaths.map((n, index) => (
                     <td key={index}>
-                      {n.details && n.details.sort(this.sortByQualification).sort(this.sortByIndustry).map((o, i) => (
+                      {n.details && n.details.sort(this.sortByQualification).map((o, i) => (
                         <div key={i}>
                           {o.education && (
                             //check if education
