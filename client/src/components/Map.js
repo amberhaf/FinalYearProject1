@@ -198,17 +198,18 @@ onChangeCheckBox(event){
               onChange={this.onChangeCheckBox}/>)}
               {o.education && (
               //check if education object
-              <div><span id={o.id+"_start"} className="white start"></span><EduBox box={o} />
-              <div id={o.id+"_end"} className="white end"></div></div>)}
+              <div><EduBox box={o} />
+              </div>)}
               {!o.education && (
               //check if career object
-              <div><span id={o.id+"_start"} className="white start"></span><CarBox box={o} />
-              <div id={o.id+"_end"} className="white end"></div></div>)}
+              <div><CarBox box={o} />
+              </div>)}
+              <div id={o.id+"_start"} className="start"></div>
               {o.nextItem && o.nextItem.map((nextIt,j)=> (
               <div key={j}>
               {(this.filterNextEduById(nextIt.id)) && 
               //check if arrow is pointing to a valid object
-              (<Xarrow color={colourArray[i % colourArray.length]} className="arrow" start={o.id+"_end"} end={nextIt.id+"_start"}/>)}
+              (<Xarrow color={colourArray[i % colourArray.length]} className="arrow" start={o.id+"_start"} end={nextIt.id+"_end"}/>)}
               </div>
               ))}
             </div>

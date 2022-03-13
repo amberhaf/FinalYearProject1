@@ -228,6 +228,7 @@ export default class Planner extends Component {
                               <Form.Control className="form-control plannerNumberInput" name={o.id} id={index + "_" + i} type="number" value={o.cost} onChange={this.onChangeEducationCost} />
                               <InstitionWebsite search={o.instituteName} />
                               <EduBox box={o} />
+                              <div id={o.id+"_start"} className="start"></div>
                               <TextareaAutosize className="stickyNote" value={o.notes} id={index + "_" + i} onChange={this.onChangeNoteInputBox} placeholder="Enter notes…" />
                               {o.nextItem && o.nextItem.map((nextIt, j) => (
                                 <div key={j}>
@@ -244,12 +245,12 @@ export default class Planner extends Component {
                               <label className="lightFont">Annual Salary (€):</label>
                               <JobSearch search={o.jobTitle} name={index + "|" + i + "|" + o.id} earnings={o.earnings} onChange={this.onChangeCareerEarnings} />
                               <CarBox box={o} />
+                              <div id={o.id+"_start"} className="start"></div>
                               <TextareaAutosize className="stickyNote" value={o.notes} id={index + "_" + i} onChange={this.onChangeNoteInputBox} placeholder="Enter notes…" />
                               {o.nextItem && o.nextItem.map((nextIt, j) => (
                                 <div key={j}>
                                   {this.filterNextById(nextIt.id) &&
-                                    <Xarrow color={colourArray[i % colourArray.length]} start={o.id} end={nextIt.id} />
-                                  }
+                                    <Xarrow color={colourArray[i % colourArray.length]} start={o.id+"_start"} end={nextIt.id+"_end"} />}
                                 </div>
                               ))}
                             </div>)}
