@@ -34,7 +34,7 @@ componentDidMount() {
   //if user is logged in tick all paths that are save in planner
   if (this.state.user) {
     this.setState({authenticated: true})
-    datab.collection('pathPlans').where('user','==', this.state.user.uid).get().then(querySnapshot => {
+    datab.collection('planner').where('user','==', this.state.user.uid).get().then(querySnapshot => {
       querySnapshot.forEach(doc => {
         this.setState({myPaths: doc.data().list})
       })
@@ -55,7 +55,7 @@ handleUpdate(e) {
     //remove any myPaths that user has saved but have since been deleted from pathsIntertwined
     var myPaths=this.removeDeletedPlans(this.state.myPaths, this.state.groupedPosts);
     //if user has a pathPlan already update it with new list
-    datab.collection('pathPlans').where("user", "==", uid)
+    datab.collection('planner').where("user", "==", uid)
     .get()
     .then(function(querySnapshot) {
       if(querySnapshot.docs.length>0)
@@ -68,7 +68,7 @@ handleUpdate(e) {
       }
       //if user doesn't have a pathPlan update it 
       else{
-        datab.collection("pathPlans").add({
+        datab.collection("planner").add({
         user: uid,
         list: myPaths
       });

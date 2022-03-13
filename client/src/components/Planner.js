@@ -36,7 +36,7 @@ export default class Planner extends Component {
   }
   componentDidMount() {
     //retrieve all paths user has saved in planner
-    datab.collection('pathPlans').where('user', '==', this.state.user.uid).get().then(querySnapshot => {
+    datab.collection('planner').where('user', '==', this.state.user.uid).get().then(querySnapshot => {
       querySnapshot.forEach(doc => {
         var myPaths = doc.data()
         this.setState({ myPaths: myPaths.list })
@@ -85,7 +85,7 @@ export default class Planner extends Component {
       if (this.state.user) {
         var uid = this.state.user.uid
         var myPaths = this.state.myPaths
-        datab.collection('pathPlans').where("user", "==", uid)
+        datab.collection('planner').where("user", "==", uid)
           .get()
           .then(function (querySnapshot) {
             //only update if there are already valid entries in your saved paths

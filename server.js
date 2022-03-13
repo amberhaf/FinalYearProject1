@@ -52,7 +52,6 @@ app.post('/server/getSalary', function (req, res) {
   const targetURL = `${config.BASE_URL}/${req.body.country.toLowerCase()}/${config.BASE_PARAMS}
   &app_id=${config.APP_ID}&app_key=${config.API_KEY}&what=${req.body.search}&where=${req.body.location}`;
     console.log(chalk.green(`Proxy GET request to : ${targetURL}`));
-    console.log(targetURL)
     axios.get(targetURL)
       .then(response => {
         //sum everything and divide by twice the length as both min and max are returned
