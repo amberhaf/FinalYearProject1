@@ -193,9 +193,11 @@ onChangeCheckBox(event){
               ((this.props.allSelected || o.currentUser) && (o.filterMatch)) && (
             <div key={i} className="map mapNavy">
               {this.props.showPlanUpdater && (
+                <div>
               <input className="checkbox" label="include planner" type="checkbox"
               name={index} value={o.id} checked={this.filterEduById(o.id, index)} 
-              onChange={this.onChangeCheckBox}/>)}
+              onChange={this.onChangeCheckBox}/>
+              <label className="white textRight"> Saved in Planner </label></div> )}
               {o.education && (
               //check if education object
               <div><EduBox box={o} />

@@ -173,3 +173,7 @@ form{
   text-align: right;
   margin-right: 40px;
 }
+
+.textRight{
+  float: right;
+}
