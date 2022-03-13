@@ -9,7 +9,7 @@ export const EduBox = (props) => {
         <li className="lightFont">{props.box.instituteName}</li>
         <li><b>Qualification:</b></li>
         <li className="lightFont">{props.box.qualification}</li>
-        <li><b>Course Title:</b></li>S
+        <li><b>Course Title:</b></li>
         <li className="lightFont">{props.box.courseTitle}</li>
         <li><b>Course Length:</b></li>
         <li className="lightFont">{(Math.round((props.box.length / props.box.numOfEntries) * 100)) / 100 || 1} years</li>
