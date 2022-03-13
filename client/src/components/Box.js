@@ -3,12 +3,12 @@ import React from 'react';
 export const EduBox = (props) => {
   return (
     <div className="boxStyle edu">
-      <ul id={props.box.id}>
+      <ul>
         <li><b>Institute Name:</b></li>
         <li className="lightFont">{props.box.instituteName}</li>
         <li><b>Qualification:</b></li>
         <li className="lightFont">{props.box.qualification}</li>
-        <li><b>Course Title:</b></li>
+        <li><b>Course Title:</b></li>S
         <li className="lightFont">{props.box.courseTitle}</li>
         <li><b>Course Length:</b></li>
         <li className="lightFont">{(Math.round((props.box.length / props.box.numOfEntries) * 100)) / 100 || 1} years</li>
