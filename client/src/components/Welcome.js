@@ -9,7 +9,7 @@ export default class Welcome extends Component {
         <Container className="center">
           <Row>
             <Col className="welcome">
-              <h1><b>Path Mapper</b></h1>
+              <h1><b>Career Path Mapper</b></h1>
               <h2>Visualize your career plan</h2>
             </Col>
             <Col className="col2">

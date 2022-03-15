@@ -6,7 +6,8 @@ export const FilterCareer = (props) => {
     <div>
       <label htmlFor="industry">Industry: </label>
       <Form.Select className="form-control" id="industry" name={props.name} value={props.industry} onChange={props.onChange}>
-        <option value="">{props.nothingSelected}</option>
+        {props.nothingSelected &&(<option value="">All</option>)}
+        {props.nothingSelected &&(<option value="None">None</option>)}
         <option value="IT Jobs">IT Jobs</option>
         <option value="Logistics and Warehouse Jobs">Logistics and Warehouse Jobs</option>
         <option value="Hospitality and Catering Jobs">Hospitality and Catering Jobs</option>
@@ -33,7 +34,8 @@ export const FilterCourse = (props) => {
     <div>
       <label htmlFor="qualification">Qualification: </label>
       <Form.Select className="form-control" id="qualification" name={props.name} value={props.qualification} onChange={props.onChange}>
-        <option value="">{props.nothingSelected}</option>
+        {props.nothingSelected &&(<option value="">All</option>)}
+        {props.nothingSelected &&(<option value="None">None</option>)}
         <option value="Level 5: PLC">Level 5: PLC</option>
         <option value="Level 6: Advanced Certificate">Level 6: Advanced Certificate</option>
         <option value="Level 7: Ordinary Bachelor Degree">Level 7: Ordinary Bachelor Degree</option>

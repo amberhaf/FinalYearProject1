@@ -145,7 +145,7 @@ export default class Uploader extends Component {
                     <div className="Education">
                       <h4>Education</h4>
                       <form>
-                        <Institution name={index} institution={n.instituteName} nothingSelected={"None"} onChange={this.onChangeInstituteName} />
+                        <Institution name={index} institution={n.instituteName} nothingSelected={false} onChange={this.onChangeInstituteName} />
                         <FilterCourse name={index} qualification={n.qualification} nothingSelected={"None"} onChange={this.onChangeQualification} />
                         <span>Course Name:</span>
                         <Form.Control placeholder="None" className="form-control" type="text" name={index} value={n.courseTitle}
@@ -164,7 +164,7 @@ export default class Uploader extends Component {
                         <span>Company Name:</span>
                         <Form.Control placeholder="None" className="form-control" type="text" name={index} value={n.companyName}
                           onChange={this.onChangeCompanyName} />
-                        <FilterCareer name={index} industry={n.industry} nothingSelected={"None"} onChange={this.onChangeIndustry} />
+                        <FilterCareer name={index} industry={n.industry} nothingSelected={false} onChange={this.onChangeIndustry} />
                         <JobTitle name={index} jobTitle={n.jobTitle} nothingSelected={"None"} onChange={this.onChangeJobTitle} />
                         <span>Number of Years:</span>
                         <Form.Control className="form-control" type="number" min="0" max="99" name={index} value={n.length}

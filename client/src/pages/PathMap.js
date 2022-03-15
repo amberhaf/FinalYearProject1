@@ -77,10 +77,10 @@ class PathMap extends React.Component {
         <Container>
           <Row>
             <Col>
-              <FilterCourse qualification={this.state.qualification} nothingSelected={"All"} onChange={this.onChangeQualificationFilter} />
+              <FilterCourse qualification={this.state.qualification} nothingSelected={true} onChange={this.onChangeQualificationFilter} />
             </Col>
             <Col>
-              <FilterCareer industry={this.state.industry} nothingSelected={"All"} onChange={this.onChangeIndustryFilter} />
+              <FilterCareer industry={this.state.industry} nothingSelected={true} onChange={this.onChangeIndustryFilter} />
             </Col>
           </Row>
         </Container>
