@@ -89,6 +89,7 @@ class BulkPath extends Component {
           <Container className="center">
             <h5>Map multiple peoples career paths at once</h5>
             <p>Upload a json file of education career history in the below format</p>
+            {/*Users can click to see a format that will be accepted*/}
             <Link to={DataSet1} target="_blank">Example Json</Link>
             <div>
               <input type="file" onChange={this.onFileChange} />

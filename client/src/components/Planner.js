@@ -25,6 +25,7 @@ export default class Planner extends Component {
       user: auth().currentUser,
       //paths user has saved in my planner
       myPaths: [{ details: [] }, { details: [] }, { details: [] }, { details: [] }, { details: [] }, { details: [] }, { details: [] }, { details: [] }],
+      //index is used to see what is ticked at that level
       cost: [0, 0, 0, 0, 0, 0, 0, 0],
       costIds: ["", "", "", "", "", "", "", ""],
       earnings: [0, 0, 0, 0, 0, 0, 0, 0],
@@ -184,6 +185,7 @@ export default class Planner extends Component {
     var lowerTaxDeduction = (Math.min(averageGrossEarnings, 36800)) * 0.2;
     var higherTaxDeduction = (Math.max(0, averageGrossEarnings - 36800)) * 0.4;
     var incomeTax = (Math.max(0, (lowerTaxDeduction + higherTaxDeduction) - taxCredit));
+    //minus all taces and calculate statistics
     var totalNetEarnings= averageGrossEarnings - (incomeTax + PRSI + USC);
     var yearsToPayOff = (Math.round((totalCost / totalNetEarnings) * 100)) / 100;
     var totalEarnings = (Math.round((totalNetEarnings * this.state.yearsWorking) * 100)) / 100;

@@ -2,6 +2,7 @@ import React from "react";
 import { Form } from 'react-bootstrap'
 
 export const FilterCareer = (props) => {
+  {/* options to keep industries standard */}
   return (
     <div>
       <label htmlFor="industry">Industry: </label>
@@ -30,6 +31,7 @@ export const FilterCareer = (props) => {
   );
 }
 export const FilterCourse = (props) => {
+  {/* options to keep qualifications standard */}
   return (
     <div>
       <label htmlFor="qualification">Qualification: </label>

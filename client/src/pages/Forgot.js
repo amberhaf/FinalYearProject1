@@ -14,11 +14,13 @@ export class Forgot extends Component {
         this.handleChange = this.handleChange.bind(this);
         this.handleSubmit = this.handleSubmit.bind(this);
     }
+    //change email input
     handleChange(event) {
         this.setState({
             [event.target.name]: event.target.value
         });
     }
+    //send password reset email
     async handleSubmit(event) {
         event.preventDefault();
         this.setState({ error: '' });

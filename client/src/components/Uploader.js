@@ -82,7 +82,7 @@ export default class Uploader extends Component {
     }
   }
 
-
+  //change the input fields at corresponding level in input array
   onChangeInstituteName(event) {
     var l = this.state.list;
     l[event.target.name].instituteName = event.target.value;

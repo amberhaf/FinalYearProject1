@@ -142,6 +142,7 @@ onChangeCheckBox(event){
 }
 
   filterEduById(id, index) {
+    //see if object id is contained in planner
     var myPaths = this.state.myPaths
     if(myPaths.length>index){
     var result = myPaths[index].details.find(groupObj => {

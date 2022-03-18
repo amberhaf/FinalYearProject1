@@ -2,6 +2,7 @@ import React from 'react';
 
 export const EduBox = (props) => {
   return (
+    // renders education objects as boxes
     <div className="boxStyle edu">
       <div id={props.box.id+"_end"} className="end"></div>
       <ul>
@@ -12,6 +13,7 @@ export const EduBox = (props) => {
         <li><b>Course Title:</b></li>
         <li className="lightFont">{props.box.courseTitle}</li>
         <li><b>Course Length:</b></li>
+        {/* rounds and averages matching object lengths */}
         <li className="lightFont">{(Math.round((props.box.length / props.box.numOfEntries) * 100)) / 100 || 1} years</li>
       </ul>
     </div>
@@ -19,6 +21,7 @@ export const EduBox = (props) => {
 };
 export const CarBox = (props) => {
   return (
+    // renders career objects as boxes
     <div className="boxStyle car">
       <div id={props.box.id+"_end"} className="end"></div>
       <ul>
@@ -29,6 +32,7 @@ export const CarBox = (props) => {
         <li><b>Job Title:</b></li>
         <li className="lightFont">{props.box.jobTitle}</li>
         <li><b>Job length:</b></li>
+        {/* rounds and averages matching object lengths */}
         <li className="lightFont">{(Math.round((props.box.length / props.box.numOfEntries) * 100)) / 100 || 1} years</li>
       </ul>
     </div>

@@ -6,6 +6,7 @@ export default class Welcome extends Component {
   render() {
     return (
       <div className="section">
+        {/*banner introducing the application*/}
         <Container className="center">
           <Row>
             <Col className="welcome">

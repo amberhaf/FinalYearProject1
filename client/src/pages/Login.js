@@ -15,12 +15,14 @@ export default class Login extends Component {
     this.handleSubmit = this.handleSubmit.bind(this);
   }
 
+  //change either email or password
   handleChange(event) {
     this.setState({
       [event.target.name]: event.target.value
     });
   }
 
+  //use firebase authentication services to check if password is correct
   async handleSubmit(event) {
     event.preventDefault();
     this.setState({ error: '' });

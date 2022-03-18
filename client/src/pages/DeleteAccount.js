@@ -21,6 +21,7 @@ export class Delete extends Component {
       [event.target.name]: event.target.value
     });
   }
+  //delete all paths linked to that user
   async handleDeleteAllPaths(userId) {
     var query = datab.collection('path').where('user', '==', userId);
     query.get().then(function (querySnapshot) {
@@ -29,6 +30,7 @@ export class Delete extends Component {
       });
     })
   }
+  //delete account entirely
   async handleDeleteAccount(user) {
     user.delete().then(function () {
       window.alert("Account Deleted");

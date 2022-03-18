@@ -16,12 +16,14 @@ export default class SignUp extends Component {
     this.handleSubmit = this.handleSubmit.bind(this);
   }
 
+  //change email or password input
   handleChange(event) {
     this.setState({
       [event.target.name]: event.target.value
     });
   }
 
+  //use firebase authentication to allow users to register email and password
   async handleSubmit(event) {
     event.preventDefault();
     this.setState({ error: '' });

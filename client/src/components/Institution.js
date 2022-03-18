@@ -16,10 +16,12 @@ class Institution extends Component {
         this.changeCountry = this.changeCountry.bind(this);
     }
     componentDidMount() {
+        //retrieve the country list on load but default to ireland
         this.getCountry();
         this.getEducation("ireland");
     }
     changeCountry(e) {
+        //change country when somebody changes the dropdown
         this.setState({ country: e.target.value })
         this.getEducation(e.target.value);
     }
@@ -30,6 +32,7 @@ class Institution extends Component {
             .then(response => response.json())
             .then((data) => {
                 var Filtered = _this.state.countries;
+                //retain unique countries only
                 data.reduce((arr, el) => {
                     if (!arr.some(current => current === el.country)) {
                         arr.push(el.country);

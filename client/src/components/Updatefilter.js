@@ -27,7 +27,6 @@ export const Updatefilter = function updatefilter(gp, selectedQualification, sel
       gp[h][i] = obj;
     }
   }
-  gp.push([[]]);
   return gp;
 }
 
