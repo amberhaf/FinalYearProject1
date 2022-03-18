@@ -6,8 +6,8 @@ import {Button, Container, Table, Row, Col} from 'react-bootstrap';
 import Updatefilter from "../components/Updatefilter";
 
 const colourArray = ['#d4afb9', '#ffd670', '#d1cfe2', 
-'#9cadce', '#7ec4cf', '#52b2cf','#79addc', '#ffc09f', 
-'#ffee93', '#adf7b6','#84dcc6', '#a5ffd6', '#ffa69e', 
+'#adf7b6', '#84a453', '#52b2cf','#79addc', '#ffc09f', 
+'#ffee93', '#0a8a2e','#84dcc6', '#a5ffd6', '#ffa69e', 
 '#ff686b', '#f6bc66','#ff7477', '#e69597', '#ceb5b7', 
 '#b5d6d6', '#9cf6f6','#f6ac69', '#fdffb6', '#ff9770']
 

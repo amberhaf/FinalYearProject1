@@ -1,2 +1,0 @@
-Big-react-calendar: https://laptrinhx.com/react-scheduler-firebase-2683053072/
-Login template: https://codesource.io/understanding-firebase-realtime-database-using-react/
