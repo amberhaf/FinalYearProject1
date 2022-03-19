@@ -37,7 +37,9 @@ const PreRenderMap = function preRenderMap(p, gp, uid) {
                 if (p[i].user === uid || storedIds.includes(insert.id)) {
                   gp[iter][index].currentUser = true;
                   //mark all successors to also fall under the current user when we get to it
-                  storedIds.push(nex.instituteName + "_" + nex.qualification + "_" + nex.courseTitle)
+                 for (var n = 0; n < nextIt.length; n++) {
+                    storedIds.push(nextIt[n].id)
+                  }
                 }
               }
               else {
@@ -47,7 +49,9 @@ const PreRenderMap = function preRenderMap(p, gp, uid) {
                 if (p[i].user === uid || storedIds.includes(insert.id)) {
                   gp[iter][index].currentUser = true;
                   //mark all successors to also fall under the current user when we get to it
-                  storedIds.push(nex.companyName + "_" + nex.industry + "_" + nex.jobTitle)
+                  for (var n = 0; n < nextIt.length; n++) {
+                    storedIds.push(nextIt[n].id)
+                  }                
                 }
               }
             }
