@@ -1,0 +1,63 @@
+[
+    {
+        "list": [
+            {
+                "education": true,
+                "courseTitle": "Electrical Engineering",
+                "instituteName": "National University of Ireland, Maynooth",
+                "qualification": "Level 8: Honours Bachelor Degree",
+                "length": 4
+            },
+            {
+                "education": false,
+                "companyName": "Intel",
+                "industry": "IT Jobs",
+                "jobTitle": "Technology Engineer",
+                "length": 5
+            },
+            {
+                "education": false,
+                "companyName": "Intel",
+                "industry": "IT Jobs",
+                "jobTitle": "Technical Manager",
+                "length": 3
+            }
+        ]
+    },
+    {
+        "list": [
+            {
+                "education": true,
+                "courseTitle": "Electrical Engineering",
+                "instituteName": "National University of Ireland, Maynooth",
+                "qualification": "Level 8: Honours Bachelor Degree",
+                "length": 3
+            },
+            {
+                "education": true,
+                "courseTitle": "Electronic Information Engineering",
+                "instituteName": "University of Dublin, Trinity College",
+                "qualification": "Level 9: Masters Degree",
+                "length": 2
+            }
+        ]
+    },
+    {
+        "list": [
+            {
+                "education": true,
+                "courseTitle": "Arts: Computer Science Major",
+                "instituteName": "National University of Ireland, Maynooth",
+                "qualification": "Level 8: Honours Bachelor Degree",
+                "length": 3
+            },
+            {
+                "education": false,
+                "companyName": "Intel",
+                "industry": "IT Jobs",
+                "jobTitle": "Technology Engineer",
+                "length": 5
+            }
+        ]
+    }
+]

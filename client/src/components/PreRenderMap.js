@@ -35,7 +35,7 @@ const PreRenderMap = function preRenderMap(p, gp, uid) {
                 nextIt.push({ id: nex.instituteName + "_" + nex.qualification + "_" + nex.courseTitle })
                 //check if the current user uploaded this 
                 if (p[i].user === uid || storedIds.includes(insert.id)) {
-                  insert.currentUser = true;
+                  gp[iter][index].currentUser = true;
                   //mark all successors to also fall under the current user when we get to it
                   storedIds.push(nex.instituteName + "_" + nex.qualification + "_" + nex.courseTitle)
                 }
@@ -45,7 +45,7 @@ const PreRenderMap = function preRenderMap(p, gp, uid) {
                 nextIt.push({ id: nex.companyName + "_" + nex.industry + "_" + nex.jobTitle })
                 //check if the current user uploaded this 
                 if (p[i].user === uid || storedIds.includes(insert.id)) {
-                  insert.currentUser = true;
+                  gp[iter][index].currentUser = true;
                   //mark all successors to also fall under the current user when we get to it
                   storedIds.push(nex.companyName + "_" + nex.industry + "_" + nex.jobTitle)
                 }
