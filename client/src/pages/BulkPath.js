@@ -20,25 +20,29 @@ class BulkPath extends Component {
 
   handleUpload(e) {
     //validate to keep just object where all fields have values
-    for (var i = 0; i < this.state.uploadedPosts.length; i++) {
-      var list = []
-      var uploadedPath = this.state.uploadedPosts[i].list
-      for (var j = 0; j < uploadedPath.length; j++) {
-        if (uploadedPath[j].education === true && !(uploadedPath[j].instituteName === "" || uploadedPath[j].qualification === "" || uploadedPath[j].courseTitle === "")) {
-          list.push(uploadedPath[j])
+    try {
+      for (var i = 0; i < this.state.uploadedPosts.length; i++) {
+        var list = []
+        var uploadedPath = this.state.uploadedPosts[i].list
+        for (var j = 0; j < uploadedPath.length; j++) {
+          if (uploadedPath[j].education === true && !(uploadedPath[j].instituteName === "" || uploadedPath[j].qualification === "" || uploadedPath[j].courseTitle === "")) {
+            list.push(uploadedPath[j])
+          }
+          else if (uploadedPath[j].education === false && !(uploadedPath[j].companyName === "" || uploadedPath[j].industry === "" || uploadedPath[j].jobTitle === "")) {
+            list.push(uploadedPath[j])
+          }
         }
-        else if (uploadedPath[j].education === false && !(uploadedPath[j].companyName === "" || uploadedPath[j].industry === "" || uploadedPath[j].jobTitle === "")) {
-          list.push(uploadedPath[j])
+        if (list.length > 0) {
+          datab.collection("path").add({
+            user: this.state.user.uid,
+            list: list
+          });
         }
       }
-      if (list.length > 0) {
-        datab.collection("path").add({
-          user: this.state.user.uid,
-          list: list
-        });
-      }
+      window.alert("Successfully published paths");
+    } catch (error) {
+      window.alert("Error occurred" + error.message);
     }
-    window.alert("Successfully published paths");
     this.setState({ groupedPosts: [] })
     this.setState({ uploadedPosts: [] })
   }
@@ -73,10 +77,12 @@ class BulkPath extends Component {
         //pre-format them so that similar objects are matched together and they can be more easily rendered
         PreRenderMap(p, gp, uid);
         _this.setState({ groupedPosts: gp });
-        window.alert("Successfully updated paths");
+        window.alert("Successfully uploaded paths");
       })
       .catch((error) => {
         window.alert("Error occurred" + error.message);
+        _this.setState({ uploadedPosts: [] });
+        _this.setState({ groupedPosts: [] });
       });
   };
 
