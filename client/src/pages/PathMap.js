@@ -51,10 +51,12 @@ class PathMap extends React.Component {
   changeDisplayMine() {
     //display just paths stemming from paths I uploaded
     this.setState({ allSelected: false });
+    this.setState({ key: Math.random() });
   }
   changeDisplayAll() {
     //display all paths 
     this.setState({ allSelected: true });
+    this.setState({ key: Math.random() });
   }
   onChangeIndustryFilter(event) {
     this.setState({ industry: event.target.value })
