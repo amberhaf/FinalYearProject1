@@ -150,13 +150,15 @@ export default class Planner extends Component {
     this.setState({ myPaths: myPaths })
   }
   filterNextById(id) {
-    //check if arrows point to valid objects
     var myPaths = this.state.myPaths
-    for (var iter = 0; iter < myPaths.length; iter++) {
+    //see if where the arrow is pointing actually exists in myPaths
+    for(var iter=0; iter<myPaths.length; iter++)
+    {
       var result = myPaths[iter].details.find(groupObj => {
         return groupObj.id === id;
       })
-      if (result != undefined) {
+      if(result!=undefined)
+      {
         return true;
       }
     }
@@ -220,7 +222,7 @@ export default class Planner extends Component {
                 <tr className="block">
                   {this.state.myPaths && this.state.myPaths.map((n, index) => (
                     <td key={index}>
-                      {n.details && n.details.sort(this.sortByQualification).map((o, i) => (
+                      {n.details && n.details.map((o, i) => (
                         <div key={i}>
                           {o.education && (
                             //check if education
@@ -235,8 +237,7 @@ export default class Planner extends Component {
                               {o.nextItem && o.nextItem.map((nextIt, j) => (
                                 <div key={j}>
                                   {(this.filterNextById(nextIt.id)) &&
-                                    <Xarrow color={colourArray[i % colourArray.length]} start={o.id} end={nextIt.id} />
-                                  }
+                                    <Xarrow color={colourArray[i % colourArray.length]} start={o.id+"_start"} end={nextIt.id+"_end"} />}
                                 </div>
                               ))}
                             </div>)}

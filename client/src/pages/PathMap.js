@@ -86,7 +86,9 @@ class PathMap extends React.Component {
             </Col>
           </Row>
         </Container>
-        <Map key={this.state.key} allSelected={this.state.allSelected} showPlanUpdater={auth().currentUser} groupedPosts={this.state.groupedPosts} qualification={this.state.qualification} industry={this.state.industry} />
+        <Map key={this.state.key} allSelected={this.state.allSelected} 
+        showPlanUpdater={auth().currentUser} groupedPosts={this.state.groupedPosts} 
+        qualification={this.state.qualification} industry={this.state.industry} />
       </div>
     );
   }
