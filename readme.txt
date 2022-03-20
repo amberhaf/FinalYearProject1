@@ -9,6 +9,7 @@ Each page is contained in FinalYearProject1/client/pages folder and make use of 
 Database is configured in FinalYearProject1/services/firebase.js and login functionality is helped by FinalYearProject1/helper/auth. 
 Every page uses the navbar component at FinalYearProject1/client/components/Header.js provides the navbar to every page. 
 FinalYearProject1/client/components/setupProxy.js prevents requests between front end and back end 
+FinalYearProject1/ contains sample JSON files for the bulk path page
 
 Prerequisites:
 NodeJS version: 16.13.2

@@ -52,10 +52,9 @@ class BulkPath extends Component {
     this.setState({ selectedFile: event.target.files[0] });
   };
   onFileUpload = () => {
-    var uid = ""
-    if (this.state.user) {
-      var uid = this.state.user.uid
-    }
+    var uid = this.state.user.uid
+    this.setState({ uploadedPosts: [] });
+    this.setState({ groupedPosts: [] });
     var _this = this;
     const formData = new FormData();
     formData.append(
